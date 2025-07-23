@@ -1,15 +1,5 @@
-// Color styles
-$color-font: #000000;
-$color-primary: #D6EB48;
-$color-sub: #EEF3CF;
-$color-darkgray: #555555;
-$color-gray: #EBEBEB;
-$color-white: #FFFFFF;
-
-
-
-
-
-@import "./reset.scss";
 @import "./font.scss";
+@import "./reset.scss";
+@import "./variable.scss";
 @import "./mixin.scss";
+
