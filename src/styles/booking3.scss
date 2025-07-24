@@ -10,4 +10,58 @@
   h2 {
     text-align: center;
   }
+  
+}
+
+
+
+
+//check.js (예약확인)
+.booking-box {
+  max-width: 372px;
+  margin: 20px auto;
+  background: $color-sub();
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+  .booking-title {
+  @include font-medium();
+            color: $font-color;
+            border-bottom: 1px solid $color-darkgray();
+            margin-bottom: 20px;
+            display: inline-block;
+  }
+
+  .booking-form {
+    margin-top: 20px;
+
+    .form-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      gap: 22px;
+
+      .form-label {
+        @include font-basic();
+        color: $font-color();
+        width: 95px;
+  
+      }
+
+      .form-input {
+        flex: 1;
+        p {
+          text-align: center;
+          display: block;
+          width: 100%;
+          padding: 10px;
+          border-radius: 10px;
+          background: #fff;
+          color: $color-darkgray();
+          @include font-small();
+        }
+      }
+    }
+  }
 }

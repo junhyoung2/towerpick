@@ -11,8 +11,8 @@ const MobilePage = () => {
         <div id="mobile-page">
             <Routes>
                 {/* <Route path="/" element={<StartPage />}></Route> */}
-                <Route path="/" element={<Booking1 />}></Route>
-                {/* <Route path="/" element={<Booking2 />}></Route> */}
+                {/* <Route path="/" element={<Booking1 />}></Route> */}
+                <Route path="/" element={<Booking2 />}></Route>
                 {/* <Route path="/" element={<Booking3 />}></Route> */}
             </Routes>
         </div>

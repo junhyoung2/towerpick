@@ -5,7 +5,8 @@
 
 .booking1 {
     padding: 10px;
-
+    margin: 0 auto;
+    max-width: 412px;
     //타이틀
     .booking-title {
         text-align: center;
@@ -20,42 +21,92 @@
 
         .date-title {
             @include font-medium();
-            color: $color-black;
-            border-bottom: 2px solid $color-darkgray();
+            color: $font-color;
+            border-bottom: 1px solid $color-darkgray();
             margin-bottom: 20px;
             display: inline-block;
         }
-
         .input-group {
             display: flex;
             align-items: center;
             margin-bottom: 20px;
             gap: 10px;
-
             .input-label {
-                width: 70px;
-                @include font-basic();
-                color: $font-color();
+                 width: 110px;
+        height: 45px;
+        @include font-basic();
+        color: $font-color();
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        flex-shrink: 0;
             }
-
             .input-wrapper {
                 position: relative;
                 flex-grow: 1;
-
                 input.date {
-                    width: 100%;
-                    padding: 12px 40px 12px 16px;
+                    min-width: 230px;
+                    width: 230px;
+                    height: 35px;
+                    padding: 10px 10px 10px 60px;
                     @include font-small();
-
                     border: none;
-                    border-radius: 12px;
+                    border-radius: 10px;
                     background-color: $font-color();
                     color: $color-darkgray();
+                    box-sizing: border-box;
                 }
             }
         }
     }
 }
+
+//구매가능여부 (yesorNo), 예상결제금액 (Price1)
+.status {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: $color-sub();
+    width: 100%;
+    max-height: 45px;
+    margin-top: 27px;
+
+    .label {
+        width: 110px;
+        max-height: 35px;
+        @include font-basic();
+        color: $font-color();
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .or,.price {
+        background: $font-color();
+        border-radius: 10px;
+        margin-left: 7px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        @include font-basic();
+        min-width: 120px;
+        padding: 0 20px;
+        justify-content: center;
+        flex: 1;
+        .ment {
+            color: $color-darkgray();
+            @include font-basic();
+        }
+        .ment1{
+            @include font-basic();
+            color: $color-error();
+        }
+    }
+}
+
+
 
 //캘린더
 .calendar-img {
@@ -76,4 +127,10 @@
         border: 2px solid $color-darkgray();
         border-radius: 10px;
     }
+}
+
+//버튼
+button {
+    @include btn-style();
+    margin-top: 30px;
 }
