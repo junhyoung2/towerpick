@@ -1,5 +1,24 @@
 @import "./styles/global.scss";
 
-#app{
-    height: 100vh; 
+//컴포넌트별 scss
+@import "./styles/booking1.scss";
+
+#app {
+    height: 100vh;
+    #mobile-page {
+        width: 412px;
+        height: 100vh;
+        max-width: 412px;
+        max-height: 917px;
+        border: 1px solid #222;
+        border-radius: 1rem;
+        position: relative;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    #tablet-page {
+        width: 1024px;
+        height: 80vh;
+        max-width: 1024px;
+    }
 }

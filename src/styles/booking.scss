@@ -1,0 +1,22 @@
+.step {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+.guide {
+  padding: 10px;
+  margin: 30px 10px;
+  border-radius: 10px;
+  background-color: $color-sub;
+  color: $font-color;
+  @include font-small;
+  ul {
+    margin-top: 20px;
+    li {
+      margin-top: 10px;
+      word-break: keep-all;
+    }
+  }
+}
