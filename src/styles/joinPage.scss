@@ -1,0 +1,57 @@
+.join-page{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  input {
+    appearance: none;
+    width: 100%;
+    margin-top: 5px;
+    border: 3PX solid $color-sub;
+    border-radius: 10px;
+    outline: none;
+    padding: 0.5rem;
+    @include font-basic
+  }
+}
+
+.join-title{
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  h3{
+    margin-top: 5rem;
+    @include font-medium;
+  }
+  hr{
+    margin-top: 4rem;
+    border: 2px solid $color-main;
+  }
+}
+
+.join-wrap{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  @include font-medium;
+  color: $color-black;
+  label{
+    width: 95%;
+    margin-top: 1.5rem;
+  }
+  p{
+    width: 100%;
+    text-align: right;
+    margin-top: 2px;
+    margin-right: 2rem;
+    @include font-basic;
+  }
+}
+
+.join-btn{
+  margin-top: 3rem;
+  @include btn-style;
+}

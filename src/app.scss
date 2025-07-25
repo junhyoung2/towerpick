@@ -1,24 +1,25 @@
 @import "./styles/global.scss";
 
-//컴포넌트별 scss
-@import "./styles/booking1.scss";
-
 #app {
-    height: 100vh;
-    #mobile-page {
-        width: 412px;
-        height: 100vh;
-        max-width: 412px;
-        max-height: 917px;
-        border: 1px solid #222;
-        border-radius: 1rem;
-        position: relative;
-        overflow-x: hidden;
-        overflow-y: auto;
+  height: 100vh;
+  #mobile-page {
+    width: 412px;
+    height: 80vh;
+    max-width: 412px;
+    max-height: 917px;
+    border: 1px solid #222;
+    border-radius: 1rem;
+    position: relative;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
     }
-    #tablet-page {
-        width: 1024px;
-        height: 80vh;
-        max-width: 1024px;
-    }
+  }
+  #tablet-page {
+    width: 1024px;
+    height: 80vh;
+    max-width: 1024px;
+  }
 }

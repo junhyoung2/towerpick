@@ -1,0 +1,62 @@
+.cancel-complete {
+  display: flex;
+  flex-direction: column; 
+  justify-content: flex-start;
+  transform: translateY(10%);
+  align-items: center;
+  min-height: 100vh; 
+  padding: 2rem;
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #fff;
+  color: $color-black;
+  text-align: center;
+  overflow: hidden;
+
+  .content {
+  text-align: center;
+  transform: translateY(0);
+}
+
+
+  h2 {
+    @include font-medium;
+    margin-bottom: 2rem; 
+    color: $color-black;
+  }
+
+  .check-icon {
+    width: 80px;
+    height: 80px;
+    background-color: $color-sub; 
+    border-radius: 50%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 2rem; 
+
+    .check-mark {
+    width: 20px;
+    height: 40px;
+    border: solid #fff;
+    border-width: 0 4px 4px 0;
+    transform: rotate(45deg);
+    display: inline-block;
+  }
+  }
+
+  p {
+    font-size: 1rem;
+    margin-bottom: 2.5rem; 
+    color: $color-darkgray;
+  }
+
+  .confirm-btn {
+    @include btn-style;
+    margin-top: 1rem;
+  }
+
+  
+}
+ 

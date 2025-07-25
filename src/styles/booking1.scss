@@ -1,79 +1,32 @@
-@import "./booking.scss";
-
-.booking {
+//구매가능여부 (yesorNo), 예상결제금액 (Price1)
+.status {
+  max-height: 45px;
+  .or,
+  .price {
+    height: 35px;
+  }
 }
 
-.booking1 {
-    padding: 10px;
+// 주차장 이미지
+.parking-img {
+  width: 372px;
+  height: 179px;
+  margin-top: 30px;
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 
-    //타이틀
-    .booking-title {
-        text-align: center;
-        @include font-medium();
-    }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
-    //예약 날짜 선택
-    .date-select {
-        padding: 20px;
-        border-radius: 10px;
-        background-color: $color-sub();
-
-        .date-title {
-            @include font-medium();
-            color: $color-black;
-            border-bottom: 2px solid $color-darkgray();
-            margin-bottom: 20px;
-            display: inline-block;
-        }
-
-        .input-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            gap: 10px;
-
-            .input-label {
-                width: 70px;
-                @include font-basic();
-                color: $font-color();
-            }
-
-            .input-wrapper {
-                position: relative;
-                flex-grow: 1;
-
-                input.date {
-                    width: 100%;
-                    padding: 12px 40px 12px 16px;
-                    @include font-small();
-
-                    border: none;
-                    border-radius: 12px;
-                    background-color: $font-color();
-                    color: $color-darkgray();
-                }
-            }
-        }
-    }
-}
-
-//캘린더
-.calendar-img {
-    display: flex;
-    gap: 20px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-        display: none;
-    }
-
-    img {
-        flex: 0 0 auto;
-        width: 100%;
-        max-width: 100%;
-        border: 2px solid $color-darkgray();
-        border-radius: 10px;
-    }
+  img {
+    flex: 0 0 auto;
+    width: 100%;
+    object-fit: cover;
+    border: 2px solid $color-darkgray();
+    border-radius: 10px;
+  }
 }

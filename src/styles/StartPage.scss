@@ -1,0 +1,56 @@
+.start-page {
+  background-color: #ffffff;
+  height: 100vh;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Noto Sans KR', sans-serif;
+  text-align: center;
+
+  .logo {
+    width: 160px;
+    margin-top: 10px;
+  }
+
+  .main-image {
+    width: 100%;
+    max-width: 320px;
+    margin: 20px 0;
+  }
+
+  .welcome-text {
+    h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #000;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 20px;
+      color: #333;
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+  }
+
+  .start-button {
+    width: 100%;
+    max-width: 300px;
+    padding: 14px 0;
+    background-color: #444;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #333;
+    }
+  }
+}
