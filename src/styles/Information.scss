@@ -1,0 +1,14 @@
+.price-info{
+  text-align: center;
+  margin: 20px;
+  @include font-medium;
+}
+
+img{
+  display: block;
+  margin: 0 auto;
+}
+
+.section-two{
+  margin-bottom: 30px;
+}

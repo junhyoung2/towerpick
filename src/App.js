@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import MobilePage from "./pages/MobilePage";
 import TabletPage from "./pages/TabletPage";
 import { BrowserRouter } from "react-router-dom";
+import Header from "./components/Header";
+import Navigate from "./components/Navigate";
 
 const App = () => {
     //모바일,데스크탑 사이즈 지정
