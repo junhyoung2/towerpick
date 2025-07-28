@@ -8,39 +8,51 @@ p {
 }
 
 .section-one {
+  width: 372px;
+  margin: 20px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px;
-  margin-top: 30px;
-  .parking-area,
-  .location {
+  h3 {
+    padding: 10px 0;
+  }
+  .parking-area-wrap,
+  .seats-wrap {
     width: 176px;
     height: 200px;
     padding-top: 20px;
     text-align: center;
   }
-  .parking-area {
+  .parking-area-wrap {
+    padding: 25px 19px;
     background-color: $color-sub;
     color: $font-color;
     border-radius: 10px;
   }
-  .location {
-    border: 1px solid $color-sub;
+  .parking-area {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .seats-wrap {
+    border: 2px solid $color-sub;
     border-radius: 10px;
     .seats {
       width: 140px;
-      height: 97px;
+      margin: 0 auto;
+      padding: 10px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
       background-color: $color-sub;
       border-radius: 10px;
-      margin: 0 auto;
-      padding: 10px;
-      justify-content: space-around;
       .seats-one,
       .seats-two,
       .seats-three {
         display: flex;
-        padding: 4px 0;
       }
       .line {
         transform: rotate(90deg);
@@ -52,12 +64,28 @@ p {
 
 //예약 / 정기권
 .section-two {
+  width: 372px;
+  margin: 0 20px 20px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
-  gap: 10px;
-  text-align: center;
+  h3 {
+    padding: 15px 0;
+  }
+  .reservation-wrap,
+  .ticket-wrap {
+    width: 176px;
+    height: 150px;
+    text-align: center;
+    background-color: $color-sub;
+    color: $font-color;
+    border-radius: 10px;
+  }
+  .reservation,
+  .ticket {
+    width: 148px;
+    margin: 0 auto;
+  }
   button {
     @include btn-style;
     width: 67px;
@@ -65,15 +93,6 @@ p {
     margin: 10px auto;
     padding: 0;
     @include font-basic;
-  }
-  .reservation,
-  .ticket {
-    width: 176px;
-    height: 150px;
-    padding: 10px;
-    background-color: $color-sub;
-    color: $font-color;
-    border-radius: 10px;
   }
 }
 
@@ -150,7 +169,7 @@ p {
       font-weight: 700;
     }
   }
-  .b1-iconset{
+  .b1-iconset {
     margin-top: 15px;
   }
   .b1-one,

@@ -1,7 +1,7 @@
 import Step from "./Step";
 import BookingBox3 from "./BookingBox3";
 import Price2 from "./Price2";
-import Guide3 from "./Guide3";
+import Guide4 from "./Guide4";
 import Header from "./Header";
 import Navigate from "./Navigate";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -15,9 +15,9 @@ const Booking3 = () => {
 
   return (
     <div>
-      <Header prev_path="/booking2" prev_title="예약" />
+      <Header prev_path="/season2" prev_title="정기권 구매" />
       <div className="booking3">
-        <h2 className="booking-title">예약 완료</h2>
+        <h2 className="booking-title">구매 완료</h2>
         <Step />
         {/* 예약정보 props로 전달 */}
         <BookingBox3
@@ -32,7 +32,7 @@ const Booking3 = () => {
         <button onClick={() => navigate("/mainpage")}>
           메인화면
         </button>
-        <Guide3 />
+        <Guide4 />
       </div>
       <Navigate />
     </div>

@@ -1,0 +1,150 @@
+.cancel-pass {
+  padding: 24px;
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #fff;
+  color: $color-black;
+
+  .question {
+    font-size: 16px;
+    color: $color-black;
+    margin: 25px 0;
+    text-align: center;
+  }
+
+  .info-section {
+    margin-bottom: 30px;
+
+    .info-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid $font-color;
+    }
+
+    .info-box {
+      background-color: $color-sub;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 20px;
+
+      .info-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 15px;
+
+        .label {
+          width: 100px;
+          font-size: 13px;
+          color: $font-color;
+          font-weight: 400;
+        }
+
+        .value-box {
+          flex: 1;
+          font-size: 14px;
+          color: $color-black;
+          background-color: $font-color;
+          border-radius: 6px;
+          padding: 10px;
+          border: none;
+          outline: none;
+        }
+
+        &.fee .value-box {
+          color: $color-error;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+
+  .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .btn {
+      width: 100%;
+      padding: 14px 0;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .confirm {
+      background-color: $color-darkgray;
+      color: $font-color;
+
+      &:hover {
+        background-color: $color-main;
+        color: $color-black;
+      }
+    }
+
+    .cancel {
+      background-color: $color-darkgray;
+      color: $font-color;
+
+      &:hover {
+        background-color: darken($color-gray, 10%);
+      }
+    }
+  }
+
+  .cancel-warning {
+    background-color: $color-sub;
+    padding: 20px;
+    border-radius: 12px;
+    margin: 20px 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: $font-color;
+
+    h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: $font-color;
+    }
+
+    ul {
+      list-style: disc;
+      padding-left: 20px;
+
+      li {
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 6px;
+        color: $font-color;
+      }
+    }
+  }
+}
+
+// ✅ 반응형 처리
+@include tablet {
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .label {
+      width: 100%;
+      margin-bottom: 6px;
+    }
+
+    .value-box {
+      width: 100%;
+    }
+  }
+
+  .button-group {
+    flex-direction: column;
+
+    .btn {
+      width: 100%;
+    }
+  }
+}

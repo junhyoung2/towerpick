@@ -1,0 +1,110 @@
+//스크롤바 기능 유지, 스크롤바는 숨기기
+.my-reserve::-webkit-scrollbar {
+  display: none;
+}
+
+.reserve-wrap{
+  background-color: $color-sub;
+  color: $font-color;
+  padding: 1rem;
+  border-radius: 10px;;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  h3{
+    padding-bottom: 2px;
+    padding-left: 10px;
+    @include font-medium;
+  }
+}
+
+.now-txt,
+.end-txt{
+  margin-top: 10px;
+  border-bottom: 1px solid $color-darkgray;
+}
+.now-txt{
+  width: 110px;
+}
+.end-txt{
+  width: 131px;
+}
+
+.now-reserve,
+.end-reserve{
+  margin: 1rem 0;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: $font-color;
+  color: $color-darkgray;
+  border-radius: 10px;
+  @include font-basic;
+  position: relative;
+}
+
+.now-status,
+.end-status{
+  font-weight: bolder;
+}
+
+.now-reserve{
+  height: 100px;
+  position: relative;
+  @include font-basic;
+  button{
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: 80px;
+    height: 50px;
+    outline: none;
+    border: none;
+    background-color: $color-darkgray;
+    color: $font-color;
+    border-radius: 10px;
+    @include font-basic;
+  }
+  .now-status{
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+  }
+  .now-date{
+    position: absolute;
+    top: 20%;
+    left: 22%;
+  }
+  .now-space{
+    position: absolute;
+    top: 65%;
+    left: 22%;
+    text-align: center;
+  }
+}
+
+.end-reserve{
+  height: 100px;
+  position: relative;
+  .end-status{
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+  }
+  .end-date{
+    position: absolute;
+    top: 20%;
+    left: 40%;
+  }
+  .end-space{
+    position: absolute;
+    top: 65%;
+    left: 40%;
+    text-align: center;
+  }
+}

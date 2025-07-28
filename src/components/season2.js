@@ -24,9 +24,9 @@ const Booking2 = () => {
 
   return (
     <div>
-      <Header prev_path="/booking1" prev_title="예약" />
+      <Header prev_path="/season1" prev_title="정기권 구매" />
       <div className="booking2">
-        <h2 className="booking-title">예약 신청</h2>
+        <h2 className="booking-title">구매 신청</h2>
         <Step />
         {/* setFloor도 넘겨줘야 BookingBox2에서 층 변경 가능 */}
         <BookingBox2
@@ -48,7 +48,7 @@ const Booking2 = () => {
               return;
             }
         
-            navigate("/booking3", {
+            navigate("/Season3", {
               state: {
                 start,
                 end,

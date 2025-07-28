@@ -1,5 +1,7 @@
 // 헤더&버튼
-.booking1, .booking2, .booking3 {
+.booking1,
+.booking2,
+.booking3 {
   width: 100%;
   margin: 20px 0;
   display: flex;
@@ -11,7 +13,7 @@
   }
   button {
     @include btn-style();
-    margin-top: 30px;
+    margin-top: 20px;
   }
 }
 
@@ -31,7 +33,7 @@
   margin-top: 30px;
   background-color: $color-sub;
   border-radius: 10px;
-  padding: 10px;
+  padding: 10px 10px 5px;
 
   .booking-title {
     @include font-medium();
@@ -74,7 +76,7 @@
 .status {
   width: 372px;
   padding: 10px;
-  margin-top: 15px;
+  margin-top: 20px;
   background-color: $color-sub;
   border-radius: 10px;
   display: flex;
@@ -91,8 +93,9 @@
   .place {
     width: 230px;
     padding: 10px;
-    display: block;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 10px;
     background-color: $font-color;
     color: $color-darkgray;
@@ -106,17 +109,12 @@
     @include font-basic();
     color: $color-error;
   }
-  //주말에 추가함
-  p{
-    @include font-small();
-     color: $color-darkgray;
-  }
 }
 
 // Guide.js
 .guide {
   padding: 10px;
-  margin: 20px;
+  margin: 20px 20px 0;
   border-radius: 10px;
   background-color: $color-sub;
   color: $font-color;

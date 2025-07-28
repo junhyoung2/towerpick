@@ -1,4 +1,4 @@
-const SeasonBox1 = ({ start, end, onDateChange, type, setType }) => (
+const SeasonBox1 = ({ start, end, onDateChange, type, setType, floor, setFloor }) => (
   <div className="booking-box">
     <div className="booking-title">주차장 예약</div>
     <div className="booking-form">
@@ -9,7 +9,7 @@ const SeasonBox1 = ({ start, end, onDateChange, type, setType }) => (
             type="datetime-local"
             className="date"
             value={start}
-            onChange={e => onDateChange(e.target.value, end)}
+            onChange={e => onDateChange(e.target.value)}
           />
         </div>
       </div>

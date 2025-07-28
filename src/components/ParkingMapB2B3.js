@@ -5,8 +5,8 @@ const colorCls = n => (n >= 21 && n <= 30) ? "green" : "";
 
 const slotCls = (n, reserved, selected) => [
   `slot n${n}`,
-  reserved.includes(n) ? "reserved" : "",
-  selected === n ? "selected" : "",
+  reserved.map(Number).includes(Number(n)) ? "reserved" : "",
+  Number(selected) === Number(n) ? "selected" : "",
   colorCls(n)
 ].join(" ").trim();
 
@@ -15,6 +15,8 @@ const ParkingMapB2B3 = ({
   selected = null,
   onSelectSlot = () => {},
 }) => {
+    console.log("[ParkingMapB2B3] reserved:", reserved);
+
   return (
     <div className="parking-map">
       <div className="top-grid">
@@ -22,7 +24,7 @@ const ParkingMapB2B3 = ({
           <div
             key={n}
             className={slotCls(n, reserved, selected)}
-            onClick={() => !reserved.includes(n) && onSelectSlot(n)}
+            onClick={() => !reserved.map(Number).includes(Number(n)) && onSelectSlot(n)}
           >
             {n}
           </div>
@@ -37,7 +39,7 @@ const ParkingMapB2B3 = ({
           <div
             key={n}
             className={slotCls(n, reserved, selected)}
-            onClick={() => !reserved.includes(n) && onSelectSlot(n)}
+            onClick={() => !reserved.map(Number).includes(Number(n)) && onSelectSlot(n)}
           >
             {n}
           </div>

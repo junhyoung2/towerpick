@@ -1,6 +1,7 @@
 .parking-map {
   width: 372px;
   padding: 20px;
+  margin-top: 20px;
   border: 2px solid $color-darkgray;
   border-radius: 10px;
   background-color: $font-color;
@@ -9,7 +10,7 @@
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(2, 40px);
-  gap: 3px;
+  gap: 5px;
   margin-bottom: 15px;
 }
 .inout {
@@ -18,15 +19,18 @@
   justify-content: space-between;
   align-items: center;
   @include font-basic();
-  margin: 5px 0 0 0;
-  .in { margin-left: 2px; }
-  .out { margin-right: 2px; }
+  .in {
+    margin-left: 2px;
+  }
+  .out {
+    margin-right: 2px;
+  }
 }
 .bottom-grid {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: 40px;
-  gap: 3px;
+  gap: 5px;
   margin-top: 15px;
 }
 .slot {
@@ -38,47 +42,46 @@
   color: $color-black();
   width: 27px;
   height: 40px;
-  
+
   border: 0.5px solid $color-darkgray;
 
   cursor: pointer;
-    &:hover{
-        background-color: $color-main;
-        color: $color-black;
-        
-    }
+  &:hover {
+    background-color: $color-main;
+    color: $color-black;
+  }
 }
 
 .reserved {
-  background-color: $color-darkgray !important;
-  color: #fff !important;
+  background-color: $color-darkgray;
+  color: $font-color;
   cursor: not-allowed;
 }
-
 
 .slot.reserved,
 .pink.reserved,
 .yellow.reserved,
 .blue.reserved,
 .green.reserved {
-  border: 1.5px solid $color-darkgray !important;
+  border: 1.5px solid $color-darkgray;
 }
 
-
 .selected {
-  background-color: $color-sub ;
-  color:$font-color;
- 
+  background-color: $color-sub;
+  color: $font-color;
 }
 .parking-slot:not(.reserved):not(.selected):hover {
   background: $color-gray;
 }
-.pink     { border: 1px solid #E91E63; }
-.yellow   { border: 1px solid #F1C40F; }
-.blue     { border: 1px solid #0072C6; }
-.green    { border: 1px solid #27AE60; } 
-
-
-
-
-
+.pink {
+  border: 1px solid #e91e63;
+}
+.yellow {
+  border: 1px solid #f1c40f;
+}
+.blue {
+  border: 1px solid #0072c6;
+}
+.green {
+  border: 1px solid #27ae60;
+}

@@ -4,7 +4,7 @@ const StartPage = () => {
   const navigate = useNavigate();
 
   const handleStartClick = () => {
-    navigate("/mainPage");
+    navigate("/login");
   };
 
   return (
