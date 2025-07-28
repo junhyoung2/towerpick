@@ -84,7 +84,7 @@ const Booking1 = () => {
         <Step />
         <BookingBox1 start={start} end={end} onDateChange={handleDateChange} />
         <YesorNo available={available} />
-        <Price1 price={available ? price : null} />
+       <Price1 price={price} />
         <ParkingImg />
         <button
           onClick={() => {
@@ -92,7 +92,8 @@ const Booking1 = () => {
               alert("날짜를 확인해주세요.");
               return;
             }
-            navigate("/booking2", { state: { start, end } });
+           
+            navigate("/booking2", { state: { start, end,price } });
           }}
         >
           다음단계

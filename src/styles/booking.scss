@@ -106,6 +106,11 @@
     @include font-basic();
     color: $color-error;
   }
+  //주말에 추가함
+  p{
+    @include font-small();
+     color: $color-darkgray;
+  }
 }
 
 // Guide.js
