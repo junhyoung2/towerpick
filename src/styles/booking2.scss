@@ -1,112 +1,87 @@
-// bookingmap 지하 1층
 .parking-map {
-  width: 362px;
+  width: 372px;
   padding: 20px;
+  margin-top: 20px;
   border: 2px solid $color-darkgray;
   border-radius: 10px;
   background-color: $font-color;
 }
-// Y축 세로 화살표/선 구조
-.parking-row-y {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  width: 100%;
-}
-.y-arrow-group {
-  width: 20px;
-  height: 95px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  position: relative;
-  margin-right: 7px;
-}
-.y-arrow {
-  font-size: 18px;
-  color: $color-darkgray;
-  font-weight: 600;
-  margin-bottom: 2px;
-  position: relative;
-  top: 24px;
-}
-.y-arrow-group::before {
-  content: "";
-  position: absolute;
-  left: 8px;
-  top: 7px;
-  width: 1.5px;
-  height: 60px;
-  background: $color-darkgray;
-  border-radius: 1px;
-  z-index: 0;
-}
-.parking-top-grid {
+.top-grid {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(2, 40px);
-  gap: 3px;
+  gap: 5px;
   margin-bottom: 15px;
 }
-.parking-bottom-grid {
+.inout {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @include font-basic();
+  .in {
+    margin-left: 2px;
+  }
+  .out {
+    margin-right: 2px;
+  }
+}
+.bottom-grid {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: 40px;
-  gap: 3px;
-  margin-top: 10px;
+  gap: 5px;
+  margin-top: 15px;
 }
-.parking-slot {
+.slot {
   display: flex;
   align-items: center;
   justify-content: center;
   @include font-small();
   background-color: $font-color;
   color: $color-black();
-  width: 100%;
+  width: 27px;
   height: 40px;
-  box-sizing: border-box;
-}
-// 일반차 테두리
-.n1, .n2, .n3, .n4, .n5, .n6, .n7, .n8, .n9, .n10,
-.n11, .n12, .n13, .n14, .n15, .n16, .n17, .n18, .n19, .n20 {
+
   border: 0.5px solid $color-darkgray;
-}
-// 전기차
-.n21, .n22, .n23, .n24, .n25, .n26, .n27, .n28, .n29, .n30 {
-  border: 1px solid #27AE60;
-}
-// IN/OUT 라벨과 화살표 라인
-.parking-map-label {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  @include font-basic();
-  margin: 5px 0 0 0;
-  position: relative;
-  .in-label { margin-left: 2px; }
-  .out-label { margin-right: 2px; }
-  &::before {
-    content: "";
-    position: absolute;
-    left: 35px;
-    top: 50%;
-    width: 103px;
-    height: 1.5px;
-    background-color: $color-darkgray;
-    transform: translateY(-50%);
-    z-index: 0;
-  }
-  &::after {
-    content: "→";
-    position: absolute;
-    left: 105px; // 라인 끝 쯤 (조정 가능)
-    top: 41%;
-    color: $color-darkgray;
-    z-index: 1;
-    transform: translateY(-50%);
-    pointer-events: none;
+
+  cursor: pointer;
+  &:hover {
+    background-color: $color-main;
+    color: $color-black;
   }
 }
-//bookingmap 지하 2~3층
+
+.reserved {
+  background-color: $color-darkgray !important;
+  color: #fff !important;
+  cursor: not-allowed;
+}
+
+.slot.reserved,
+.pink.reserved,
+.yellow.reserved,
+.blue.reserved,
+.green.reserved {
+  border: 1.5px solid $color-darkgray !important;
+}
+
+.selected {
+  background-color: $color-sub;
+  color: $font-color;
+}
+.parking-slot:not(.reserved):not(.selected):hover {
+  background: $color-gray;
+}
+.pink {
+  border: 1px solid #e91e63;
+}
+.yellow {
+  border: 1px solid #f1c40f;
+}
+.blue {
+  border: 1px solid #0072c6;
+}
+.green {
+  border: 1px solid #27ae60;
+}

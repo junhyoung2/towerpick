@@ -20,7 +20,7 @@ const Information = () => {
             사전 예약으로 편리하게
           </p>
           <button
-            onClick={() => { navigate("/") }}
+            onClick={() => { navigate("/booking1") }}
           >바로가기</button>
         </div>
         <div className="ticket">
@@ -30,7 +30,7 @@ const Information = () => {
             편하게 이용하세요
           </p>
           <button
-            onClick={() => { navigate("/") }}
+            onClick={() => { navigate("/season1") }}
           >바로가기</button>
         </div>
       </div>

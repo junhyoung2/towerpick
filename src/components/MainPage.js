@@ -74,7 +74,7 @@ const MainPage = () => {
             편하게 이용하세요
           </p>
           <button
-            onClick={() => { navigate("/") }}
+            onClick={() => { navigate("/season1") }}
           >바로가기</button>
         </div>
       </div>
