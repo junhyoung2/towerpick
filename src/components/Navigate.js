@@ -10,7 +10,7 @@ const Navigate = () => {
   return (
     <div className="navigate">
         <div className="home"
-          onClick={() => { navigate("/") }}
+          onClick={() => { navigate("/mainpage") }}
         >
           <GoHomeFill />
           <p>홈</p>
@@ -19,7 +19,7 @@ const Navigate = () => {
           className="line"
         />
         <div className="check"
-          onClick={() => { navigate("/") }}
+          onClick={() => { navigate("/myReserve") }}
         >
           <GoChecklist />
           <p>이용내역</p>
@@ -28,7 +28,7 @@ const Navigate = () => {
           className="line"
         />
         <div className="my"
-          onClick={() => { navigate("/") }}
+          onClick={() => { navigate("/mypage") }}
         >
           <BiUserCircle />
           <p>내 정보</p>

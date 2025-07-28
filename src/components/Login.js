@@ -58,12 +58,11 @@ const Login = () => {
 
       <button className="login-button" onClick={handleLogin}>로그인</button>
 
-      <div className="social-login">
-        <img src="/images/kakao.png" alt="Kakao Login" />
-        <img src="/images/naver.png" alt="Naver Login" />
-        <img src="/images/google.png" alt="Google Login" />
+      <div className="social-login">        
+        <img src={`${process.env.PUBLIC_URL}/images/sns/kakao.png`} alt="Kakao Login" />
+        <img src={`${process.env.PUBLIC_URL}/images/sns/naver.png`} alt="Naver Login" />
+        <img src={`${process.env.PUBLIC_URL}/images/sns/google.png`} alt="Google Login" />
       </div>
-
       <div className="signup">
         <a href="#">회원가입</a>
       </div>

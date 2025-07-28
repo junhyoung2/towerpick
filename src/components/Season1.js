@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Step from "./Step";
 import ParkingImg from "./ParkingImg";
 import SeasonBox1 from "./SeasonBox1";
@@ -6,16 +6,118 @@ import SeasonYesorNo from "./SeasonYesorNo";
 import Price1 from "./Price1";
 import Header from "./Header";
 import Navigate from "./Navigate";
+import { supabase } from "../utils/supabaseClient";
 import { useNavigate } from "react-router-dom";
+
+// 시작일 + 타입 → 종료일 계산
+const calcEndDate = (startDateStr, period) => {
+  const startDate = new Date(startDateStr);
+  if (isNaN(startDate)) return "";
+  switch (period) {
+    case "1m": startDate.setMonth(startDate.getMonth() + 1); break;
+    case "3m": startDate.setMonth(startDate.getMonth() + 3); break;
+    case "6m": startDate.setMonth(startDate.getMonth() + 6); break;
+    case "12m": startDate.setFullYear(startDate.getFullYear() + 1); break;
+    default: return "";
+  }
+  return startDate.toISOString().slice(0, 16); 
+};
+
+const toDbFormat = dt => {
+  if (!dt) return '';
+  const d = typeof dt === "string" ? new Date(dt) : dt;
+  if (isNaN(d)) return '';
+  const pad = n => n.toString().padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:00`;
+};
+const toDateOnly = dt => {
+  if (!dt) return '';
+  const d = typeof dt === "string" ? new Date(dt) : dt;
+  if (isNaN(d)) return '';
+  const pad = n => n.toString().padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+};
+
+const calcFee = (period) => {
+  switch (period) {
+    case "1m": return 200000;
+    case "3m": return 600000;
+    case "6m": return 1100000;
+    case "12m": return 2000000;
+    default: return 0;
+  }
+};
 
 const Season1 = () => {
   const navigate = useNavigate();
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
-  const [type, setType] = useState(""); // 정기권 종류 (1m, 3m, ...)
+  const [type, setType] = useState("");
+  const [floor, setFloor] = useState(1);
   const [price, setPrice] = useState(null);
+  const [reserved, setReserved] = useState([]);
+  const [available, setAvailable] = useState(null);
 
-  // 날짜 변경될 때마다 실행
+  // 예약불가 slot 계산 (Booking1과 똑같이)
+  useEffect(() => {
+    if (!start || !type || !floor) {
+      setReserved([]);
+      setAvailable(null);
+      return;
+    }
+    const newEnd = calcEndDate(start, type);
+    setEnd(newEnd);
+
+    const dbStart = toDbFormat(start);
+    const dbEnd = toDbFormat(newEnd);
+    const dbStartDate = toDateOnly(start);
+    const dbEndDate = toDateOnly(newEnd);
+
+    (async () => {
+      const { data: allSpaces } = await supabase
+        .from("spaces")
+        .select("id, slot_number")
+        .eq("is_active", true)
+        .eq("floor", floor);
+
+      if (!allSpaces) {
+        setReserved([]);
+        setAvailable(null);
+        return;
+      }
+      const floorSpaceIDs = allSpaces.map(space => space.id);
+
+      // 1. 일반예약 겹침
+      const { data: overlappedBookings } = await supabase
+        .from("bookings")
+        .select("space_id")
+        .eq("status", "active")
+        .lt("start_time", dbEnd)
+        .gt("end_time", dbStart)
+        .in("space_id", floorSpaceIDs);
+
+      // 2. 정기권 겹침 (기간 겹침)
+      const { data: overlappedPasses } = await supabase
+        .from("passes")
+        .select("space_id, start_date, end_date, status")
+        .eq("status", "active")
+        .in("space_id", floorSpaceIDs)
+        .or(`and(start_date.lte.${dbEndDate},end_date.gte.${dbStartDate})`);
+
+      const reservedSpaceIDs = [
+        ...(overlappedBookings?.map(b => b.space_id) || []),
+        ...(overlappedPasses?.map(p => p.space_id) || [])
+      ];
+      const reservedSlotNumbers = allSpaces
+        .filter(space => reservedSpaceIDs.includes(space.id))
+        .map(space => space.slot_number);
+
+      setReserved(reservedSlotNumbers);
+      setAvailable(reservedSlotNumbers.length < allSpaces.length);
+    })();
+  }, [start, type, floor]);
+
+  // 날짜 선택
   const handleDateChange = (newStart) => {
     setStart(newStart);
     if (newStart && type) {
@@ -28,59 +130,24 @@ const Season1 = () => {
     }
   };
 
-  // 정기권 버튼 클릭 시 실행
+  // 타입 선택
   const handleTypeChange = (newType) => {
     setType(newType);
     if (start && newType) {
       const newEnd = calcEndDate(start, newType);
       setEnd(newEnd);
-      const fee = calcFee(newType);
-      setPrice(fee);
-      console.log("정기권 타입:", newType, "/ 금액:", fee);
+      setPrice(calcFee(newType));
     } else {
       setEnd("");
       setPrice(null);
     }
   };
 
-  // 정기권 가격 반환
-  function calcFee(period) {
-    switch (period) {
-      case "1m": return 200000;
-      case "3m": return 600000;
-      case "6m": return 1100000;
-      case "12m": return 2000000;
-      default: return 0;
-    }
-  }
-
-  // 시작일 + 정기권 타입 => 종료일 계산
-  function calcEndDate(startDateStr, period) {
-    const startDate = new Date(startDateStr);
-    if (isNaN(startDate)) return "";
-
-    switch (period) {
-      case "1m": startDate.setMonth(startDate.getMonth() + 1); break;
-      case "3m": startDate.setMonth(startDate.getMonth() + 3); break;
-      case "6m": startDate.setMonth(startDate.getMonth() + 6); break;
-      case "12m": startDate.setFullYear(startDate.getFullYear() + 1); break;
-      default: return "";
-    }
-
-    return startDate.toISOString().slice(0, 16); // datetime-local 형식
-  }
-
-  // ❗ 추가된 함수: 만차일인지 확인
-  const isFullyBookedDate = (startDate) => {
-    const fullyBookedDates = ["2025-08-10"]; // 예약 불가 날짜 리스트
-    return fullyBookedDates.includes(startDate?.slice(0, 10)); // yyyy-mm-dd 비교
-  };
-
   return (
     <div>
-      <Header />
+      <Header prev_path="/mainpage" prev_title="정기권 구매" />
       <div className="booking1">
-        <h2 className="booking-title">예약 일자 선택</h2>
+        <h2 className="booking-title">구매 기간 선택</h2>
         <Step />
         <SeasonBox1
           start={start}
@@ -88,26 +155,20 @@ const Season1 = () => {
           onDateChange={handleDateChange}
           type={type}
           setType={handleTypeChange}
+          floor={floor}
+          setFloor={setFloor}
         />
-        <SeasonYesorNo
-          available={
-            start && end && type && !isFullyBookedDate(start) ? true : false
-          }
-        />
+        <SeasonYesorNo available={available} />
         <Price1 price={price} />
-        <ParkingImg />
+        <ParkingImg reserved={reserved} floor={floor} />
         <button
           onClick={() => {
-            if (!start || !end || !type) {
-              alert("입차일시, 사용기간을 모두 선택하세요.");
+            if (!available) {
+              alert("해당 기간에 예약 가능한 주차 공간이 없습니다.");
               return;
             }
-            if (isFullyBookedDate(start)) {
-              alert("선택한 날짜는 만차입니다. 다른 날짜를 선택해주세요.");
-              return;
-            }
-            navigate("/booking2", {
-              state: { start, end, type, price },
+            navigate("/Season2", {
+              state: { start, end, type, price, floor, reserved }
             });
           }}
         >

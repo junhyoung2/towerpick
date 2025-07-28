@@ -53,8 +53,8 @@
 }
 
 .reserved {
-  background-color: $color-darkgray !important;
-  color: #fff !important;
+  background-color: $color-darkgray;
+  color: $font-color;
   cursor: not-allowed;
 }
 
@@ -63,7 +63,7 @@
 .yellow.reserved,
 .blue.reserved,
 .green.reserved {
-  border: 1.5px solid $color-darkgray !important;
+  border: 1.5px solid $color-darkgray;
 }
 
 .selected {

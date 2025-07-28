@@ -12,6 +12,21 @@ import { useNavigate } from "react-router-dom";
 const HOURLY_RATE = 1500;
 const DAILY_RATE = 35000;
 
+const toDbFormat = dt => {
+  if (!dt) return '';
+  const d = typeof dt === "string" ? new Date(dt) : dt;
+  if (isNaN(d)) return '';
+  const pad = n => n.toString().padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:00`;
+};
+const toDateOnly = dt => {
+  if (!dt) return '';
+  const d = typeof dt === "string" ? new Date(dt) : dt;
+  if (isNaN(d)) return '';
+  const pad = n => n.toString().padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+};
+
 const calcFee = (start, end) => {
   const s = new Date(start);
   const e = new Date(end);
@@ -21,7 +36,6 @@ const calcFee = (start, end) => {
   let diffDays = Math.floor(diffHours / 24);
   let remainHours = diffHours % 24;
   let total = 0;
-
   if (diffHours >= 24) {
     total += diffDays * DAILY_RATE + remainHours * HOURLY_RATE;
   } else {
@@ -37,7 +51,7 @@ const Booking1 = () => {
   const [end, setEnd] = useState("");
   const [available, setAvailable] = useState(null);
   const [price, setPrice] = useState(null);
-  const [reserved, setReserved] = useState([]);  // slot_number만 관리
+  const [reserved, setReserved] = useState([]); 
   const [floor, setFloor] = useState(1);
 
   // 예약불가(겹치는) slot_number 계산
@@ -57,23 +71,29 @@ const Booking1 = () => {
         setReserved([]);
         return;
       }
-
       const floorSpaceIDs = allSpaces.map(space => space.id);
 
+      const dbStart = toDbFormat(start);
+      const dbEnd = toDbFormat(end);
+      const dbStartDate = toDateOnly(start);
+      const dbEndDate = toDateOnly(end);
+
+      // 일반예약 겹침
       const { data: overlappedBookings } = await supabase
         .from("bookings")
         .select("space_id")
         .eq("status", "active")
-        .lt("start_time", end)
-        .gt("end_time", start)
+        .lt("start_time", dbEnd)
+        .gt("end_time", dbStart)
         .in("space_id", floorSpaceIDs);
 
+      // 정기권 겹침
       const { data: overlappedPasses } = await supabase
         .from("passes")
-        .select("space_id")
+        .select("space_id, start_date, end_date, status")
         .eq("status", "active")
-        .lt("start_date", end)
-        .gt("end_date", start)
+        .lt("start_date", dbEndDate)
+        .gt("end_date", dbStartDate)
         .in("space_id", floorSpaceIDs);
 
       const reservedSpaceIDs = [
@@ -93,6 +113,11 @@ const Booking1 = () => {
     setStart(newStart);
     setEnd(newEnd);
 
+    const dbStart = toDbFormat(newStart);
+    const dbEnd = toDbFormat(newEnd);
+    const dbStartDate = toDateOnly(newStart);
+    const dbEndDate = toDateOnly(newEnd);
+
     if (!newStart || !newEnd) {
       setAvailable(null);
       setPrice(null);
@@ -110,23 +135,22 @@ const Booking1 = () => {
       setPrice(null);
       return;
     }
-
     const floorSpaceIDs = allSpaces.map(space => space.id);
 
     const { data: overlappedBookings } = await supabase
       .from("bookings")
       .select("space_id")
       .eq("status", "active")
-      .lt("start_time", newEnd)
-      .gt("end_time", newStart)
+      .lt("start_time", dbEnd)
+      .gt("end_time", dbStart)
       .in("space_id", floorSpaceIDs);
 
     const { data: overlappedPasses } = await supabase
       .from("passes")
-      .select("space_id")
+      .select("space_id, start_date, end_date, status")
       .eq("status", "active")
-      .lt("start_date", newEnd)
-      .gt("end_date", newStart)
+      .lt("start_date", dbEndDate)
+      .gt("end_date", dbStartDate)
       .in("space_id", floorSpaceIDs);
 
     const overlappedBookingIDs = overlappedBookings?.map(b => b.space_id) || [];
@@ -140,7 +164,7 @@ const Booking1 = () => {
 
   return (
     <div>
-      <Header />
+      <Header prev_path="/mainpage" prev_title="예약" />
       <div className="booking1">
         <h2 className="booking-title">예약 일자 선택</h2>
         <Step />
@@ -160,7 +184,7 @@ const Booking1 = () => {
               alert("날짜를 확인해주세요.");
               return;
             }
-            navigate("/booking2", { state: { start, end, price, floor } });
+            navigate("/booking2", { state: { start, end, price, floor, reserved } });
           }}
         >
           다음단계

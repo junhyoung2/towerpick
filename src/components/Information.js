@@ -8,7 +8,7 @@ const Information = () => {
   return (
     <div>
       {/* 공통헤더 */}
-      <Header prev_path="/MainPage" prev_title="이용안내" />
+      <Header prev_path="/mainpage" prev_title="이용안내" />
 
       <h3 className="price-info">요금 안내</h3>
       <img src="/images/priceinfo.jpg" art="요금 안내 이미지" />

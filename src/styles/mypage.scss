@@ -1,0 +1,154 @@
+.my-page{
+  height: 100%;
+  padding-bottom: 5rem;
+  overflow-y: auto;
+}
+
+//스크롤바 기능 유지, 스크롤바는 숨기기
+.my-page::-webkit-scrollbar {
+  display: none;
+}
+
+.my-modify{
+  background-color: $color-sub;
+  color: $font-color;
+  padding: 1rem;
+  border-radius: 10px;;
+  margin-top: 1rem;
+  ul{
+    margin-top: 1rem;
+    font-size: 20px;
+  }
+}
+
+.my-txt,
+.pass-txt{
+  border-bottom: 1px solid $color-darkgray;
+  h3{
+    padding-bottom: 2px;
+    padding-left: 10px;
+    @include font-medium;
+  }
+}
+.my-txt{
+  width: 105px;
+}
+.pass-txt{
+  width: 131px;
+}
+
+.list-one{
+  li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &:nth-of-type(1){
+      padding-bottom: 10px;
+    }
+    &:nth-of-type(2),
+    &:nth-of-type(3){
+      padding-left: 1rem;
+    }
+  }
+}
+.list-two{
+  li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &:nth-of-type(1){
+      padding-bottom: 10px;
+    }
+  }
+}
+.modi-icon{
+  color: $color-darkgray;
+  cursor: pointer;
+}
+
+.my-pass{
+  background-color: $color-sub;
+  color: $font-color;
+  padding: 0 1rem;
+  border-radius: 10px;;
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.pass-buy{
+  margin: 1rem 0;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: $font-color;
+  color: $color-darkgray;
+  border-radius: 10px;
+  @include font-basic;
+  p{
+    padding-bottom: 10px;
+  }
+  button{
+    width: 70%;
+    height: 50px;
+    outline: none;
+    border: none;
+    background-color: $color-darkgray;
+    color: $font-color;
+    border-radius: 10px;
+    @include font-basic;
+  }
+}
+
+.pass-1m,
+.pass-3m{
+  margin: 1rem 0;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: $font-color;
+  color: $color-darkgray;
+  border-radius: 10px;
+  @include font-basic;
+  position: relative;
+}
+
+.month-txt{
+  font-weight: bolder;
+  padding-bottom: 3px;
+}
+
+.pass-status{
+  position: absolute;
+  top: 50%;
+  right: 0;
+  padding-right: 2rem;
+  transform: translateY(-50%);
+  span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 50px;
+    background-color: $color-darkgray;
+    color: $font-color;
+    border-radius: 10px;
+    @include font-basic;
+  }
+}
+
+.reserve-cancle{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.cancle{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  @include btn-style;
+}

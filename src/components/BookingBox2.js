@@ -1,3 +1,4 @@
+import React from "react";
 import ParkingMapB1 from "./ParkingMapB1";
 import ParkingMapB2B3 from "./ParkingMapB2B3";
 
@@ -35,11 +36,9 @@ const BookingBox2 = ({
       d.getMonth() + 1
     )}.${pad(d.getDate())}.${pad(d.getHours())}.${pad(d.getMinutes())}`;
   };
-
   const handleFloorChange = (e) => {
     setFloor(Number(e.target.value));
   };
-
   const handleSelectSlot = (n) => {
     if (reservedSlots.includes(n)) return;
     setSelectedSlot(n);
