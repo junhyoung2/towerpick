@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ParkingMapB1 from "./ParkingMapB1";
 import ParkingMapB2B3 from "./ParkingMapB2B3";
 
@@ -28,6 +28,24 @@ const BookingBox2 = ({
   selectedSlot,
   setSelectedSlot,
 }) => {
+  // 로그인 유저 정보
+  const [userInfo, setUserInfo] = useState({ phone: "", car_number: "" });
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("towerpick");
+      if (raw) {
+        const user = JSON.parse(raw);
+        setUserInfo({
+          phone: user.phone || "-",
+          car_number: user.car_number || "-",
+        });
+      }
+    } catch (e) {
+      setUserInfo({ phone: "-", car_number: "-" });
+    }
+  }, []);
+
   const format = (dt) => {
     if (!dt) return "";
     const d = new Date(dt);
@@ -36,6 +54,7 @@ const BookingBox2 = ({
       d.getMonth() + 1
     )}.${pad(d.getDate())}.${pad(d.getHours())}.${pad(d.getMinutes())}`;
   };
+
   const handleFloorChange = (e) => {
     setFloor(Number(e.target.value));
   };
@@ -62,13 +81,13 @@ const BookingBox2 = ({
           <div className="form-row">
             <div className="form-label">휴대폰번호</div>
             <div className="form-input">
-              <p>010-1234-5678</p>
+              <p>{userInfo.phone}</p>
             </div>
           </div>
           <div className="form-row">
             <div className="form-label">차량번호</div>
             <div className="form-input">
-              <p>NNN라 NNNN</p>
+              <p>{userInfo.car_number}</p>
             </div>
           </div>
           <div className="form-row">

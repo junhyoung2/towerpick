@@ -15,7 +15,7 @@ const ParkingMapB2B3 = ({
   selected = null,
   onSelectSlot = () => {},
 }) => {
-    console.log("[ParkingMapB2B3] reserved:", reserved);
+   
 
   return (
     <div className="parking-map">

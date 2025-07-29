@@ -15,29 +15,29 @@ const MainPage = () => {
 
   //층별 잔여석 선언 함수
   const [floorData, setFloorData] = useState([]);
-  const [loading, setLaoding] = useState(true);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchDate = async () => {
       const { data, error } = await getAvailableSpacesByFloor();
+      if (error) {
+        alert("잔여석 확인이 불가능합니다");
+      }
       if (data) {
         setFloorData(data);
       }
-      setLaoding(false);
+      setLoading(false);
     };
     fetchDate();
   }, []);
-
   //층별 데이터 불러오기 함수
   const getFloorAvailable = (floorNumber) => {
     const floor = floorData.find((f) => f.floor === floorNumber);
     return floor ? floor.available : 0;
   };
-
   //잔여석 데이터 로딩 중 함수
   if (loading) {
-    return <div>로딩 중...</div>;
+    return <div className="alert">로딩 중...</div>;
   }
-
   return (
     <div className="main-page">
       {/* 공통헤더 */}
