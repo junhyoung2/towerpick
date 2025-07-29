@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Header from "./Header";
 import Step from "./Step";
 import BookingBox2 from "./BookingBox2";
@@ -17,7 +17,7 @@ const Booking2 = () => {
   const [floor, setFloor] = useState(1);
   const [selectedSlot, setSelectedSlot] = useState(null);
 
-   const reservedSlots = location.state?.reserved || [];
+  const reservedSlots = location.state?.reserved || [];
 
   // 이전단계의 start/end(예약일시)도 반드시 전달해야 함
   const { start, end } = location.state || {};
@@ -47,7 +47,7 @@ const Booking2 = () => {
               alert("자리를 선택하세요");
               return;
             }
-        
+
             navigate("/booking3", {
               state: {
                 start,
