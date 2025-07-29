@@ -38,6 +38,7 @@
     outline: none;
     border: none;
     border-radius: 10px;
+    transition: background-color 0.25s;
     @include font-medium();
     &:hover{
         background-color: $color-main;
