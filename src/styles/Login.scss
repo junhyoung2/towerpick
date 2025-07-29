@@ -2,12 +2,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2.5rem 1rem;
-  font-family: 'paperlogy', sans-serif;
+  padding: 0 20px;
+  margin-top: 80px;
 
   .logo {
-    width: 180px;
-    margin-bottom: 2rem;
+    width: 280px;
+    margin-bottom: 45px;
   }
 
   .input-group {
@@ -47,9 +47,8 @@
     width: 100%;
     max-width: 360px;
     margin-bottom: 2rem;
-
     a {
-      @include font-small;
+      @include font-basic;
       color: $color-sub;
       text-decoration: none;
 
@@ -60,27 +59,13 @@
   }
 
   .login-button {
-    width: 100%;
-    max-width: 360px;
-    background-color: $color-darkgray;
-    color: $font-color;
-    border: none;
-    border-radius: 10px;
-    padding: 0.9rem;
-    @include font-medium;
-    cursor: pointer;
-    transition: background-color 0.3s;
-
-    &:hover {
-      background-color: $color-main;
-      color: $color-black;
-    }
+    @include btn-style();
   }
 
   .social-login {
     display: flex;
     gap: 1rem;
-    margin: 2rem 0;
+    margin-top: 2rem;
 
     img {
       width: 48px;
@@ -95,10 +80,10 @@
   }
 
   .signup {
-    margin-top: 0.5rem;
+    margin-top: 55px;
 
     a {
-      @include font-basic;
+      @include font-medium;
       color: $color-sub;
       text-decoration: none;
 

@@ -1,5 +1,10 @@
 //주차구역 / 위치 및 잔여석
 
+.alert{
+  text-align: center;
+  line-height: 100px;
+}
+
 h3 {
   @include font-medium;
 }

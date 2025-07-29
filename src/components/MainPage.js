@@ -15,14 +15,17 @@ const MainPage = () => {
 
   //층별 잔여석 선언 함수
   const [floorData, setFloorData] = useState([]);
-  const [loading, setLaoding] = useState(true);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchDate = async () => {
       const { data, error } = await getAvailableSpacesByFloor();
+      if (error) {
+        alert("잔여석 확인이 불가능합니다");
+      }
       if (data) {
         setFloorData(data);
       }
-      setLaoding(false);
+      setLoading(false);
     };
     fetchDate();
   }, []);
@@ -35,7 +38,7 @@ const MainPage = () => {
 
   //잔여석 데이터 로딩 중 함수
   if (loading) {
-    return <div>로딩 중...</div>;
+    return <div className="alert">로딩 중...</div>;
   }
 
   return (
@@ -54,22 +57,21 @@ const MainPage = () => {
         </div>
         <div className="seats-wrap">
           <h3>위치 및 잔여석</h3>
-            <div className="seats">
-              <div className="seats-one">
-                <h4>B1</h4>
-                <TfiLayoutLineSolid className="line" />
-                <p>{getFloorAvailable(1)}/30석</p>
-              </div>
-              <div className="seats-two">
-                <h4>B2</h4>
-                <TfiLayoutLineSolid className="line" />
-                <p>{getFloorAvailable(2)}/30석</p>
-              </div>
-              <div className="seats-three">
-                <h4>B3</h4>
-                <TfiLayoutLineSolid className="line" />
-                <p>{getFloorAvailable(3)}/30석</p>
-
+          <div className="seats">
+            <div className="seats-one">
+              <h4>B1</h4>
+              <TfiLayoutLineSolid className="line" />
+              <p>{getFloorAvailable(1)}/30석</p>
+            </div>
+            <div className="seats-two">
+              <h4>B2</h4>
+              <TfiLayoutLineSolid className="line" />
+              <p>{getFloorAvailable(2)}/30석</p>
+            </div>
+            <div className="seats-three">
+              <h4>B3</h4>
+              <TfiLayoutLineSolid className="line" />
+              <p>{getFloorAvailable(3)}/30석</p>
             </div>
           </div>
         </div>
@@ -80,7 +82,9 @@ const MainPage = () => {
         <div className="reservation-wrap">
           <h3>예약</h3>
           <div className="reservation">
-            <p>시간 맞춰 딱! <br/> 사전 예약으로 편리하게</p>
+            <p>
+              시간 맞춰 딱! <br /> 사전 예약으로 편리하게
+            </p>
             <button
               onClick={() => {
                 navigate("/booking1");
@@ -93,7 +97,9 @@ const MainPage = () => {
         <div className="ticket-wrap">
           <h3>정기권 구매</h3>
           <div className="ticket">
-            <p>한 번 결제로 한 달! <br/> 편하게 이용하세요</p>
+            <p>
+              한 번 결제로 한 달! <br /> 편하게 이용하세요
+            </p>
             <button
               onClick={() => {
                 navigate("/season1");
@@ -113,7 +119,9 @@ const MainPage = () => {
         </div>
         <div className="infor">
           <div className="infor-text">
-            <p>매번 찾지 말고, <br/> 고정된 자리로 편하게 주차하세요</p>
+            <p>
+              매번 찾지 말고, <br /> 고정된 자리로 편하게 주차하세요
+            </p>
             <button
               onClick={() => {
                 navigate("/information");
