@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import Step from "./Step";
 import ParkingImg from "./ParkingImg";
 import SeasonBox1 from "./SeasonBox1";
@@ -163,12 +163,16 @@ const Season1 = () => {
         <ParkingImg reserved={reserved} floor={floor} />
         <button
           onClick={() => {
+
             if (!available) {
               alert("해당 기간에 예약 가능한 주차 공간이 없습니다.");
               return;
             }
+
+           
             navigate("/Season2", {
-              state: { start, end, type, price, floor, reserved }
+              state: { start, end, durationType: type, price, floor, reserved }
+
             });
           }}
         >

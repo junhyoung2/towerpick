@@ -45,7 +45,6 @@ const MainPage = () => {
     <div className="main-page">
       {/* 공통헤더 */}
       <Header prev_path="/mainpage" prev_title="홈" />
-
       {/* 주차구역 / 위치 및 잔여석 */}
       <div className="section-one">
         <div className="parking-area-wrap">
@@ -76,7 +75,6 @@ const MainPage = () => {
           </div>
         </div>
       </div>
-
       {/* 예약 / 정기권 */}
       <div className="section-two">
         <div className="reservation-wrap">

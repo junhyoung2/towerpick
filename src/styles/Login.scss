@@ -21,15 +21,14 @@
     label {
       @include font-medium;
       color: $color-black;
-
     }
-
     input {
       @include font-basic;
       padding: 0.75rem 1rem;
       border: 2px solid $color-sub;
       border-radius: 6px;
       outline: none;
+
 
       &::placeholder {
         color: #999;
@@ -82,6 +81,7 @@
   .signup {
     margin-top: 55px;
 
+
     a {
       @include font-medium;
       color: $color-sub;
@@ -92,4 +92,4 @@
       }
     }
   }
-}
+

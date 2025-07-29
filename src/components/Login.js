@@ -6,18 +6,20 @@ const Login = () => {
   const [userId,setUserId] = useState('');
   const [userPw, setUserPw] = useState('');
   const navigate = useNavigate();
-  const handleLogin = async ()=>{    
+  const handleLogin = async ()=>{
     const {data,error} = await fetchLogin(userId.trim(), userPw.trim());
     if( error ) {
       alert("로그인이 오류가 발생하였습니다.");
-      return;      
+      return;
+
     }
     if( data ){
       getLoginInfo(data);  //로컬스토리지에 저장하여 사용합니다.
       navigate("/mainpage");
     }
   }
-  const getLoginInfo = (userInfo)=>{  
+
+  const getLoginInfo = (userInfo)=>{
     const saved = JSON.stringify(userInfo);
     localStorage.setItem("towerpick",saved);
   }
@@ -55,10 +57,8 @@ const Login = () => {
         <Link to="#">아이디 찾기</Link>
         <Link to="#">비밀번호 찾기</Link>
       </div>
-
       <button className="login-button" onClick={handleLogin}>로그인</button>
-
-      <div className="social-login">        
+      <div className="social-login">
         <img src={`${process.env.PUBLIC_URL}/images/sns/kakao.png`} alt="Kakao Login" />
         <img src={`${process.env.PUBLIC_URL}/images/sns/naver.png`} alt="Naver Login" />
         <img src={`${process.env.PUBLIC_URL}/images/sns/google.png`} alt="Google Login" />
