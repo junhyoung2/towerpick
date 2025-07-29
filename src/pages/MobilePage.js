@@ -18,29 +18,35 @@ import CancelPass from "../components/CancelPass";
 import CancelComplete from "../components/CancelComplete";
 
 const MobilePage = () => {
-  return (
-    <div id="mobile-page">
-      <Routes>
-        <Route path="/" element={<StartPage />}></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/agreepage" element={<AgreePage />}></Route>
-        <Route path="/joinpage" element={<JoinPage />}></Route>
-        <Route path="/mainpage" element={<MainPage />}></Route>
-        <Route path="/information" element={<Information />}></Route>
-        <Route path="/booking1" element={<Booking1 />}></Route>
-        <Route path="/booking2" element={<Booking2 />}></Route>
-        <Route path="/booking3" element={<Booking3 />}></Route>
-        <Route path="/season1" element={<Season1 />}></Route>
-        <Route path="/season2" element={<Season2 />}></Route>
-        <Route path="/season3" element={<Season3 />}></Route>
-        <Route path="/mypage" element={<MyPage />}></Route>
-        <Route path="/myReserve" element={<MyReserve />}></Route>
-        <Route path="/cancelgeneral" element={<CancelGeneral />}></Route>
-        <Route path="/cancelpass" element={<CancelPass />}></Route>
-        <Route path="/cancelcomplete" element={<CancelComplete />}></Route>
-      </Routes>
-    </div>
-  );
+    return (
+        <div id="mobile-page">
+            <Routes>
+                <Route path="/" element={<StartPage />}></Route>
+                <Route path="/login" element={<Login />}></Route>
+                <Route path="/agreepage" element={<AgreePage />}></Route>
+                <Route path="/joinpage" element={<JoinPage />}></Route>
+                <Route path="/mainpage" element={<MainPage />}></Route>
+                <Route path="/information" element={<Information />}></Route>
+                <Route path="/booking1" element={<Booking1 />}></Route>
+                <Route path="/booking2" element={<Booking2 />}></Route>
+                <Route path="/booking3" element={<Booking3 />}></Route>
+                <Route path="/season1" element={<Season1 />}></Route>
+                <Route path="/season2" element={<Season2 />}></Route>
+                <Route path="/season3" element={<Season3 />}></Route>
+                <Route path="/mypage" element={<MyPage />}></Route>
+                <Route path="/myReserve" element={<MyReserve />}></Route>
+                <Route
+                    path="/cancelgeneral"
+                    element={<CancelGeneral />}
+                ></Route>
+                <Route path="/cancelpass" element={<CancelPass />}></Route>
+                <Route
+                    path="/cancelcomplete"
+                    element={<CancelComplete />}
+                ></Route>
+            </Routes>
+        </div>
+    );
 };
 
 export default MobilePage;

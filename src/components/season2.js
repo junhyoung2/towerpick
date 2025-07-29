@@ -1,4 +1,4 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Header from "./Header";
 import Step from "./Step";
 import BookingBox2 from "./BookingBox2";
@@ -27,7 +27,7 @@ const Season2 = () => {
             const { data } = await getSpacesByFloor(floor);
             if (data) {
                 setReservedSlots(
-                    data.filter(d => d.is_reserved).map(d => d.slot_number)
+                    data.filter((d) => d.is_reserved).map((d) => d.slot_number)
                 );
             } else {
                 setReservedSlots([]);
@@ -69,12 +69,13 @@ const Season2 = () => {
                         const confirmed = window.confirm(message);
                         if (!confirmed) return;
 
-                        const { data: spaceList } = await getSpacesByFloor(floor);
+                        const { data: spaceList } = await getSpacesByFloor(
+                            floor
+                        );
                         const space = spaceList.find(
                             (space) => space.slot_number === selectedSlot
                         );
 
-                       
                         await insertPass(
                             userID,
                             space.id,
