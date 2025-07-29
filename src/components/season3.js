@@ -6,7 +6,7 @@ import Header from "./Header";
 import Navigate from "./Navigate";
 import { useNavigate, useLocation } from "react-router-dom";
 
-const Booking3 = () => {
+const Season3 = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -38,4 +38,4 @@ const Booking3 = () => {
     </div>
   );
 };
-export default Booking3;
+export default Season3;
