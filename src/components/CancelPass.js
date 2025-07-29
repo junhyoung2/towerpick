@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
@@ -6,7 +7,9 @@ import { cancelPass, getMyPasses } from "../utils/towerpickapi";
 
 const CancelPass = () => {
     const navigate = useNavigate();
-    const testUserID = "test_user_123"; // 실제 로그인 사용자 ID로 교체 필요
+
+    
+    const userID = "user-1";
 
     const [pass, setPass] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -18,30 +21,18 @@ const CancelPass = () => {
 
     useEffect(() => {
         const fetchPass = async () => {
-            const { data, error } = await getMyPasses(testUserID);
-            console.log("정기권 조회 결과:", data, error);
+            const { data, error } = await getMyPasses(userID);
+            console.log(" getMyPasses 결과:", data, error);
 
             if (data && data.length > 0) {
-                const passData = data[0];
-                setPass(passData);
-                calculateFee(passData);
-            } else {
-                //  테스트용 더미 데이터로 강제 표시
-                const dummy = {
-                    id: 1,
-                    space_id: 101,
-                    start_date: "2025-07-01",
-                    end_date: "2025-08-01",
-                    car_number: "12가3456",
-                    phone_number: "010-1234-5678",
-                    space_name: "Tower Pick",
-                    price: 30000,
-                };
-                setPass(dummy);
-                calculateFee(dummy);
+                const activePass = data.find(p => p.status === "active");
+                if (activePass) {
+                    setPass(activePass);
+                    calculateFee(activePass);
+                }
             }
 
-            setLoading(false); // 무조건 로딩 해제
+            setLoading(false);
         };
 
         fetchPass();
@@ -71,18 +62,23 @@ const CancelPass = () => {
     };
 
     const handleCancel = async () => {
-        await cancelPass(pass.id, pass.space_id); // 실제 DB 취소 처리
+        if (!pass) return;
+        await cancelPass(pass.id, pass.space_id);
         navigate("/cancelcomplete");
     };
 
-    if (loading || !pass) return <div>로딩 중...</div>;
+    if (loading) return <div>로딩 중...</div>;
+    if (!pass) return <div>정기권 예약 내역이 없습니다.</div>;
 
     return (
-        <div className="cancel-general">
-            <Header prev_path="/reservation" prev_title="정기권 예약 취소" />
+       <div>
+    <Header
+      prev_path="/reservation"
+      prev_title={<div style={{ width: "100%", textAlign: "center" }}>정기권 예약 취소</div>}
+    />
+            <div className="cancel-general">
             <p className="question">정기권을 취소하시겠습니까?</p>
 
-            {/*  첫 번째 박스: 예약 정보 */}
             <div className="info-section">
                 <div className="info-box">
                     <h2 className="info-title">예약 정보</h2>
@@ -97,20 +93,11 @@ const CancelPass = () => {
                         />
                     </div>
                     <div className="info-row">
-                        <label className="label">예약위치</label>
+                        <label className="label">예약 위치</label>
                         <input
                             className="value-box"
                             type="text"
-                            value={pass.space_name || "Tower Pick"}
-                            readOnly
-                        />
-                    </div>
-                    <div className="info-row">
-                        <label className="label">휴대폰번호</label>
-                        <input
-                            className="value-box"
-                            type="text"
-                            value={pass.phone_number || "010-0000-0000"}
+                            value={`층: ${pass.spaces?.floor ?? ""}, 번호: ${pass.spaces?.slot_number ?? ""}`}
                             readOnly
                         />
                     </div>
@@ -119,13 +106,12 @@ const CancelPass = () => {
                         <input
                             className="value-box"
                             type="text"
-                            value={pass.car_number || "미입력"}
+                            value="조회 불가 (members와 연결되지 않음)"
                             readOnly
                         />
                     </div>
                 </div>
 
-                {/*  두 번째 박스: 취소 정보 */}
                 <div className="info-box">
                     <div className="info-row">
                         <label className="label">취소사유</label>
@@ -184,7 +170,6 @@ const CancelPass = () => {
                 </div>
             </div>
 
-            {/* 버튼 영역 */}
             <div className="button-group">
                 <button className="btn confirm" onClick={handleCancel}>
                     예
@@ -194,7 +179,6 @@ const CancelPass = () => {
                 </button>
             </div>
 
-            {/* 안내 사항 */}
             <div className="cancel-warning">
                 <h4>정기권 취소 전 반드시 확인해 주세요</h4>
                 <ul>
@@ -226,7 +210,7 @@ const CancelPass = () => {
                     </li>
                 </ul>
             </div>
-
+            </div>
             <Navigate />
         </div>
     );
