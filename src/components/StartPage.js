@@ -1,12 +1,9 @@
 import { useNavigate } from "react-router-dom";
-
 const StartPage = () => {
   const navigate = useNavigate();
-
   const handleStartClick = () => {
     navigate("/login");
   };
-
   return (
     <div className="start-page">
       <img
@@ -19,7 +16,6 @@ const StartPage = () => {
         alt="타워 이미지"
         className="main-image"
       />
-
       <div className="welcome-text">
         <h1>환영합니다!</h1>
         <p>
@@ -30,12 +26,10 @@ const StartPage = () => {
           빠르고 편리한 주차를 이용해보세요
         </p>
       </div>
-
       <button className="start-button" onClick={handleStartClick}>
         시작하기
       </button>
     </div>
   );
 };
-
 export default StartPage;
