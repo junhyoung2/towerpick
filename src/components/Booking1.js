@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Step from "./Step";
 import ParkingImg from "./ParkingImg";
 import BookingBox1 from "./BookingBox1";
