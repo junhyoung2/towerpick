@@ -188,7 +188,7 @@ export const insertPass = async (userID, spaceID, durationType, startDate, endDa
   //가격처리
   const priceMap = {
     '1m' : 200000,
-    '2m' : 600000,
+    '3m' : 600000,
     '6m' : 1100000,
     '12m' : 2000000
   }

@@ -25,7 +25,7 @@ const Login = () => {
     return (
         <div className="login-page">
             <img
-                src={`${process.env.PUBLIC_URL}images/logo_blue.png`}
+                src={`${process.env.PUBLIC_URL}/images/logo_blue.png`}
                 alt="TowerPick 로고"
                 className="logo"
             />

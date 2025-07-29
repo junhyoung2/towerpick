@@ -10,12 +10,12 @@ const StartPage = () => {
     return (
         <div className="start-page">
             <img
-                src={`${process.env.PUBLIC_URL}images/logo_blue.png`}
+                src={`${process.env.PUBLIC_URL}/images/logo_blue.png`}
                 alt="TowerPick 로고"
                 className="logo"
             />
             <img
-                src={`${process.env.PUBLIC_URL}images/startpagebg.jpg`}
+                src={`${process.env.PUBLIC_URL}/images/startpagebg.jpg`}
                 alt="타워 이미지"
                 className="main-image"
             />
