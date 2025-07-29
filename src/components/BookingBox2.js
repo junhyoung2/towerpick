@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ParkingMapB1 from "./ParkingMapB1";
 import ParkingMapB2B3 from "./ParkingMapB2B3";
 
@@ -28,6 +28,7 @@ const BookingBox2 = ({
   selectedSlot,
   setSelectedSlot,
 }) => {
+
   // 로그인 유저 정보
   const [userInfo, setUserInfo] = useState({ phone: "", car_number: "" });
 
@@ -81,13 +82,13 @@ const BookingBox2 = ({
           <div className="form-row">
             <div className="form-label">휴대폰번호</div>
             <div className="form-input">
-              <p>{userInfo.phone}</p>
+
             </div>
           </div>
           <div className="form-row">
             <div className="form-label">차량번호</div>
             <div className="form-input">
-              <p>{userInfo.car_number}</p>
+
             </div>
           </div>
           <div className="form-row">

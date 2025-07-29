@@ -4,10 +4,12 @@
   align-items: center;
   padding: 0 20px;
   margin-top: 80px;
+
   .logo {
     width: 280px;
     margin-bottom: 45px;
   }
+
   .input-group {
     width: 100%;
     max-width: 360px;
@@ -15,6 +17,7 @@
     flex-direction: column;
     gap: 0.4rem;
     margin-bottom: 1rem;
+
     label {
       @include font-medium;
       color: $color-black;
@@ -25,14 +28,18 @@
       border: 2px solid $color-sub;
       border-radius: 6px;
       outline: none;
+
+
       &::placeholder {
         color: #999;
       }
+
       &:focus {
         border-color: $color-main;
       }
     }
   }
+
   .links {
     display: flex;
     justify-content: space-between;
@@ -43,37 +50,46 @@
       @include font-basic;
       color: $color-sub;
       text-decoration: none;
+
       &:hover {
         text-decoration: underline;
       }
     }
   }
+
   .login-button {
     @include btn-style();
   }
+
   .social-login {
     display: flex;
     gap: 1rem;
     margin-top: 2rem;
+
     img {
       width: 48px;
       height: 48px;
       cursor: pointer;
       transition: transform 0.2s;
+
       &:hover {
         transform: translateY(-2px);
       }
     }
   }
+
   .signup {
     margin-top: 55px;
+
+
     a {
       @include font-medium;
       color: $color-sub;
       text-decoration: none;
+
       &:hover {
         text-decoration: underline;
       }
     }
   }
-}
+

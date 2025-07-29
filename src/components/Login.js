@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchLogin } from "../utils/towerpickapi";
+
 const Login = () => {
   const [userId,setUserId] = useState('');
   const [userPw, setUserPw] = useState('');
@@ -10,12 +11,14 @@ const Login = () => {
     if( error ) {
       alert("로그인이 오류가 발생하였습니다.");
       return;
+
     }
     if( data ){
       getLoginInfo(data);  //로컬스토리지에 저장하여 사용합니다.
       navigate("/mainpage");
     }
   }
+
   const getLoginInfo = (userInfo)=>{
     const saved = JSON.stringify(userInfo);
     localStorage.setItem("towerpick",saved);
@@ -27,6 +30,7 @@ const Login = () => {
         alt="TowerPick 로고"
         className="logo"
       />
+
       <div className="input-group">
         <label htmlFor="userId">아이디</label>
         <input
@@ -37,6 +41,7 @@ const Login = () => {
           placeholder="아이디를 입력해주세요"
         />
       </div>
+
       <div className="input-group">
         <label htmlFor="password">비밀번호</label>
         <input
@@ -47,6 +52,7 @@ const Login = () => {
           placeholder="비밀번호를 입력해주세요"
         />
       </div>
+
       <div className="links">
         <Link to="#">아이디 찾기</Link>
         <Link to="#">비밀번호 찾기</Link>
@@ -63,4 +69,5 @@ const Login = () => {
     </div>
   );
 };
+
 export default Login ;

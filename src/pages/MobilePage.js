@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import StartPage from "../components/StartPage";
 import Login from "../components/Login";
-// import AgreePage from "../components/AgreePage";
-// import JoinPage from "../components/JoinPage";
+import AgreePage from "../components/AgreePage";
+import JoinPage from "../components/JoinPage";
 import MainPage from "../components/MainPage";
 import Information from "../components/Information";
 import Booking1 from "../components/Booking1";

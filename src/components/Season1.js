@@ -163,14 +163,16 @@ const Season1 = () => {
         <ParkingImg reserved={reserved} floor={floor} />
         <button
           onClick={() => {
-          
+
             if (!available) {
               alert("해당 기간에 예약 가능한 주차 공간이 없습니다.");
               return;
             }
+
            
             navigate("/Season2", {
               state: { start, end, durationType: type, price, floor, reserved }
+
             });
           }}
         >

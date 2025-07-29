@@ -19,7 +19,6 @@ const ParkingMapB1 = ({
   onSelectSlot = () => {},
 }) => {
 
-
   return (
     <div className="parking-map">
       <div className="top-grid">

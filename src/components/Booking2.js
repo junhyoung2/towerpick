@@ -14,6 +14,7 @@ const Booking2 = () => {
   const location = useLocation();
   const [price, setPrice] = useState(location.state?.price || 0);
 
+
   // 층/선택 슬롯
   const [floor, setFloor] = useState(1);
   const [selectedSlot, setSelectedSlot] = useState(null);

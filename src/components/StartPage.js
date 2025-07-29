@@ -1,9 +1,14 @@
 import { useNavigate } from "react-router-dom";
+
+
 const StartPage = () => {
   const navigate = useNavigate();
+
   const handleStartClick = () => {
     navigate("/login");
   };
+
+
   return (
     <div className="start-page">
       <img
@@ -16,6 +21,7 @@ const StartPage = () => {
         alt="타워 이미지"
         className="main-image"
       />
+
       <div className="welcome-text">
         <h1>환영합니다!</h1>
         <p>
@@ -32,4 +38,5 @@ const StartPage = () => {
     </div>
   );
 };
+
 export default StartPage;

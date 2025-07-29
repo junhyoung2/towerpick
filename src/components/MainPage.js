@@ -9,8 +9,10 @@ import { TbDisabled } from "react-icons/tb";
 import { MdElectricCar } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { getAvailableSpacesByFloor } from "../utils/towerpickapi";
+
 const MainPage = () => {
   const navigate = useNavigate();
+
   //층별 잔여석 선언 함수
   const [floorData, setFloorData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,15 +29,18 @@ const MainPage = () => {
     };
     fetchDate();
   }, []);
+
   //층별 데이터 불러오기 함수
   const getFloorAvailable = (floorNumber) => {
     const floor = floorData.find((f) => f.floor === floorNumber);
     return floor ? floor.available : 0;
   };
+
   //잔여석 데이터 로딩 중 함수
   if (loading) {
     return <div className="alert">로딩 중...</div>;
   }
+
   return (
     <div className="main-page">
       {/* 공통헤더 */}
@@ -103,6 +108,7 @@ const MainPage = () => {
           </div>
         </div>
       </div>
+
       {/* 이용 안내 */}
       <div className="information">
         <div className="infor-header">
@@ -131,6 +137,7 @@ const MainPage = () => {
           </div>
         </div>
       </div>
+
       {/* B1 주차 안내 */}
       <div className="parking-b1">
         <div className="b1-box">
@@ -159,6 +166,7 @@ const MainPage = () => {
         </div>
         <img src="images/homebg/homebg_b2.jpg" art="B2 주차장 이미지" />
       </div>
+
       {/* 푸터 */}
       <footer className="footer">
         <p>이벤트</p>
@@ -178,4 +186,5 @@ const MainPage = () => {
     </div>
   );
 };
+
 export default MainPage;

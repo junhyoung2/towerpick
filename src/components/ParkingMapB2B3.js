@@ -15,7 +15,7 @@ const ParkingMapB2B3 = ({
   selected = null,
   onSelectSlot = () => {},
 }) => {
-   
+
 
   return (
     <div className="parking-map">
