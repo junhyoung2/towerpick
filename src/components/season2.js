@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState, useEffect } from "react";
 import Header from "./Header";
 import Step from "./Step";
 import BookingBox2 from "./BookingBox2";
@@ -7,65 +7,101 @@ import BookingPlace from "./BookingPlace";
 import Guide2 from "./Guide2";
 import Navigate from "./Navigate";
 import { useNavigate, useLocation } from "react-router-dom";
+import { getSpacesByFloor, insertPass } from "../utils/towerpickapi";
 
 const Season2 = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [price, setPrice] = useState(location.state?.price || 0);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [price, setPrice] = useState(location.state?.price || 0);
 
-  // **층 정보도 state로 관리**
-  const [floor, setFloor] = useState(1);
-  const [selectedSlot, setSelectedSlot] = useState(null);
+    // 층 정보 state
+    const [floor, setFloor] = useState(1);
+    const [selectedSlot, setSelectedSlot] = useState(null);
 
-  const reservedSlots = location.state?.reserved || [];
+    // reservedSlots를 state로 따로 관리 (층 바뀔 때마다 동기화)
+    const [reservedSlots, setReservedSlots] = useState([]);
 
-  // 이전단계의 start/end(예약일시)도 반드시 전달해야 함
-  const { start, end } = location.state || {};
-
-  return (
-    <div>
-      <Header prev_path="/season1" prev_title="정기권 구매" />
-      <div className="booking2">
-        <h2 className="booking-title">구매 신청</h2>
-        <Step />
-        {/* setFloor도 넘겨줘야 BookingBox2에서 층 변경 가능 */}
-        <BookingBox2
-          start={start}
-          end={end}
-          setPrice={setPrice}
-          floor={floor}
-          setFloor={setFloor}
-          reservedSlots={reservedSlots}
-          selectedSlot={selectedSlot}
-          setSelectedSlot={setSelectedSlot}
-        />
-        <BookingPlace selectedSlot={selectedSlot} />
-        <Price2 price={price} />
-        <button
-          onClick={() => {
-            if (!selectedSlot) {
-              alert("자리를 선택하세요");
-              return;
+    // 층 바뀔 때마다 해당 층 예약 슬롯 fetch → setReservedSlots
+    useEffect(() => {
+        const fetchReserved = async () => {
+            const { data } = await getSpacesByFloor(floor);
+            if (data) {
+                setReservedSlots(
+                    data.filter(d => d.is_reserved).map(d => d.slot_number)
+                );
+            } else {
+                setReservedSlots([]);
             }
+        };
+        fetchReserved();
+        setSelectedSlot(null);
+    }, [floor]);
 
-            navigate("/Season3", {
-              state: {
-                start,
-                end,
-                price,
-                floor,
-                slot: selectedSlot,
-              },
-            });
-          }}
-        >
-          예약하기
-        </button>
-        <Guide2 />
-      </div>
-      <Navigate />
-    </div>
-  );
+    // 예약일시 데이터
+    const { start, end, durationType } = location.state || {};
+
+    return (
+        <div>
+            <Header prev_path="/season1" prev_title="정기권 구매" />
+            <div className="booking2">
+                <h2 className="booking-title">구매 신청</h2>
+                <Step />
+                <BookingBox2
+                    start={start}
+                    end={end}
+                    setPrice={setPrice}
+                    floor={floor}
+                    setFloor={setFloor}
+                    reservedSlots={reservedSlots}
+                    selectedSlot={selectedSlot}
+                    setSelectedSlot={setSelectedSlot}
+                />
+                <BookingPlace selectedSlot={selectedSlot} floor={floor} />
+                <Price2 price={price} />
+                <button
+                    onClick={async () => {
+                        const raw = localStorage.getItem("towerpick");
+                        const user = raw ? JSON.parse(raw) : null;
+                        const userID = user?.member_id;
+
+                        const message = `예약 정보를 확인해주세요.\n\n입차: ${start}\n출차: ${end}\n가격: ${price?.toLocaleString()}원\n\n예약을 진행할까요?`;
+
+                        const confirmed = window.confirm(message);
+                        if (!confirmed) return;
+
+                        const { data: spaceList } = await getSpacesByFloor(floor);
+                        const space = spaceList.find(
+                            (space) => space.slot_number === selectedSlot
+                        );
+
+                       
+                        await insertPass(
+                            userID,
+                            space.id,
+                            durationType,
+                            start,
+                            end
+                        );
+
+                        navigate("/booking3", {
+                            state: {
+                                start,
+                                end,
+                                durationType,
+                                price,
+                                floor,
+                                slot: selectedSlot,
+                            },
+                        });
+                    }}
+                >
+                    예약하기
+                </button>
+                <Guide2 />
+            </div>
+            <Navigate />
+        </div>
+    );
 };
 
 export default Season2;
