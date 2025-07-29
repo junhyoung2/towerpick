@@ -2,9 +2,8 @@ import "./app.scss";
 import { useState, useEffect } from "react";
 import MobilePage from "./pages/MobilePage";
 import TabletPage from "./pages/TabletPage";
-import { BrowserRouter } from "react-router-dom";
-import Header from "./components/Header";
-import Navigate from "./components/Navigate";
+import { HashRouter } from "react-router-dom";
+
 
 const App = () => {
     //모바일,데스크탑 사이즈 지정
@@ -21,7 +20,7 @@ const App = () => {
         };
     }, []);
     return (
-        <BrowserRouter>
+        <HashRouter>
             <div id="app">
                 {isMobile ? (
                     <MobilePage isMobile={isMobile} />
@@ -29,7 +28,7 @@ const App = () => {
                     <TabletPage isMobile={isMobile} />
                 )}
             </div>
-        </BrowserRouter>
+        </HashRouter>
     );
 };
 export default App;

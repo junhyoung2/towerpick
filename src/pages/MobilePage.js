@@ -23,12 +23,12 @@ const MobilePage = () => {
       <Routes>
         <Route path="/" element={<StartPage />}></Route>
         <Route path="/login" element={<Login />}></Route>
-        {/* <Route path="/" element={<AgreePage />}></Route> */}
-        {/* <Route path="/" element={<JoinPage />}></Route> */}
+        <Route path="/agreepage" element={<AgreePage />}></Route>
+        <Route path="/joinpage" element={<JoinPage />}></Route>
         <Route path="/mainpage" element={<MainPage />}></Route>
         <Route path="/information" element={<Information />}></Route>
         <Route path="/booking1" element={<Booking1 />}></Route>
-        <Route path="/booking2" element={<Booking2 />}></Route>s
+        <Route path="/booking2" element={<Booking2 />}></Route>
         <Route path="/booking3" element={<Booking3 />}></Route>
         <Route path="/season1" element={<Season1 />}></Route>
         <Route path="/season2" element={<Season2 />}></Route>
