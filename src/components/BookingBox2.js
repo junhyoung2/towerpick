@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ParkingMapB1 from "./ParkingMapB1";
 import ParkingMapB2B3 from "./ParkingMapB2B3";
-
 const FLOOR_LIST = [1, 2, 3];
-
 const slotClassMapB1 = {
   1: "slot-pink",
   2: "slot-pink",
@@ -18,7 +16,6 @@ const slotClassMapB1 = {
   9: "slot-blue",
   10: "slot-blue",
 };
-
 const BookingBox2 = ({
   start,
   end,
@@ -28,10 +25,8 @@ const BookingBox2 = ({
   selectedSlot,
   setSelectedSlot,
 }) => {
-
   // 로그인 유저 정보
   const [userInfo, setUserInfo] = useState({ phone: "", car_number: "" });
-
   useEffect(() => {
     try {
       const raw = localStorage.getItem("towerpick");
@@ -46,7 +41,6 @@ const BookingBox2 = ({
       setUserInfo({ phone: "-", car_number: "-" });
     }
   }, []);
-
   const format = (dt) => {
     if (!dt) return "";
     const d = new Date(dt);
@@ -55,7 +49,6 @@ const BookingBox2 = ({
       d.getMonth() + 1
     )}.${pad(d.getDate())}.${pad(d.getHours())}.${pad(d.getMinutes())}`;
   };
-
   const handleFloorChange = (e) => {
     setFloor(Number(e.target.value));
   };
@@ -63,9 +56,7 @@ const BookingBox2 = ({
     if (reservedSlots.includes(n)) return;
     setSelectedSlot(n);
   };
-
   const slotClassMap = floor === 1 ? slotClassMapB1 : {};
-
   return (
     <div>
       <div className="booking-box">
@@ -82,13 +73,13 @@ const BookingBox2 = ({
           <div className="form-row">
             <div className="form-label">휴대폰번호</div>
             <div className="form-input">
-
+              <p>{userInfo.phone}</p>
             </div>
           </div>
           <div className="form-row">
             <div className="form-label">차량번호</div>
             <div className="form-input">
-
+              <p>{userInfo.car_number}</p>
             </div>
           </div>
           <div className="form-row">
@@ -124,5 +115,4 @@ const BookingBox2 = ({
     </div>
   );
 };
-
 export default BookingBox2;
