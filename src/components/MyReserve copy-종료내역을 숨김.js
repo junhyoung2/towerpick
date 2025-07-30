@@ -3,7 +3,6 @@ import Header from "./Header";
 import { getMyBookings } from "../utils/towerpickapi";
 import Navigate from "./Navigate";
 import { TbParkingCircle } from "react-icons/tb";
-import { useNavigate } from "react-router-dom";
 
 
 
@@ -11,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 const MyReserve = ({onCancel}) => {
   const [myReserve,setMyReserve] = useState([]);
   const [user,setUser] = useState([]);
-  const navigate = useNavigate('');
 
   const activebooking = myReserve.filter(item => item.status === 'active');
   const notactivebooking = myReserve.filter(item => item.status !== 'active');
@@ -100,11 +98,11 @@ const formatDateTime = (fullDateTimeString) => {
                   item.status === 'active' ? (
                   <button
                     className="now-btn"
-                    onClick={()=>{navigate("/cancelgeneral")
-                    // onCancel({
-                    //   bookingId : item.id,
-                    //   spaceId : item.space_id
-                    // })
+                    onClick={()=>{
+                    onCancel({
+                      bookingId : item.id,
+                      spaceId : item.space_id
+                    })
                     }}
                   >예약취소</button>) : ""
                 }
@@ -120,11 +118,14 @@ const formatDateTime = (fullDateTimeString) => {
   //종료된 예약 - 예약 내역이 없으면 안보이고 있으면 보임
   const endBooking = (myReserve) => {
     if (myReserve.length === 0) {
-      return (
-        <p className="not-bookings-message">주차 내역이 없습니다.</p>
-      );
+      return null;
     }
     return (
+      <div className="end-list">
+        <div className="end-txt">
+          <h3>종료된 예약</h3>
+        </div>
+        <div className="end-reserve">
           <ul>
             {
               myReserve.map((item) => {
@@ -144,6 +145,8 @@ const formatDateTime = (fullDateTimeString) => {
               })
             }
           </ul>
+        </div>
+      </div>
     );
   };
 
@@ -159,14 +162,7 @@ const formatDateTime = (fullDateTimeString) => {
             {nowBooking(activebooking)}
           </div>
         </div>
-        <div className="end-list">
-          <div className="end-txt">
-            <h3>종료된 예약</h3>
-          </div>
-          <div className="end-reserve">
-            {endBooking(notactivebooking)}
-          </div>
-        </div>
+        {endBooking(notactivebooking)}
       </div>
       <Navigate />
     </div>

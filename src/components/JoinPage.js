@@ -7,6 +7,7 @@ const JoinPage = () => {
     const [userpw, setUserpw] = useState("");
     const [userpwre, setUserpwre] = useState("");
     const [userphone, setUserphone] = useState("");
+    const [usercar, setUserCar] = useState("");
     const [isMatch, setIsMatch] = useState(false);
     const navigate = useNavigate();
 
@@ -19,11 +20,11 @@ const JoinPage = () => {
     }, [userpw, userpwre]);
 
     const handleClick = async () => {
-        if (!userid && !userpw && !userphone && !isMatch) {
+        if (!userid && !userpw && !userphone && !usercar && !isMatch) {
             return;
         }
         //회원가입 실행
-        const { data, error } = await fetchSignUp(userid, userpw, userphone);
+        const { data, error } = await fetchSignUp(userid, userpw, userphone, usercar);
         if (error) {
             alert("회원 가입시 오류가 발생했습니다");
             return;
@@ -94,6 +95,18 @@ const JoinPage = () => {
                             setUserphone(e.target.value);
                         }}
                         placeholder="휴대폰 번호를 입력해주세요"
+                    />
+                </label>
+                <label>
+                    <span>차량 번호</span>
+                    <input
+                        required
+                        type="text"
+                        value={usercar}
+                        onChange={(e) => {
+                            setUserCar(e.target.value);
+                        }}
+                        placeholder="차량 번호를 입력해주세요"
                     />
                 </label>
             </div>
