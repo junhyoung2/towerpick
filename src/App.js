@@ -20,7 +20,7 @@ const App = () => {
         };
     }, []);
     return (
-        <BrowserRouter>
+        <HashRouter>
             <div id="app">
                 {isMobile ? (
                     <MobilePage isMobile={isMobile} />
@@ -28,7 +28,7 @@ const App = () => {
                     <TabletPage isMobile={isMobile} />
                 )}
             </div>
-        </BrowserRouter>
+        </HashRouter>
     );
 };
 export default App;

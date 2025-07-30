@@ -11,8 +11,8 @@ import Booking3 from "../components/Booking3";
 import Season1 from "../components/Season1";
 import Season2 from "../components/Season2";
 import Season3 from "../components/Season3";
-import MyPage from "../components/MyPage";
 import MyReserve from "../components/MyReserve";
+import MyPage from "../components/MyPage";
 import CancelGeneral from "../components/CancelGeneral";
 import CancelPass from "../components/CancelPass";
 import CancelComplete from "../components/CancelComplete";
@@ -38,13 +38,12 @@ const MobilePage = () => {
                 <Route path="/season1" element={<Season1 />}></Route>
                 <Route path="/season2" element={<Season2 />}></Route>
                 <Route path="/season3" element={<Season3 />}></Route>
+                <Route path="/myReserve" element={<MyReserve />}></Route>
                 <Route path="/mypage" element={<MyPage />}></Route>
-                {/* <Route path="/myReserve" element={<MyReserve />}></Route> */}
-                <Route
-                    path="/myReserve"
-                    element={<MyReserve onCancel={handleCancel} />} />
-
                 {/* <Route
+                    path="/myReserve"
+                    element={<MyReserve onCancel={handleCancel} />} /> */}
+                <Route
                     path="/cancelgeneral"
                     element={<CancelGeneral />}
                 ></Route>
@@ -52,15 +51,12 @@ const MobilePage = () => {
                 <Route
                     path="/cancelcomplete"
                     element={<CancelComplete />}
-                ></Route> */}
-                <Route path="/cancelgeneral" element={<CancelGeneral />} />
+                ></Route>
+                {/* <Route path="/cancelgeneral" element={<CancelGeneral />} />
                 <Route path="/cancelgeneral/complete" element={<CancelComplete />} />
 
                 <Route path="/cancelpass" element={<CancelPass />} />
-                <Route path="/cancelpass/complete" element={<CancelComplete />} />
-
-                <Route path="/cancelcomplete" element={<CancelComplete />} /> {/* 기존 필요하면 유지 */}
-
+                <Route path="/cancelpass/complete" element={<CancelComplete />} /> */}
             </Routes>
         </div>
     );

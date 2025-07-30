@@ -68,7 +68,7 @@ const Season2 = () => {
                         const raw = localStorage.getItem("towerpick");
                         const user = raw ? JSON.parse(raw) : null;
                         const userID = user?.member_id;
-                        const message = `예약 정보를 확인해주세요.\n\n입차일시 : ${formatDate(start)}\n출차일시 : ${formatDate(end)}\n결제금액 : ${price?.toLocaleString()}원\n\n예약을 진행할까요?`;
+                        const message = `예약 정보를 확인해주세요.\n\n입차일시 : ${formatDate(start)}\n출차일시 : ${formatDate(end)}\n선택자리 : B${floor}층 ${selectedSlot}번\n결제금액 : ${price?.toLocaleString()}원\n\n예약을 진행할까요?`;
                         const confirmed = window.confirm(message);
                         if (!confirmed) return;
                         const { data: spaceList } = await getSpacesByFloor(
