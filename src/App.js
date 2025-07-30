@@ -2,7 +2,7 @@ import "./app.scss";
 import { useState, useEffect } from "react";
 import MobilePage from "./pages/MobilePage";
 import TabletPage from "./pages/TabletPage";
-import { HashRouter } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 
 
 const App = () => {
@@ -20,7 +20,7 @@ const App = () => {
         };
     }, []);
     return (
-        <HashRouter>
+        <BrowserRouter>
             <div id="app">
                 {isMobile ? (
                     <MobilePage isMobile={isMobile} />
@@ -28,7 +28,7 @@ const App = () => {
                     <TabletPage isMobile={isMobile} />
                 )}
             </div>
-        </HashRouter>
+        </BrowserRouter>
     );
 };
 export default App;

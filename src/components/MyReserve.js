@@ -107,7 +107,7 @@ const MyReserve = ({ onCancel }) => {
                                     {item.status === "active" ? (
                                         <button
                                             onClick={() => {
-                                                navigator("/cancelcomplete");
+                                                navigate("/cancelcomplete");
                                                 onCancel({
                                                     bookingId: item.id,
                                                     spaceId: item.space_id,
