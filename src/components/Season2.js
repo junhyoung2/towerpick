@@ -13,14 +13,11 @@ const Season2 = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [price, setPrice] = useState(location.state?.price || 0);
-
     // 층 정보 state
     const [floor, setFloor] = useState(1);
     const [selectedSlot, setSelectedSlot] = useState(null);
-
     // reservedSlots를 state로 따로 관리 (층 바뀔 때마다 동기화)
     const [reservedSlots, setReservedSlots] = useState([]);
-
     // 층 바뀔 때마다 해당 층 예약 슬롯 fetch → setReservedSlots
     useEffect(() => {
         const fetchReserved = async () => {
@@ -36,9 +33,17 @@ const Season2 = () => {
         fetchReserved();
         setSelectedSlot(null);
     }, [floor]);
-
     // 예약일시 데이터
     const { start, end, durationType } = location.state || {};
+    //얼랏 표기
+    const formatDate = (str) => {
+        if (!str) return "";
+        const d = new Date(str);
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, "0");
+        const dd = String(d.getDate()).padStart(2, "0");
+        return `${yyyy}-${mm}-${dd}`;
+    };
 
     return (
         <div>
@@ -63,19 +68,15 @@ const Season2 = () => {
                         const raw = localStorage.getItem("towerpick");
                         const user = raw ? JSON.parse(raw) : null;
                         const userID = user?.member_id;
-
-                        const message = `예약 정보를 확인해주세요.\n\n입차: ${start}\n출차: ${end}\n가격: ${price?.toLocaleString()}원\n\n예약을 진행할까요?`;
-
+                        const message = `예약 정보를 확인해주세요.\n\n입차일시 : ${formatDate(start)}\n출차일시 : ${formatDate(end)}\n결제금액 : ${price?.toLocaleString()}원\n\n예약을 진행할까요?`;
                         const confirmed = window.confirm(message);
                         if (!confirmed) return;
-
                         const { data: spaceList } = await getSpacesByFloor(
                             floor
                         );
                         const space = spaceList.find(
                             (space) => space.slot_number === selectedSlot
                         );
-
                         await insertPass(
                             userID,
                             space.id,
@@ -83,7 +84,6 @@ const Season2 = () => {
                             start,
                             end
                         );
-
                         navigate("/booking3", {
                             state: {
                                 start,

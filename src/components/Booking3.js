@@ -15,7 +15,7 @@ const Booking3 = () => {
 
     return (
         <div>
-            <Header prev_path="/booking2" prev_title="예약" />
+            <Header prev_path="/mainpage" prev_title="예약" />
             <div className="booking3">
                 <h2 className="booking-title">예약 완료</h2>
                 <Step />

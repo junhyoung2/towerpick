@@ -59,9 +59,10 @@
       input.date,
       select {
         width: 230px;
-        padding: 10px;
+        height: 35px;
         display: block;
         text-align: center;
+        line-height: 35px;
         border: none;
         border-radius: 10px;
         background-color: $font-color;

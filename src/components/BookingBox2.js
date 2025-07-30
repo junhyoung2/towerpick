@@ -24,6 +24,7 @@ const BookingBox2 = ({
     reservedSlots = [],
     selectedSlot,
     setSelectedSlot,
+    isInfo,
 }) => {
     // 로그인 유저 정보
     const [userInfo, setUserInfo] = useState({ phone: "", car_number: "" });
@@ -45,9 +46,14 @@ const BookingBox2 = ({
         if (!dt) return "";
         const d = new Date(dt);
         const pad = (n) => n.toString().padStart(2, "0");
-        return `${d.getFullYear().toString().slice(2)}.${pad(
+        let strTemp = `${d.getFullYear().toString().slice(2)}. ${pad(
             d.getMonth() + 1
-        )}.${pad(d.getDate())}.${pad(d.getHours())}.${pad(d.getMinutes())}`;
+        )}. ${pad(d.getDate())}`;
+        if (isInfo) {
+            //사전예약
+            strTemp += ` ${pad(d.getHours())}: ${pad(d.getMinutes())}`;
+        }
+        return strTemp;
     };
     const handleFloorChange = (e) => {
         setFloor(Number(e.target.value));
@@ -66,7 +72,7 @@ const BookingBox2 = ({
                         <div className="form-label">예약일시</div>
                         <div className="form-input">
                             <p>
-                                {format(start)}~{format(end)}
+                                {format(start)} ~ {format(end)}
                             </p>
                         </div>
                     </div>

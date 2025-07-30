@@ -19,12 +19,12 @@ export const fetchLogin = async (userID, userPW) => {
 
 /** 
  * 2. 회원가입
- * 가입할 때 입력항목은 다음과 같음 : 사용자 아이디, 비밀번호, 핸드폰 번호 
+ * 가입할 때 입력항목은 다음과 같음 : 사용자 아이디, 비밀번호, 핸드폰 번호, 차량 번호
 */
-export const fetchSignUp = async (userID, userPW, phone) => {
+export const fetchSignUp = async (userID, userPW, phone, carnum) => {
   const { error } = await supabase
     .from('members')
-    .insert([{ member_id: userID, password:userPW, phone }]);
+    .insert([{ member_id: userID, password:userPW, phone , car_number:carnum }]);
   return { data: !error, error };
 };
 

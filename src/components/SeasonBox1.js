@@ -14,7 +14,7 @@ const SeasonBox1 = ({
                 <div className="form-label">입차일시</div>
                 <div className="form-input">
                     <input
-                        type="datetime-local"
+                        type="date"
                         className="date"
                         value={start}
                         onChange={(e) => onDateChange(e.target.value)}

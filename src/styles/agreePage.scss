@@ -1,67 +1,80 @@
-.agree-page{
-  // width: 100vw;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
-  input {
-    appearance: none;
-    width: 32px;
-    height: 32px;
-    border: 5PX solid $color-sub;
-    border-radius: 15px;
-    outline: none;
-  }
-  [type="checkbox"]:checked {
-    border-color: $color-sub;
-    background-color: $color-sub;
-  }
-  hr{
+.agree-page {
     width: 100%;
-    margin: 1rem 0;
-    border: 2px solid $color-main;
-  }
-  ul{
+    height: 100%;
     display: flex;
     flex-direction: column;
-    li{
-      display: flex;
-      align-items: center;
-      gap: 15px;
+    justify-content: space-between;
+    input {
+        appearance: none;
+        width: 32px;
+        height: 32px;
+        border: 5px solid $color-sub;
+        border-radius: 15px;
+        outline: none;
     }
-  }
+    [type="checkbox"]:checked {
+        border-color: $color-sub;
+        background-color: $color-sub;
+    }
+    hr {
+        width: 412px;
+        margin: 20px 0;
+        padding: 0;
+        border: 2px solid $color-main;
+    }
+    ul {
+        display: flex;
+        flex-direction: column;
+        padding: 0 20px;
+        li {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 10px 0;
+        }
+    }
 }
 
-.agree-title{
-  margin-top: 5rem;
-  h1{
-    @include font-large;
-  }
-  h3{
-    margin-top: 1rem;
-    @include font-medium;
-  }
+.agree-title {
+    padding: 0 20px;
+    margin-top: 125px;
+    h1 {
+        @include font-large;
+    }
+    h3 {
+        margin-top: 1rem;
+        @include font-medium;
+    }
 }
 
-.terms{
-  width: 100%;
-  line-height: 3rem;
-  color: $color-black;
+.terms {
+    width: 100%;
+    color: $color-black;
 }
 
-.agree-all{
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.agree-all {
+    width: 100%;
+    margin-top: 20px;
+    padding: 0 20px;
+    color: $color-black;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.icon{
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+.icon {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
-.next-btn{
-  @include btn-style;
+.next-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+    button {
+        text-align: center;
+        @include btn-style;
+    }
 }

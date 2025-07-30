@@ -64,6 +64,9 @@ p {
         transform: rotate(90deg);
         color: $color-gray;
       }
+      h4,p{
+        color: $font-color;
+      }
     }
   }
 }
