@@ -3,14 +3,18 @@ import Header from "./Header";
 import { getMyBookings } from "../utils/towerpickapi";
 import Navigate from "./Navigate";
 import { TbParkingCircle } from "react-icons/tb";
-import { useNavigate } from "react-router-dom";
 
-const MyReserve = () => {
+
+
+
+const MyReserve = ({onCancel}) => {
   const [myReserve,setMyReserve] = useState([]);
   const [user,setUser] = useState([]);
-  const navigate = useNavigate('');
+
   const activebooking = myReserve.filter(item => item.status === 'active');
   const notactivebooking = myReserve.filter(item => item.status !== 'active');
+  // console.log('원본 myReserve 배열:', myReserve);
+  // console.log('필터링된 notactivebooking 배열:', notactivebooking);
 
   // 예약 정보 가져옴
   useEffect(()=>{
@@ -23,6 +27,7 @@ const MyReserve = () => {
         return;
       }
       if( data ){
+        // console.log( data );
         setMyReserve(data);
       }
     }
@@ -47,6 +52,7 @@ const MyReserve = () => {
 // 헬퍼 함수
 // 날짜와 시간이 포함된 전체 문자열
 const formatDateTime = (fullDateTimeString) => {
+  // 전체 날짜+시간 문자열로 Date 객체를 만들어요.
   const dateTime = new Date(fullDateTimeString);
 
   // 유효한 Date 객체인지 확인
@@ -66,6 +72,7 @@ const formatDateTime = (fullDateTimeString) => {
 //**********************
 
   //******* */ 예약 목록을 렌더링하는 도우미 함수
+
   //현재 예약
   const nowBooking = (myReserve) => {
     if (myReserve.length === 0) {
@@ -77,6 +84,7 @@ const formatDateTime = (fullDateTimeString) => {
       <ul>
         {
           myReserve.map((item) => {
+            // console.log(item);
             return (
               <li key={item.id} className="now-listWrap">
                 <p className="now-status">{getStatusText(item.status)}</p>
@@ -90,7 +98,11 @@ const formatDateTime = (fullDateTimeString) => {
                   item.status === 'active' ? (
                   <button
                     className="now-btn"
-                    onClick={()=>{navigate("/cancelgeneral")
+                    onClick={()=>{
+                    onCancel({
+                      bookingId : item.id,
+                      spaceId : item.space_id
+                    })
                     }}
                   >예약취소</button>) : ""
                 }
@@ -106,11 +118,35 @@ const formatDateTime = (fullDateTimeString) => {
   //종료된 예약 - 예약 내역이 없으면 안보이고 있으면 보임
   const endBooking = (myReserve) => {
     if (myReserve.length === 0) {
-      return (
-        <p className="not-bookings-message">주차 내역이 없습니다.</p>
-      );
+      return null;
     }
     return (
+      <div className="end-list">
+        <div className="end-txt">
+          <h3>종료된 예약</h3>
+        </div>
+        <div className="end-reserve">
+          <ul>
+            {
+              myReserve.map((item) => {
+                console.log(item);
+                return (
+                  <li key={item.id} className="end-listWrap">
+                    <p className="end-status">{getStatusText(item.status)}</p>
+                    <p className="end-date">
+                      {formatDateTime(item.start_time)}<br /> ~ 
+                      {formatDateTime(item.end_time)} </p>
+                    <p className="end-space">
+                      <TbParkingCircle />
+                      {`${item.spaces.floor}층 - ${item.spaces.slot_number}번`
+                      }</p>  {/*주차 위치 표시*/}
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </div>
+      </div>
     );
   };
 
@@ -126,14 +162,7 @@ const formatDateTime = (fullDateTimeString) => {
             {nowBooking(activebooking)}
           </div>
         </div>
-        <div className="end-list">
-          <div className="end-txt">
-            <h3>종료된 예약</h3>
-          </div>
-          <div className="end-reserve">
-            {endBooking(notactivebooking)}
-          </div>
-        </div>
+        {endBooking(notactivebooking)}
       </div>
       <Navigate />
     </div>
