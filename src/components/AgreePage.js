@@ -4,11 +4,12 @@ import { FaChevronDown } from "react-icons/fa";
 
 const AgreePage = () => {
   const [agreeAll, setAgreeAll] = useState(false);
-    const [age, setAge] = useState(false);
+  const [age, setAge] = useState(false);
   const [terms, setTerms] = useState(false);
   const [privacy, setPrivacy] = useState(false);
   const [event, setEvent] = useState(false);
   const navigate = useNavigate('');
+
 
   useEffect(() => {
     const allAgreed = terms && age && privacy && event;

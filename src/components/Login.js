@@ -78,7 +78,7 @@ const Login = () => {
                 />
             </div>
             <div className="signup">
-                <a href="#">회원가입</a>
+                <Link to="/agreepage">회원가입</Link>
             </div>
         </div>
     );

@@ -10,7 +10,7 @@ const CancelComplete = () => {
                 <span className="check-mark"></span>
             </div>
             <p>예약이 취소 되었습니다.</p>
-            <button className="confirm-btn" onClick={() => navigate("/")}>
+            <button className="confirm-btn" onClick={() => navigate("/mainpage")}>
                 확인
             </button>
         </div>

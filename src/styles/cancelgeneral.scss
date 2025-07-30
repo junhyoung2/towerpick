@@ -142,29 +142,24 @@
 
 }
 .cancel-warning {
-  background-color: $color-sub;    
-       
-  padding: 20px;
-  border-radius: 12px;
-  margin: 20px 0;
-  font-family: 'Noto Sans KR', sans-serif;
-  color: $font-color;                  
-  h4 {
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 12px;
-    color: $font-color;              
-  }
-
+  padding: 10px;
+  margin: 20px 20px 0;
+  border-radius: 10px;
+  background-color: $color-sub;
+  color: $font-color;
+  @include font-small;         
+  // h4 {
+  //   font-size: 14px;
+  //   font-weight: 600;
+  //   margin-bottom: 12px;
+  //   color: $font-color;              
+  // }
   ul {
-    list-style: disc;
-    padding-left: 20px;
+      margin-top: 20px;
 
     li {
-      font-size: 14px;
-      line-height: 1.6;
-      margin-bottom: 6px;
-      color: $font-color;         
+      margin-top: 10px;
+      word-break: keep-all;      
     }
   }
 }

@@ -1,6 +1,7 @@
 const BookingBox1 = ({ start, end, onDateChange }) => (
     <div className="booking-box">
         <div className="booking-title">주차장 예약</div>
+       
         <div className="booking-form">
             <div className="form-row">
                 <div className="form-label">입차일시</div>

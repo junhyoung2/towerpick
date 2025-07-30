@@ -2,7 +2,7 @@ import "./app.scss";
 import { useState, useEffect } from "react";
 import MobilePage from "./pages/MobilePage";
 import TabletPage from "./pages/TabletPage";
-import { HashRouter } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 
 
 const App = () => {

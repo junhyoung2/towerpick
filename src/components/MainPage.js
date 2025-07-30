@@ -154,7 +154,10 @@ const MainPage = () => {
                         <p>장애인 전용구역</p>
                     </div>
                 </div>
-                <img src={`${process.env.PUBLIC_URL}/images/homebg/homebg_b1.png`} art="B1 주차장 이미지" />
+                <img
+                    src={`${process.env.PUBLIC_URL}/images/homebg/homebg_b1.png`}
+                    art="B1 주차장 이미지"
+                />
             </div>
             {/* B2-B3 주차 안내 */}
             <div className="b2-box">
@@ -165,7 +168,10 @@ const MainPage = () => {
                     <MdElectricCar className="b2-icon" />
                     <p>전기차 충전구역</p>
                 </div>
-                <img src={`${process.env.PUBLIC_URL}/images/homebg/homebg_b2.jpg`} art="B2 주차장 이미지" />
+                <img
+                    src={`${process.env.PUBLIC_URL}/images/homebg/homebg_b2.jpg`}
+                    art="B2 주차장 이미지"
+                />
             </div>
 
             {/* 푸터 */}
@@ -180,7 +186,10 @@ const MainPage = () => {
                 <p>대표이사 : 소은경</p>
                 <p>주소 : 수원 팔달구 덕영대로 899 3층</p>
                 <p>대표번호 : 0507-1361-5225</p>
-                <img src={`${process.env.PUBLIC_URL}/images/footer_logo.png`} art="푸터 로고" />
+                <img
+                    src={`${process.env.PUBLIC_URL}/images/footer_logo.png`}
+                    art="푸터 로고"
+                />
                 <p>ⓒ2025 (TowerPick).All rights reserrved.</p>
             </footer>
             <Navigate />

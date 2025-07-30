@@ -7,36 +7,26 @@ import { cancelPass, getMyPasses } from "../utils/towerpickapi";
 const CancelPass = () => {
   const navigate = useNavigate();
 
-  // 유저 정보 (로그인한 유저 정보에서 아이디 추출)
-  const [userInfo, setUserInfo] = useState({ phone: "", car_number: "", userID: "" });
+  const userID = "user-1"; 
+
+  // 로컬스토리지에서 사용자 정보 가져오기
+  const storedUser = JSON.parse(localStorage.getItem("user")) || {};
+  const phone = storedUser.phone || "번호 없음";
+  const carNumber = storedUser.car_number || "차량 번호 없음";
+
   const [pass, setPass] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const [cancelReason, setCancelReason] = useState("");
   const [refundMethod, setRefundMethod] = useState("");
   const [cancelFee, setCancelFee] = useState(0);
   const [refundAmount, setRefundAmount] = useState(0);
 
   useEffect(() => {
-    try {
-      // 예시: "towerpick"에 아이디 포함되어 있다고 가정
-      const raw = localStorage.getItem("towerpick");
-      if (raw) {
-        const user = JSON.parse(raw);
-        setUserInfo({
-          phone: user.phone || "",
-          car_number: user.car_number || "",
-          userID: user.userID || user.id || user.member_id || "", // 실제 저장된 키에 맞게 수정
-        });
-      }
-    } catch (e) {
-      setUserInfo({ phone: "", car_number: "", userID: "" });
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!userInfo.userID) return;
     const fetchPass = async () => {
-      const { data } = await getMyPasses(userInfo.userID);
+      const { data, error } = await getMyPasses(userID);
+      console.log(" getMyPasses 결과:", data, error);
+
       if (data && data.length > 0) {
         const activePass = data.find((p) => p.status === "active");
         if (activePass) {
@@ -44,36 +34,34 @@ const CancelPass = () => {
           calculateFee(activePass);
         }
       }
+
       setLoading(false);
     };
+
     fetchPass();
-    // eslint-disable-next-line
-  }, [userInfo.userID]);
+  }, []);
 
   const calculateFee = (passData) => {
     const start = new Date(passData.start_date);
     const end = new Date(passData.end_date);
     const now = new Date();
+
     const totalDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
     const usedDays = now < start ? 0 : Math.ceil((now - start) / (1000 * 60 * 60 * 24));
+
     let refund = 0;
+
     if (now < start) {
       refund = passData.price;
     } else {
       const remainingDays = Math.max(totalDays - usedDays, 0);
       refund = passData.price * (remainingDays / totalDays) * 0.8;
     }
+
     const fee = passData.price - refund;
     setRefundAmount(Math.round(refund));
     setCancelFee(Math.round(fee));
   };
-
-  function format(dt) {
-    if (!dt) return "";
-    const d = new Date(dt);
-    const pad = n => n.toString().padStart(2, "0");
-    return `${d.getFullYear().toString().slice(2)}.${pad(d.getMonth() + 1)}.${pad(d.getDate())}`;
-  }
 
   const handleCancel = async () => {
     if (!pass) return;
@@ -89,40 +77,39 @@ const CancelPass = () => {
       <Header prev_path="/MyReserve" prev_title={<div style={{ width: "100%", textAlign: "center" }}>정기권 예약 취소</div>} />
       <div className="cancel-general">
         <p className="question">정기권을 취소하시겠습니까?</p>
+
         <div className="info-section">
           <div className="info-box">
             <h2 className="info-title">예약 정보</h2>
 
             <div className="info-row">
               <label className="label">예약일시</label>
-              <input
-                className="value-box"
-                type="text"
-                value={`${format(pass.start_date)}~${format(pass.end_date)}`}
-                readOnly
-              />
+              <input className="value-box" type="text" value={new Date(pass.start_date).toLocaleString()} readOnly />
             </div>
+
             <div className="info-row">
               <label className="label">예약 위치</label>
               <input
                 className="value-box"
                 type="text"
-                value={`B${pass.spaces?.floor ?? ""}층 ${pass.spaces?.slot_number ?? ""}번`}
+                value={`층: ${pass.spaces?.floor ?? ""}, 번호: ${pass.spaces?.slot_number ?? ""}`}
                 readOnly
               />
             </div>
+
+            {/* 휴대폰 번호 추가 */}
             <div className="info-row">
               <label className="label">휴대폰번호</label>
-              <input className="value-box" type="text" value={userInfo.phone} readOnly />
+              <input className="value-box" type="text" value={phone} readOnly />
             </div>
+
+            {/* 차량 번호 추가 */}
             <div className="info-row">
               <label className="label">차량번호</label>
-              <input className="value-box" type="text" value={userInfo.car_number} readOnly />
+              <input className="value-box" type="text" value={carNumber} readOnly />
             </div>
           </div>
 
-
-          
           <div className="info-box">
             <div className="info-row">
               <label className="label">취소사유</label>
@@ -133,6 +120,7 @@ const CancelPass = () => {
                 <option value="기타">기타</option>
               </select>
             </div>
+
             <div className="info-row">
               <label className="label">환불수단</label>
               <select className="value-box" value={refundMethod} onChange={(e) => setRefundMethod(e.target.value)}>
@@ -141,14 +129,17 @@ const CancelPass = () => {
                 <option value="계좌이체">계좌이체</option>
               </select>
             </div>
+
             <div className="info-row">
               <label className="label">환불예정금액</label>
               <input className="value-box" type="text" value={`${refundAmount.toLocaleString()}원`} readOnly />
             </div>
+
             <div className="info-row fee">
               <label className="label">취소수수료</label>
               <input className="value-box" type="text" value={`${cancelFee.toLocaleString()}원`} readOnly />
             </div>
+
             <div className="tower-box">
               <div className="icon">🅿️</div>
               <div className="text">
@@ -168,36 +159,44 @@ const CancelPass = () => {
           </button>
         </div>
 
-        <div className="cancel-warning">
-          <ul>
-            <li>
-              정기권 취소 전 반드시 확인해 주세요
-            </li>
-            <li>
-              - 정기권 취소는 이용 시작 1시간 전까지 무료로 가능하며,
-              이후에는 남은 이용 기간을 기준으로 환불 금액이 산정됩니다.
-            </li>
-            <li>
-              - 사용 개시 후 환불 요청 시, 정기권 정가 기준으로 실제 이용 일수를 제외한 금액의 80%만 환불되며, 나머지 20%는 수수료로 공제됩니다.
-            </li>
-            <li>
-              - 결제 수단 및 정기권 조건에 따라 환불 처리 기간은 최대 7~14일 소요될 수 있습니다.
-            </li>
-            <li>
-              - 취소 후 재예약을 원하실 경우, 다시 예약 절차를 진행해 주셔야 합니다.
-            </li>
-            <li>
-              - 부정 예약, 무단 변경, 허위 정보 입력 등은 예약 취소 및 서비스 이용 제한의 사유가 될 수 있습니다.
-            </li>
-            <li>
-              기타 문의사항은 고객센터(1234-1234)로 언제든지 연락 주세요.
-            </li>
-          </ul>
+
+
+
+                <div className="cancel-warning">
+                    <h4>정기권 취소 전 반드시 확인해 주세요</h4>
+                    <ul>
+                        <li>
+                            - 정기권 취소는 이용 시작 1시간 전까지 무료로 가능하며,
+                            이후에는 남은 이용 기간을 기준으로 환불 금액이
+                            산정됩니다.
+                        </li>
+                        <li>
+                            - 사용 개시 후 환불 요청 시, 정기권 정가 기준으로 실제
+                            이용 일수를 제외한 금액의 80%만 환불되며, 나머지 20%는
+                            수수료로 공제됩니다.
+                        </li>
+                        <li>
+                            - 결제 수단 및 정기권 조건에 따라 환불 처리 기간은 최대
+                            7~14일 소요될 수 있습니다.
+                        </li>
+                        <li>
+                            - 취소 후 재예약을 원하실 경우, 다시 예약 절차를 진행해
+                            주셔야 합니다.
+                        </li>
+                        <li>
+                            - 부정 예약, 무단 변경, 허위 정보 입력 등은 예약 취소 및
+                            서비스 이용 제한의 사유가 될 수 있습니다.
+                        </li>
+                        <li>
+                            기타 문의사항은 고객센터(1234-1234)로 언제든지 연락
+                            주세요.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <Navigate />
         </div>
-      </div>
-      <Navigate />
-    </div>
-  );
+    );
 };
 
 export default CancelPass;

@@ -26,7 +26,7 @@ const JoinPage = () => {
         //회원가입 실행
         const { data, error } = await fetchSignUp(userid, userpw, userphone, usercar);
         if (error) {
-            alert("회원 가입시 오류가 발생했습니다");
+            alert("중복된 아이디입니다 다른 아이디를 사용해 주세요");
             return;
         }
         if (data) {
@@ -79,7 +79,7 @@ const JoinPage = () => {
                         placeholder="비밀번호를 다시 입력해주세요"
                     />
                 </label>
-                <p style={{ color: isMatch ? "green" : "red" }}>
+                <p className="password-coment" style={{ color: isMatch ? "green" : "red" }}>
                     {userpwre.length > 0 &&
                         (isMatch
                             ? "*비밀번호가 일치합니다"

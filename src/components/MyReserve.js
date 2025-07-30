@@ -9,11 +9,8 @@ const MyReserve = () => {
   const [myReserve,setMyReserve] = useState([]);
   const [user,setUser] = useState([]);
   const navigate = useNavigate('');
-
   const activebooking = myReserve.filter(item => item.status === 'active');
   const notactivebooking = myReserve.filter(item => item.status !== 'active');
-  // console.log('원본 myReserve 배열:', myReserve);
-  // console.log('필터링된 notactivebooking 배열:', notactivebooking);
 
   // 예약 정보 가져옴
   useEffect(()=>{
@@ -114,26 +111,6 @@ const formatDateTime = (fullDateTimeString) => {
       );
     }
     return (
-          <ul>
-            {
-              myReserve.map((item) => {
-                console.log(item);
-                return (
-                  <li key={item.id} className="end-listWrap">
-                    <p className="end-status">{getStatusText(item.status)}</p>
-                    <p className="end-date">
-                      {formatDateTime(item.start_time)}<br /> ~ 
-                      {formatDateTime(item.end_time)} </p>
-                    {/*주차 위치 표시*/}
-                    <p className="end-space">
-                      <TbParkingCircle />
-                      {`${item.spaces.floor}층 - ${item.spaces.slot_number}번`
-                      }</p>
-                  </li>
-                );
-              })
-            }
-          </ul>
     );
   };
 

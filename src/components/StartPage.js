@@ -3,10 +3,6 @@ import { useNavigate } from "react-router-dom";
 const StartPage = () => {
     const navigate = useNavigate();
 
-    const handleStartClick = () => {
-        navigate("/login");
-    };
-
     return (
         <div className="start-page">
             <img
@@ -30,7 +26,7 @@ const StartPage = () => {
                     빠르고 편리한 주차를 이용해보세요
                 </p>
             </div>
-            <button className="start-button" onClick={handleStartClick}>
+            <button className="start-button" onClick={() => navigate("/login")}>
                 시작하기
             </button>
         </div>
