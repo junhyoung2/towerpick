@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
@@ -7,8 +6,12 @@ import { getMyBookings } from "../utils/towerpickapi";  // 예약 API 함수
 
 const CancelGeneral = () => {
   const navigate = useNavigate();
+  const userID = "user-1"; // 실제 로그인 사용자 ID
 
-  const testUserID = "user-1"; // 실제 로그인 사용자 ID로 변경 필요
+  //  로컬스토리지에서 사용자 정보 가져오기
+  const storedUser = JSON.parse(localStorage.getItem("user")) || {};
+  const phone = storedUser.phone || "번호 없음";
+  const carNumber = storedUser.car_number || "차량 번호 없음";
 
   const [bookingData, setBookingData] = useState(null);
   const [cancelReason, setCancelReason] = useState("");
@@ -17,18 +20,19 @@ const CancelGeneral = () => {
 
   useEffect(() => {
     const fetchBooking = async () => {
-      const { data, error } = await getMyBookings(testUserID);
+      const { data, error } = await getMyBookings(userID);
       if (error || !data || data.length === 0) {
         setBookingData(null);
         return;
       }
-      const recentBooking = data[0]; // 가장 최근 예약 1건 선택
 
-      // 임시 추가 필드 예시 (MyReserve에서 보여주는 내용과 동일하게 맞춤)
+      const recentBooking = data[0];
+
+      //  예약 데이터에 사용자 정보 병합
       const dummy = {
         ...recentBooking,
-        car_number: "12가1234", // 실제 회원 차량번호로 변경 필요
-        phone_number: "010-1111-1111", // 실제 회원 번호로 변경 필요
+        phone_number: phone,
+        car_number: carNumber,
         space_name: `지하 ${recentBooking.spaces.floor}층 - ${recentBooking.spaces.slot_number}번`
       };
 
@@ -42,14 +46,12 @@ const CancelGeneral = () => {
     navigate("/cancelgeneral/complete");
   };
 
-  if (!bookingData) {
-    return <div>예약 내역이 없습니다.</div>;
-  }
+  if (!bookingData) return <div>예약 내역이 없습니다.</div>;
 
   return (
     <div>
       <Header
-        prev_path="/myReserve"
+        prev_path="/MyReserve"
         prev_title={<div style={{ width: "100%", textAlign: "center" }}>예약 취소</div>}
       />
       <div className="cancel-general">
@@ -61,50 +63,29 @@ const CancelGeneral = () => {
 
             <div className="info-row">
               <label className="label">예약일시</label>
-              <input
-                className="value-box"
-                type="text"
-                value={new Date(bookingData.start_time).toLocaleString()}
-                readOnly
-              />
+              <input className="value-box" type="text" value={new Date(bookingData.start_time).toLocaleString()} readOnly />
             </div>
+
             <div className="info-row">
               <label className="label">예약위치</label>
-              <input
-                className="value-box"
-                type="text"
-                value={bookingData.space_name}
-                readOnly
-              />
+              <input className="value-box" type="text" value={bookingData.space_name} readOnly />
             </div>
+
             <div className="info-row">
               <label className="label">휴대폰번호</label>
-              <input
-                className="value-box"
-                type="text"
-                value={bookingData.phone_number}
-                readOnly
-              />
+              <input className="value-box" type="text" value={bookingData.phone_number} readOnly />
             </div>
+
             <div className="info-row">
               <label className="label">차량번호</label>
-              <input
-                className="value-box"
-                type="text"
-                value={bookingData.car_number}
-                readOnly
-              />
+              <input className="value-box" type="text" value={bookingData.car_number} readOnly />
             </div>
           </div>
 
           <div className="info-box">
             <div className="info-row">
               <label className="label">취소사유</label>
-              <select
-                className="value-box"
-                value={cancelReason}
-                onChange={(e) => setCancelReason(e.target.value)}
-              >
+              <select className="value-box" value={cancelReason} onChange={(e) => setCancelReason(e.target.value)}>
                 <option value="">선택하세요</option>
                 <option value="일정변경">일정변경</option>
                 <option value="개인사정">개인사정</option>
@@ -114,11 +95,7 @@ const CancelGeneral = () => {
 
             <div className="info-row">
               <label className="label">환불수단</label>
-              <select
-                className="value-box"
-                value={refundMethod}
-                onChange={(e) => setRefundMethod(e.target.value)}
-              >
+              <select className="value-box" value={refundMethod} onChange={(e) => setRefundMethod(e.target.value)}>
                 <option value="">선택하세요</option>
                 <option value="신용카드">신용카드</option>
                 <option value="계좌이체">계좌이체</option>
@@ -127,12 +104,7 @@ const CancelGeneral = () => {
 
             <div className="info-row">
               <label className="label">환불예정금액</label>
-              <input
-                className="value-box"
-                type="text"
-                value={`${bookingData.price?.toLocaleString() || "0"}원`}
-                readOnly
-              />
+              <input className="value-box" type="text" value={`${bookingData.price?.toLocaleString() || "0"}원`} readOnly />
             </div>
 
             <div className="info-row fee">
@@ -151,13 +123,10 @@ const CancelGeneral = () => {
         </div>
 
         <div className="button-group">
-          <button className="btn confirm" onClick={handleCancel}>
-            예
-          </button>
-          <button className="btn cancel" onClick={() => navigate(-1)}>
-            아니요
-          </button>
-        </div>
+          <button className="btn confirm" onClick={handleCancel}>예</button>
+          <button className="btn cancel" onClick={() => navigate(-1)}>아니요</button>
+        </div>     
+
 
         <div className="cancel-warning">
                 <h4>예약 취소 전 반드시 확인해 주세요</h4>
