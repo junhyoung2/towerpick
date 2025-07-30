@@ -92,6 +92,7 @@ const Season2 = () => {
                                 price,
                                 floor,
                                 slot: selectedSlot,
+                                
                             },
                         });
                     }}

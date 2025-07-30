@@ -191,7 +191,7 @@ const Booking1 = () => {
                             return;
                         }
                         navigate("/booking2", {
-                            state: { start, end, price, floor, reserved },
+                            state: { start, end, price, floor, reserved, isInfo: true},
                         });
                     }}
                 >

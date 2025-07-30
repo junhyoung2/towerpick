@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ParkingMapB1 from "./ParkingMapB1";
 import ParkingMapB2B3 from "./ParkingMapB2B3";
+
 const FLOOR_LIST = [1, 2, 3];
 const slotClassMapB1 = {
     1: "slot-pink",
@@ -16,6 +17,7 @@ const slotClassMapB1 = {
     9: "slot-blue",
     10: "slot-blue",
 };
+
 const BookingBox2 = ({
     start,
     end,
@@ -24,10 +26,11 @@ const BookingBox2 = ({
     reservedSlots = [],
     selectedSlot,
     setSelectedSlot,
-    isInfo,
+    isInfo, // 일반예약 true, 정기권 false
 }) => {
-    // 로그인 유저 정보
+    // 유저 정보 가져오기
     const [userInfo, setUserInfo] = useState({ phone: "", car_number: "" });
+
     useEffect(() => {
         try {
             const raw = localStorage.getItem("towerpick");
@@ -42,27 +45,31 @@ const BookingBox2 = ({
             setUserInfo({ phone: "-", car_number: "-" });
         }
     }, []);
+
+    // 날짜 포맷 함수 (일반예약: yy.mm.dd.hh.mm / 정기권: yy.mm.dd)
     const format = (dt) => {
-        if (!dt) return "";
-        const d = new Date(dt);
-        const pad = (n) => n.toString().padStart(2, "0");
-        let strTemp = `${d.getFullYear().toString().slice(2)}. ${pad(
-            d.getMonth() + 1
-        )}. ${pad(d.getDate())}`;
-        if (isInfo) {
-            //사전예약
-            strTemp += ` ${pad(d.getHours())}: ${pad(d.getMinutes())}`;
-        }
-        return strTemp;
-    };
+    if (!dt) return "";
+    const d = new Date(dt);
+    const pad = (n) => n.toString().padStart(2, "0");
+    let strTemp = `${d.getFullYear().toString().slice(2)}.${pad(d.getMonth() + 1)}.${pad(d.getDate())}`;
+    if (isInfo) {
+        strTemp += `.${pad(d.getHours())}.${pad(d.getMinutes())}`;
+    }
+    return strTemp;
+};
+
+
     const handleFloorChange = (e) => {
         setFloor(Number(e.target.value));
     };
+
     const handleSelectSlot = (n) => {
         if (reservedSlots.includes(n)) return;
         setSelectedSlot(n);
     };
+
     const slotClassMap = floor === 1 ? slotClassMapB1 : {};
+
     return (
         <div>
             <div className="booking-box">
@@ -72,7 +79,7 @@ const BookingBox2 = ({
                         <div className="form-label">예약일시</div>
                         <div className="form-input">
                             <p>
-                                {format(start)} ~ {format(end)}
+                                {format(start)}~{format(end)}
                             </p>
                         </div>
                     </div>
@@ -121,4 +128,5 @@ const BookingBox2 = ({
         </div>
     );
 };
+
 export default BookingBox2;

@@ -61,6 +61,7 @@ const Booking2 = () => {
                     reservedSlots={reservedSlots}
                     selectedSlot={selectedSlot}
                     setSelectedSlot={setSelectedSlot}
+                      isInfo={location.state?.isInfo} 
                 />
                 <BookingPlace selectedSlot={selectedSlot} floor={floor} />
                 <Price2 price={price} />

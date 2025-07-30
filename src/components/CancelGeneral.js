@@ -81,12 +81,17 @@ const CancelGeneral = () => {
 
             <div className="info-row">
               <label className="label">예약일시</label>
-              <input
-                className="value-box"
-                type="text"
-                value={`${format(bookingData.start_time)}~${format(bookingData.end_time)}`}
-                readOnly
-              />
+             <input
+  className="value-box"
+  type="text"
+  value={
+    bookingData
+      ? `${format(bookingData.start_time)}~${format(bookingData.end_time)}`
+      : ""
+  }
+  readOnly
+/>
+
             </div>
             <div className="info-row">
               <label className="label">예약위치</label>
