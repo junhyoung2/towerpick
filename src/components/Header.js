@@ -59,7 +59,7 @@ const Header = ({ prev_path, prev_title }) => {
                     <div className="login-info-wrap">
                         <p className="login-id">{userInfo.member_id} 님</p>
                         <p className="login-carnum">{userInfo.car_number}</p>
-                        <button onClick={handleLogout}>로그아웃</button>
+                        <button onClick={handleLogout}>로그아웃gka</button>
                     </div>
                 </div>
             </div>
