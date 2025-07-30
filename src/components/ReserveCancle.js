@@ -14,6 +14,7 @@ const ReserveCancle = () => {
         예약 취소
       </button>
     </div>
+    
   );
 };
 

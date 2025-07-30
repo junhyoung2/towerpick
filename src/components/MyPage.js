@@ -27,8 +27,6 @@ const MyPage = ({onCancel}) => {
     fetchData();
   },[]);
 
-  
-
   // 정기권 상태 글자를 한글로 변환
   const getStatusText = (item) => {
     let value = "";
@@ -43,9 +41,7 @@ const MyPage = ({onCancel}) => {
   };
   /////////////
 
-  // 🚀 myPass 배열에서 'active' 상태인 정기권만 필터링
   const activePasses = myPass.filter(item => item.status === 'active');
-  console.log("필터링된 activePasses:", activePasses); // 확인용 콘솔 로그
 
   // 정기권 기간(duration)별 분류
   const oneMonthPasses = myPass.filter(item => item.duration_type === '1m');

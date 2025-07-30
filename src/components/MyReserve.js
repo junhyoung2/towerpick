@@ -5,10 +5,7 @@ import Navigate from "./Navigate";
 import { TbParkingCircle } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 
-
-
-
-const MyReserve = ({onCancel}) => {
+const MyReserve = () => {
   const [myReserve,setMyReserve] = useState([]);
   const [user,setUser] = useState([]);
   const navigate = useNavigate('');
@@ -29,7 +26,6 @@ const MyReserve = ({onCancel}) => {
         return;
       }
       if( data ){
-        // console.log( data );
         setMyReserve(data);
       }
     }
@@ -54,7 +50,6 @@ const MyReserve = ({onCancel}) => {
 // 헬퍼 함수
 // 날짜와 시간이 포함된 전체 문자열
 const formatDateTime = (fullDateTimeString) => {
-  // 전체 날짜+시간 문자열로 Date 객체를 만들어요.
   const dateTime = new Date(fullDateTimeString);
 
   // 유효한 Date 객체인지 확인
@@ -74,7 +69,6 @@ const formatDateTime = (fullDateTimeString) => {
 //**********************
 
   //******* */ 예약 목록을 렌더링하는 도우미 함수
-
   //현재 예약
   const nowBooking = (myReserve) => {
     if (myReserve.length === 0) {
@@ -86,7 +80,6 @@ const formatDateTime = (fullDateTimeString) => {
       <ul>
         {
           myReserve.map((item) => {
-            // console.log(item);
             return (
               <li key={item.id} className="now-listWrap">
                 <p className="now-status">{getStatusText(item.status)}</p>
@@ -101,10 +94,6 @@ const formatDateTime = (fullDateTimeString) => {
                   <button
                     className="now-btn"
                     onClick={()=>{navigate("/cancelgeneral")
-                    // onCancel({
-                    //   bookingId : item.id,
-                    //   spaceId : item.space_id
-                    // })
                     }}
                   >예약취소</button>) : ""
                 }
@@ -135,10 +124,11 @@ const formatDateTime = (fullDateTimeString) => {
                     <p className="end-date">
                       {formatDateTime(item.start_time)}<br /> ~ 
                       {formatDateTime(item.end_time)} </p>
+                    {/*주차 위치 표시*/}
                     <p className="end-space">
                       <TbParkingCircle />
                       {`${item.spaces.floor}층 - ${item.spaces.slot_number}번`
-                      }</p>  {/*주차 위치 표시*/}
+                      }</p>
                   </li>
                 );
               })
