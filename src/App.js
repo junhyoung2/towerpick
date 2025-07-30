@@ -1,34 +1,70 @@
+import { HashRouter, Route, Routes } from "react-router-dom";
+import StartPage from "./components/StartPage";
+import Login from "./components/Login";
+import AgreePage from "./components/AgreePage";
+import JoinPage from "./components/JoinPage";
+import MainPage from "./components/MainPage";
+import Information from "./components/Information";
+import Booking1 from "./components/Booking1";
+import Booking2 from "./components/Booking2";
+import Booking3 from "./components/Booking3";
+import Season1 from "./components/Season1";
+import Season2 from "./components/Season2";
+import Season3 from "./components/Season3";
+import MyReserve from "./components/MyReserve";
+import MyPage from "./components/MyPage";
+import CancelGeneral from "./components/CancelGeneral";
+import CancelPass from "./components/CancelPass";
+import CancelComplete from "./components/CancelComplete";
 import "./app.scss";
-import { useState, useEffect } from "react";
-import MobilePage from "./pages/MobilePage";
-import TabletPage from "./pages/TabletPage";
-import { BrowserRouter, HashRouter } from "react-router-dom";
-
 
 const App = () => {
-    //모바일,데스크탑 사이즈 지정
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-    useEffect(() => {
-        const handleSize = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
-        handleSize();
-        //모바일,테블릿 사이즈 자동 변환(새로고침X)
-        window.addEventListener("resize", handleSize);
-        return () => {
-            window.addEventListener("resize", handleSize);
-        };
-    }, []);
+    // handleCancel 함수 정의
+    const handleCancel = () => {
+        // 취소 버튼 눌렀을 때 할 작업
+        console.log("예약 취소 처리 함수 호출됨");
+    };
     return (
         <HashRouter>
-            <div id="app">
-                {isMobile ? (
-                    <MobilePage isMobile={isMobile} />
-                ) : (
-                    <TabletPage isMobile={isMobile} />
-                )}
+        <div id="app">
+            <div id="mobile-page">
+                <Routes>
+                    <Route path="/" element={<StartPage />}></Route>
+                    <Route path="/login" element={<Login />}></Route>
+                    <Route path="/agreepage" element={<AgreePage />}></Route>
+                    <Route path="/joinpage" element={<JoinPage />}></Route>
+                    <Route path="/mainpage" element={<MainPage />}></Route>
+                    <Route path="/information" element={<Information />}></Route>
+                    <Route path="/booking1" element={<Booking1 />}></Route>
+                    <Route path="/booking2" element={<Booking2 />}></Route>
+                    <Route path="/booking3" element={<Booking3 />}></Route>
+                    <Route path="/season1" element={<Season1 />}></Route>
+                    <Route path="/season2" element={<Season2 />}></Route>
+                    <Route path="/season3" element={<Season3 />}></Route>
+                    <Route path="/myReserve" element={<MyReserve />}></Route>
+                    <Route path="/mypage" element={<MyPage />}></Route>
+                    {/* <Route
+                        path="/myReserve"
+                        element={<MyReserve onCancel={handleCancel} />} /> */}
+                    <Route
+                        path="/cancelgeneral"
+                        element={<CancelGeneral />}
+                    ></Route>
+                    <Route path="/cancelpass" element={<CancelPass />}></Route>
+                    <Route
+                        path="/cancelcomplete"
+                        element={<CancelComplete />}
+                    ></Route>
+                    {/* <Route path="/cancelgeneral" element={<CancelGeneral />} />
+                    <Route path="/cancelgeneral/complete" element={<CancelComplete />} />
+
+                    <Route path="/cancelpass" element={<CancelPass />} />
+                    <Route path="/cancelpass/complete" element={<CancelComplete />} /> */}
+                </Routes>
             </div>
+        </div>
         </HashRouter>
     );
 };
+
 export default App;
