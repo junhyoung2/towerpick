@@ -21,13 +21,13 @@ const sampleMyPassData = [
         status: "expired", // 만료된 정기권
         space_id: "locker_B2",
     },
-    // {
-    //   id: 'pass_003',
-    //   start_date: '2024-07-15 00:00',
-    //   end_date: '2024-08-14 00:00',
-    //   status: 'canceled', // 예약취소
-    //   space_id: 'locker_C3',
-    // },
+    {
+      id: 'pass_003',
+      start_date: '2024-07-15 00:00',
+      end_date: '2024-08-14 00:00',
+      status: 'canceled', // 예약취소
+      space_id: 'locker_C3',
+    },
 ];
 
 const MyReserve = ({ onCancel }) => {

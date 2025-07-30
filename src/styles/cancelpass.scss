@@ -1,55 +1,60 @@
 .cancel-pass {
-  padding: 24px;
+  width: 372px;
+  margin: 30px auto 0;
+  padding: 10px 10px 5px;
+  background-color: $color-sub;
+  border-radius: 10px;
+  color: $font-color;
   font-family: 'Noto Sans KR', sans-serif;
-  background-color: #fff;
-  color: $color-black;
 
   .question {
-    font-size: 16px;
-    color: $color-black;
-    margin: 25px 0;
     text-align: center;
+    margin: 25px 0 10px;
+    @include font-medium();
   }
 
   .info-section {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 
     .info-title {
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 700;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       padding-bottom: 6px;
-      border-bottom: 1px solid $font-color;
+      border-bottom: 1px solid $color-darkgray;
+      color: $font-color;
+      @include font-medium();
     }
 
     .info-box {
       background-color: $color-sub;
-      border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 20px;
+      border-radius: 10px;
+      padding: 15px 10px 10px;
+      margin-bottom: 15px;
 
       .info-row {
         display: flex;
-        flex-direction: row;
+        justify-content: space-between;
         align-items: center;
         margin-bottom: 15px;
 
         .label {
-          width: 100px;
-          font-size: 13px;
+          width: 95px;
+          @include font-basic();
           color: $font-color;
-          font-weight: 400;
+          margin-left: 20px;
         }
-
         .value-box {
-          flex: 1;
-          font-size: 14px;
-          color: $color-black;
-          background-color: $font-color;
-          border-radius: 6px;
-          padding: 10px;
+          width: 230px;
+          height: 35px;
+          display: block;
+          text-align: center;
+          line-height: 35px;
           border: none;
-          outline: none;
+          border-radius: 10px;
+          background-color: $font-color;
+          color: $color-darkgray;
+          @include font-small();
         }
 
         &.fee .value-box {
@@ -61,24 +66,23 @@
   }
 
   .button-group {
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 12px;
+    margin-top: 10px;
 
     .btn {
       width: 100%;
-      padding: 14px 0;
+      padding: 12px 0;
       font-size: 16px;
       font-weight: 700;
       border: none;
-      border-radius: 6px;
+      border-radius: 10px;
       cursor: pointer;
-    }
-
-    .confirm {
       background-color: $color-darkgray;
       color: $font-color;
-
+      transition: background 0.2s, color 0.2s;
       &:hover {
         background-color: $color-main;
         color: $color-black;
@@ -88,7 +92,6 @@
     .cancel {
       background-color: $color-darkgray;
       color: $font-color;
-
       &:hover {
         background-color: darken($color-gray, 10%);
       }
@@ -96,27 +99,27 @@
   }
 
   .cancel-warning {
+    width: 100%;
     background-color: $color-sub;
-    padding: 20px;
-    border-radius: 12px;
+    padding: 18px 10px 14px;
+    border-radius: 10px;
     margin: 20px 0;
-    font-family: 'Noto Sans KR', sans-serif;
     color: $font-color;
+    @include font-small();
 
     h4 {
       font-size: 14px;
       font-weight: 600;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       color: $font-color;
+      @include font-small();
     }
-
     ul {
-      list-style: disc;
+      margin-top: 10px;
       padding-left: 20px;
-
       li {
-        font-size: 14px;
-        line-height: 1.6;
+        font-size: 13px;
+        line-height: 1.5;
         margin-bottom: 6px;
         color: $font-color;
       }
@@ -124,27 +127,34 @@
   }
 }
 
-// ✅ 반응형 처리
+// 반응형 (booking 계열과 통일)
 @include tablet {
-  .info-row {
-    flex-direction: column;
-    align-items: flex-start;
+  .cancel-pass {
+    width: 100%;
+    min-width: unset;
+    padding: 8px;
 
-    .label {
-      width: 100%;
-      margin-bottom: 6px;
+    .info-section,
+    .cancel-warning {
+      padding: 0 2px;
     }
 
-    .value-box {
-      width: 100%;
+    .info-row {
+      flex-direction: column;
+      align-items: flex-start;
+      .label {
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 6px;
+      }
+      .value-box {
+        width: 100%;
+      }
     }
-  }
-
-  .button-group {
-    flex-direction: column;
-
-    .btn {
-      width: 100%;
+    .button-group {
+      .btn {
+        width: 100%;
+      }
     }
   }
 }
