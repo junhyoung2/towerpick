@@ -1,4 +1,4 @@
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes, useLocation } from "react-router-dom";
 import StartPage from "./components/StartPage";
 import Login from "./components/Login";
 import AgreePage from "./components/AgreePage";
@@ -17,15 +17,21 @@ import CancelGeneral from "./components/CancelGeneral";
 import CancelPass from "./components/CancelPass";
 import CancelComplete from "./components/CancelComplete";
 import "./app.scss";
+import { useEffect } from "react";
 
 const App = () => {
-    // handleCancel 함수 정의
-    const handleCancel = () => {
-        // 취소 버튼 눌렀을 때 할 작업
-        console.log("예약 취소 처리 함수 호출됨");
+    const ScrollToTop = () => {
+        const location = useLocation();
+        useEffect(()=>{
+            const container = document.getElementById("mobile-page");
+            if (container) {
+                container.scrollTop = 0;
+            }
+        },[location.pathname]);
     };
     return (
         <HashRouter>
+            <ScrollToTop />
             <div id="app">
                 <div id="mobile-page">
                     <Routes>
