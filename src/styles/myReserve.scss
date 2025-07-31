@@ -7,13 +7,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  overflow-y: scroll;
 } 
-
-//스크롤바 기능 유지, 스크롤바는 숨기기
-.my-reserve::-webkit-scrollbar {
-  display: none;
-}
 
 //** 예약 목록 섹션
 .now-list,
@@ -66,8 +60,10 @@
   }
 }
 
+
 .now-txt,
 .end-txt{
+  width: 110px;
   border-bottom: 1px solid $color-darkgray;
   h3{
     padding-bottom: 5px;
@@ -77,21 +73,14 @@
     
   }
 }
-.now-txt{
-  width: 110px;
-}
-.end-txt{
-  width: 131px;
-}
 
-//현재 예약
 .now-reserve{
-  height: 100%;
   position: relative;
   @include font-basic;
   .now-status{
     position: absolute;
     left: 20px;
+    padding-right: 20px;
   }
   .now-date{
     position: absolute;
@@ -103,12 +92,32 @@
     top: 65px;
     left: 80px;
   }
+  .now-status-r{
+    position: absolute;
+    right: 20px;
+  }
+  .bookingCancle-btn{
+    width: 80px;
+    height: 50px;
+    outline: none;
+    border: none;
+    background-color: $color-darkgray;
+    color: $font-color;
+    border-radius: 10px;
+    position: absolute;
+    right: 20px;
+    @include font-basic;
+    &:hover{
+      background-color: $color-main;
+      color: $color-black;
+    }
+  }
 }
 
 // 종료된 예약
 .end-reserve{
-  // height: 100px;
   position: relative;
+  @include font-basic;
   .end-status{
     position: absolute;
     left: 30px;
@@ -126,9 +135,54 @@
   }
 }
 
-.no-bookings-message,
+.not-booking{
+  margin-top: 20px;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: $font-color;
+  color: $color-darkgray;
+  border-radius: 10px;
+  @include font-basic;
+  .not-bookings-message{
+    // padding: 50px 0;
+    color: $font-color;
+    text-align: center;
+  }
+  button{
+    margin-top: 20px;
+    width: 240px;
+    height: 50px;
+    outline: none;
+    border: none;
+    background-color: $color-darkgray;
+    color: $font-color;
+    border-radius: 10px;
+    transition: background-color 0.25s;
+    @include font-basic;
+    &:hover{
+      background-color: $color-main;
+      color: $color-black;
+    }
+  }
+}
 .not-bookings-message{
   padding: 50px 0;
   color: $font-color;
   text-align: center;
+}
+
+.reserve-cancle{
+  position: sticky;
+  bottom: 45px;
+  padding: 20px 0;
+  background-color: $font-color;
+}
+
+.cancle-btn{
+  position: sticky;
+  left: 19px;
+  @include btn-style;
 }
