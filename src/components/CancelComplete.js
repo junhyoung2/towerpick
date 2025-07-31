@@ -7,7 +7,7 @@ const CancelComplete = () => {
     const navigate = useNavigate();
 
     return (
-        <div>
+        <div className="complete-all">
             <Header prev_path="/mainpage" prev_title="취소 완료" />
             <div className="cancel-complete">
                 <div className="complete-wrap">

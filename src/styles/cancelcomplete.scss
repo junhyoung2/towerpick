@@ -1,6 +1,11 @@
+.complete-all{
+    width: 100%;
+    height: 100%;
+}
 .cancel-complete {
     width: 100%;
-    height: 80vh;
+    height: calc(80vh - 212px);
+    margin-top: 80px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -10,6 +15,7 @@
         align-items: center;
         text-align: center;
         gap: 25px;
+        padding: 50px 0 80px;
         .complete-title {
             @include font-large;
         }
@@ -32,7 +38,7 @@
     }
     .complete-btn {
         width: 100%;
-        margin: 0 auto 60px;
+        margin: 0 auto;
         @include btn-style();
     }
 }
