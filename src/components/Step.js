@@ -1,9 +1,9 @@
-const Step = () => {
+const Step = ({currentStep}) => {
     return (
         <ul className="step">
-            <li className="1">step 1</li>
-            <li className="2">step 2</li>
-            <li className="3">step 3</li>
+            <li className={currentStep === 1 ? "active" : ""}>step 1</li>
+            <li className={currentStep === 2 ? "active" : ""}>step 2</li>
+            <li className={currentStep === 3 ? "active" : ""}>step 3</li>
         </ul>
     );
 };

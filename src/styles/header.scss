@@ -5,6 +5,7 @@
     justify-content: space-between;
     align-items: center;
     background-color: $color-main;
+    position: relative;
 }
 .head-title {
     @include font-medium;
@@ -20,8 +21,8 @@
 .side-menu {
     width: 150px;
     height: 180px;
-    position: fixed;
-    top: 140px;
+    position: absolute ;
+    top: 50px;
     right: -150px;
     // background-color: $color-main;
     border-radius: 10px;
@@ -30,7 +31,7 @@
     z-index: 10;
 }
 .side-menu.open {
-    right: 3px;
+    right: 0px;
 }
 
 .menu-content {

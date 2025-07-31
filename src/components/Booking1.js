@@ -173,7 +173,7 @@ const Booking1 = () => {
             <Header prev_path="/mainpage" prev_title="예약" />
             <div className="booking1">
                 <h2 className="booking-title">예약 일자 선택</h2>
-                <Step />
+                <Step currentStep={1} />
                 <BookingBox1
                     start={start}
                     end={end}

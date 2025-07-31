@@ -50,7 +50,7 @@ const Season2 = () => {
             <Header prev_path="/season1" prev_title="정기권 구매" />
             <div className="booking2">
                 <h2 className="booking-title">구매 신청</h2>
-                <Step />
+                <Step currentStep={2} />
                 <BookingBox2
                     start={start}
                     end={end}

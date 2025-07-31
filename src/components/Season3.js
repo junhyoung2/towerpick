@@ -18,7 +18,7 @@ const Season3 = () => {
             <Header prev_path="/mainpage" prev_title="정기권 구매" />
             <div className="booking3">
                 <h2 className="booking-title">구매 완료</h2>
-                <Step />
+                <Step currentStep={3} />
                 {/* 예약정보 props로 전달 */}
                 <BookingBox3
                     start={start}
