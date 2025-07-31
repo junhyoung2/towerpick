@@ -182,9 +182,7 @@ const Season1 = () => {
                 <button
                     onClick={() => {
                         if (!available) {
-                            alert(
-                                "해당 기간에 예약 가능한 주차 공간이 없습니다."
-                            );
+                            alert("입력 정보를 다시 확인해주세요.");
                             return;
                         }
 

@@ -187,7 +187,7 @@ const Booking1 = () => {
                 <button
                     onClick={() => {
                         if (!available) {
-                            alert("날짜를 확인해주세요.");
+                            alert("입력 정보를 다시 확인해주세요.");
                             return;
                         }
                         navigate("/booking2", {
