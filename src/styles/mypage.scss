@@ -2,23 +2,18 @@
   height: 100%;
 }
 .my-page{
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  overflow: auto;
-}
-
-//스크롤바 기능 유지, 스크롤바는 숨기기
-.my-page::-webkit-scrollbar {
-  display: none;
 }
 
 .my-modify{
   width: 372px;
   background-color: $color-sub;
   color: $font-color;
-  padding: 10px;
+  padding: 20px 10px;
   border-radius: 10px;
   margin-top: 20px;
   ul{
@@ -76,13 +71,13 @@
   width: 372px;
   background-color: $color-sub;
   color: $font-color;
-  padding: 15px 10px;
+  padding: 20px 10px;
   border-radius: 10px;;
-  margin-top: 20px;
+  margin: 20px 0;
 }
 
 .pass-buy{
-  margin: 20px 0;
+  margin-top: 20px;
   padding: 10px 0;
   display: flex;
   flex-direction: column;
@@ -96,6 +91,7 @@
     padding: 10px 0;
   }
   button{
+    margin-bottom: 10px;
     width: 240px;
     height: 50px;
     outline: none;
@@ -103,7 +99,12 @@
     background-color: $color-darkgray;
     color: $font-color;
     border-radius: 10px;
+    transition: background-color 0.25s;
     @include font-basic;
+    &:hover{
+      background-color: $color-main;
+      color: $color-black;
+    }
   }
 }
 
@@ -113,8 +114,8 @@
   position: relative;
 }
 .pass-list{
-  margin: 1rem 0;
-  padding: 1rem 2rem;
+  margin-top: 20px;
+  padding: 10px 25px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -129,21 +130,52 @@
     }
   }
 }
-.pass-status{
-  margin-right: 20px;
-  margin-top: 4px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80px;
-  height: 50px;
-  background-color: $color-darkgray;
-  color: $font-color;
-  border-radius: 10px;
-  position: absolute;
-  right: 0;
-  top: 26px;
+
+//리스트 데이터
+.pass-list{
+  width: 352px;
+  height: 100px;
+  position: relative;
   @include font-basic;
+  .pass-month{
+    position: absolute;
+    top: 30px;
+  }
+  .pass-date{
+    position: absolute;
+    top: 18px;
+    left: 100px;
+  }
+  .pass-price{
+    position: absolute;
+    top: 65px;
+    left: 100px;
+  }
+  .pass-status,
+  .passCancle-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 50px;
+    background-color: $color-darkgray;
+    color: $font-color;
+    border-radius: 10px;
+    position: absolute;
+    top: 26px;
+    right: 25px;
+    
+  }
+  .passCancle-btn{
+    outline: none;
+    border: none;
+    transition: background-color 0.25s;
+    @include font-basic;
+    &:hover{
+      background-color: $color-main;
+      color: $color-black;
+    }
+  }
 }
 
 .pass-1m,
@@ -159,4 +191,123 @@
 .no-pass-message{
   text-align: center;
   margin: 20px;
+}
+
+.pass-cancle{
+  position: sticky;
+  bottom: 45px;
+  padding: 20px 0;
+  background-color: $font-color;
+}
+
+.cancle{
+  position: sticky;
+  left: 19px;
+  @include btn-style;
+}
+
+
+// 🍺 로그아웃 팝업
+.logout-overlay{
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.logout-content{
+  background-color: $font-color;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 300px;
+  width: 90%;
+  animation: fadeInScale 0.2s ease-out; 
+
+  p{
+    margin-bottom: 25px;
+    @include font-basic;
+    color: $color-black;
+    font-weight: bold;
+  }
+
+  .logout-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    button{
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      @include font-basic;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &.yes-btn,
+      &.withdraw-btn{
+        background-color: $color-darkgray;
+        color: $font-color;
+        &:hover{
+          background-color: $color-sub;
+        }
+      }
+
+      &.no-btn {
+        background-color: $color-darkgray;
+        color: $font-color;
+        &:hover {
+          background-color: $color-sub;
+        }
+      }
+    }
+  }
+}
+
+// 팝업 등장 애니메이션
+@keyframes fadeInScale{
+  from{
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to{
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+// 🍺 회원탈퇴 팝업
+.withdraw-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  button{
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    @include font-basic;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    &.yes-btn,
+    &.withdraw-btn{
+      background-color: $color-darkgray;
+      color: $font-color;
+      &:hover{
+        background-color: $color-sub;
+      }
+    }
+    &.no-btn {
+      background-color: $color-darkgray;
+      color: $font-color;
+      &:hover {
+        background-color: $color-sub;
+      }
+    }
+  }
 }

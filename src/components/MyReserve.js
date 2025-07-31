@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Header from "./Header";
 import { getMyBookings } from "../utils/towerpickapi";
 import Navigate from "./Navigate";
-import { TbParkingCircle } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 
 const MyReserve = () => {
@@ -12,8 +11,6 @@ const MyReserve = () => {
 
   const activebooking = myReserve.filter(item => item.status === 'active');
   const notactivebooking = myReserve.filter(item => item.status !== 'active');
-  // console.log('원본 myReserve 배열:', myReserve);
-  // console.log('필터링된 notactivebooking 배열:', notactivebooking);
 
   // 예약 정보 가져옴
   useEffect(()=>{
@@ -54,7 +51,6 @@ const formatDateTime = (fullDateTimeString) => {
 
   // 유효한 Date 객체인지 확인
   if (isNaN(dateTime.getTime())) {
-    console.error(`유효하지 않은 날짜/시간 형식: "${fullDateTimeString}"`);
     return "날짜/시간 오류";
   }
 
@@ -73,7 +69,18 @@ const formatDateTime = (fullDateTimeString) => {
   const nowBooking = (myReserve) => {
     if (myReserve.length === 0) {
         return (
-        <p className="no-bookings-message">현재 예약 내역이 없습니다.</p>
+          <>
+          <div className="not-booking">
+            <p className="no-bookings-message">현재 예약내역이 없습니다.</p>
+            <button
+              onClick={() => {
+              navigate("/booking1");
+              }}
+              >
+              주차 예약하러 가기
+              </button>
+          </div>
+          </>
         );
     }
     return (
@@ -87,14 +94,15 @@ const formatDateTime = (fullDateTimeString) => {
                   {formatDateTime(item.start_time)}<br /> ~ 
                   {formatDateTime(item.end_time)} </p>
                 <p className="now-space">
-                  <TbParkingCircle />
-                  {`${item.spaces.floor}층 - ${item.spaces.slot_number}번`}</p>  {/*주차 위치 표시*/}
+                  B{`${item.spaces.floor} - ${item.spaces.slot_number}번`}</p>
+                <p className="now-status-r">{getStatusText(item.status)}</p>
                 {
                   item.status === 'active' ? (
                   <button
-                    className="now-btn"
-                    onClick={()=>{navigate("/cancelgeneral")
-                    }}
+                    className="bookingCancle-btn"
+                    onClick={()=>{
+                      navigate("/cancelgeneral")
+                  }}
                   >예약취소</button>) : ""
                 }
               </li>
@@ -110,25 +118,22 @@ const formatDateTime = (fullDateTimeString) => {
   const endBooking = (myReserve) => {
     if (myReserve.length === 0) {
       return (
-        <p className="not-bookings-message">주차 내역이 없습니다.</p>
+        <p className="not-bookings-message">과거 이력이 없습니다.</p>
       );
     }
     return (
           <ul>
             {
               myReserve.map((item) => {
-                console.log(item);
                 return (
                   <li key={item.id} className="end-listWrap">
-                    <p className="end-status">{getStatusText(item.status)}</p>
                     <p className="end-date">
                       {formatDateTime(item.start_time)}<br /> ~ 
                       {formatDateTime(item.end_time)} </p>
-                    {/*주차 위치 표시*/}
                     <p className="end-space">
-                      <TbParkingCircle />
-                      {`${item.spaces.floor}층 - ${item.spaces.slot_number}번`
+                      B{`${item.spaces.floor} - ${item.spaces.slot_number}번`
                       }</p>
+                    <p className="end-status">{getStatusText(item.status)}</p>
                   </li>
                 );
               })
@@ -151,13 +156,18 @@ const formatDateTime = (fullDateTimeString) => {
         </div>
         <div className="end-list">
           <div className="end-txt">
-            <h3>종료된 예약</h3>
+            <h3>주차 이력</h3>
           </div>
           <div className="end-reserve">
             {endBooking(notactivebooking)}
           </div>
         </div>
       </div>
+        {/* <button
+          className="cancle-btn"
+          onClick={()=>{navigate("/cancelgeneral")}}
+        >예약 취소
+        </button> */}
       <Navigate />
     </div>
   );
