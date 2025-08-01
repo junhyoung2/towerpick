@@ -73,7 +73,7 @@ const CancelPass = () => {
   if (!passData) return <div>예약 내역이 없습니다.</div>;
   return (
     <div>
-      <Header prev_path="/Mypage" prev_title="정기권 취소" />
+      <Header prev_path="/mypage" prev_title="정기권 취소" />
       <div className="cancel">
         <p className="cancel-title">정기권을 취소하시겠습니까?</p>
         <div className="cancel-box">
@@ -167,7 +167,7 @@ const CancelPass = () => {
         </div>
         <div className="button-group">
           <button onClick={handleCancel}>예</button>
-          <button onClick={() => navigate("/myReserve")}>아니요</button>
+          <button onClick={() => navigate("/mypage")}>아니요</button>
         </div>
         <div className="cancel-guide">
           <ul>
