@@ -14,7 +14,7 @@
 .end-list{
   width: 372px;
   background-color: $color-sub;
-  padding: 10px;
+  padding: 20px 10px;
   border-radius: 10px;
 }
 .now-list{
@@ -24,11 +24,10 @@
   margin-bottom: 20px;
 }
 
-.now-listWrap,
-.end-listWrap{
+.now-listWrap{
   width: 352px;
   height: 100px;
-  margin: 20px 0;
+  margin-top: 20px;
   background-color: $font-color;
   color: $color-darkgray;
   border-radius: 10px;
@@ -44,22 +43,20 @@
   .now-space{
     @include font-basic;
   }
-  .now-btn{
-    width: 80px;
-    height: 50px;
-    outline: none;
-    border: none;
-    background-color: $color-darkgray;
-    color: $font-color;
-    border-radius: 10px;
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-    @include font-basic;
-  }
 }
 
+.end-listWrap{
+  width: 352px;
+  height: 100px;
+  margin-top: 20px;
+  background-color: $font-color;
+  color: $color-darkgray;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
 
 .now-txt,
 .end-txt{
@@ -70,17 +67,14 @@
     padding-left: 10px;
     color: $font-color;
     @include font-medium;
-    
   }
 }
 
 .now-reserve{
   position: relative;
-  @include font-basic;
   .now-status{
     position: absolute;
     left: 20px;
-    padding-right: 20px;
   }
   .now-date{
     position: absolute;
@@ -96,7 +90,7 @@
     position: absolute;
     right: 20px;
   }
-  .bookingCancle-btn{
+  .nowCancle-btn{
     width: 80px;
     height: 50px;
     outline: none;
@@ -107,6 +101,7 @@
     position: absolute;
     right: 20px;
     @include font-basic;
+    transition: background-color 0.25s;
     &:hover{
       background-color: $color-main;
       color: $color-black;
@@ -117,21 +112,27 @@
 // 종료된 예약
 .end-reserve{
   position: relative;
-  @include font-basic;
-  .end-status{
-    position: absolute;
-    left: 30px;
-    padding-right: 20px;
-  }
   .end-date{
     position: absolute;
     top: 18px;
-    left: 145px;
+    left: 50px;
   }
   .end-space{
     position: absolute;
     top: 65px;
-    left: 145px;
+    left: 50px;
+  }
+  .end-status{
+    width: 80px;
+    height: 50px;
+    background-color: $color-darkgray;
+    color: $font-color;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 20px;
   }
 }
 
@@ -146,13 +147,15 @@
   color: $color-darkgray;
   border-radius: 10px;
   @include font-basic;
-  .not-bookings-message{
-    // padding: 50px 0;
-    color: $font-color;
+  p{
+    color: $color-darkgray;
     text-align: center;
   }
+  .not-booking-msn{
+    padding: 20px 0;
+  }
   button{
-    margin-top: 20px;
+    margin-top: 10px;
     width: 240px;
     height: 50px;
     outline: none;
@@ -167,22 +170,4 @@
       color: $color-black;
     }
   }
-}
-.not-bookings-message{
-  padding: 50px 0;
-  color: $font-color;
-  text-align: center;
-}
-
-.reserve-cancle{
-  position: sticky;
-  bottom: 45px;
-  padding: 20px 0;
-  background-color: $font-color;
-}
-
-.cancle-btn{
-  position: sticky;
-  left: 19px;
-  @include btn-style;
 }
