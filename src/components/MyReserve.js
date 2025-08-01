@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import Header from "./Header";
 import { getMyBookings } from "../utils/towerpickapi";
-import Navigate from "./Navigate";
 import { useNavigate } from "react-router-dom";
+import Header from "./Header";
+import Navigate from "./Navigate";
 
 const MyReserve = ({onCancel}) => {
   const [myReserve,setMyReserve] = useState([]);
@@ -147,7 +147,7 @@ const MyReserve = ({onCancel}) => {
   return (
     <div className="reserve-wrap">
       <Header prev_path="/mainpage" prev_title="내 이용내역" />
-      <div className="my-reserve">
+      <div className="my-reserve" style={{height:myReserve.length>1 ? "auto":"100%"}}>
         <div className="now-list">
           <div className="now-txt">
             <h3>현재 예약</h3>
