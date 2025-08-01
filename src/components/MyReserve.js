@@ -92,7 +92,7 @@ const MyReserve = ({onCancel}) => {
                   {formatDateTime(item.start_time)}<br /> ~ 
                   {formatDateTime(item.end_time)} </p>
                 <p className="now-space">
-                  B{`${item.spaces.floor} - ${item.spaces.slot_number}번`}</p>
+                  B{`${item.spaces.floor}층 - ${item.spaces.slot_number}번`}</p>
                 <p className="now-status-r">{getStatusText(item.status)}</p>
                 {
                   item.status === 'active' ? (
@@ -133,7 +133,7 @@ const MyReserve = ({onCancel}) => {
                       {formatDateTime(item.start_time)}<br /> ~ 
                       {formatDateTime(item.end_time)} </p>
                     <p className="end-space">
-                      B{`${item.spaces.floor} - ${item.spaces.slot_number}번`
+                      B{`${item.spaces.floor}층 - ${item.spaces.slot_number}번`
                       }</p>
                     <p className="end-status">{getStatusText(item.status)}</p>
                   </li>
