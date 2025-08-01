@@ -1,4 +1,4 @@
-const Guide2 = () => {
+const Booking2Guide = () => {
   return (
     <div>
       <div className="guide">
@@ -23,4 +23,4 @@ const Guide2 = () => {
   );
 };
 
-export default Guide2;
+export default Booking2Guide;

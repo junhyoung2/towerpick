@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Navigate from "./Navigate";
-import { getMyBookings, cancelBooking } from "../utils/towerpickapi";
+import { getMyPasses, cancelBooking, cancelPass } from "../utils/towerpickapi";
 
 const CancelGeneral = () => {
     const navigate = useNavigate();
@@ -13,13 +13,13 @@ const CancelGeneral = () => {
         phone: "",
         car_number: "",
     });
-    const [bookingData, setBookingData] = useState(null);
+    const [passData, setPassData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [cancelReason, setCancelReason] = useState("");
     const [refundMethod, setRefundMethod] = useState("");
     const [cancelFee, setCancelFee] = useState("무료");
 
-    // 1. 유저 정보 로딩
+    // 유저 정보 로딩
     useEffect(() => {
         try {
             const raw = localStorage.getItem("towerpick");
@@ -36,21 +36,21 @@ const CancelGeneral = () => {
         }
     }, []);
 
-    // 2. 예약 정보 로딩
+    // 예약 정보 로딩
     useEffect(() => {
         if (!userInfo.userID) return;
-        const fetchBooking = async () => {
-            const { data, error } = await getMyBookings(userInfo.userID);
+        const fetchPass = async () => {
+            const { data, error } = await getMyPasses(userInfo.userID);            
             if (error || !data || data.length === 0) {
-                setBookingData(null);
+                setPassData(null);
                 setLoading(false);
                 return;
             }
             const recentBooking = data.find((b) => b.status === "active"); // 가장 최근 active 예약
-            setBookingData(recentBooking);
+            setPassData(recentBooking);
             setLoading(false);
         };
-        fetchBooking();
+        fetchPass();
     }, [userInfo.userID]);
 
     // yy.mm.dd.hh.mm 포맷 (일반권은 시/분 필요)
@@ -63,19 +63,45 @@ const CancelGeneral = () => {
         )}.${pad(d.getDate())}.${pad(d.getHours())}.${pad(d.getMinutes())}`;
     }
 
-    // 정기권처럼 실제로 예약 취소
+    // 수수료 계산 함수 (예약 시작 1시간 전까지 무료, 1시간 이내 환불 불가)
+    function getCancelFee(startTime) {
+        if (!startTime) return "무료";
+        const now = new Date();
+        const start = new Date(startTime);
+        const diffMs = start - now;
+        const diffMin = diffMs / (1000 * 60);
+        if (diffMin > 60) return "무료";
+        return "환불 불가";
+    }
+
+    // passData 변경될 때마다 수수료 자동 계산
+    useEffect(() => {
+        if (!passData || !passData.start_time) {
+            setCancelFee("무료");
+            return;
+        }
+        setCancelFee(getCancelFee(passData.start_time));
+    }, [passData]);
+
+    // 예약 취소
     const handleCancel = async () => {
-        if (!bookingData) return;
-        await cancelBooking(bookingData.id, bookingData.space_id);
-        navigate("/cancelcomplete");
+        if (!passData) return;    
+        const {data,error} = await cancelPass(passData.id, passData.space_id);
+        if( error ) { 
+            alert("예약 취소 시 오류가 발생했습니다.");
+            return;
+        }
+        if( data ){
+            navigate("/cancelcomplete");
+        }        
     };
 
     if (loading) return <div>로딩 중...</div>;
-    if (!bookingData) return <div>예약 내역이 없습니다.</div>;
+    if (!passData) return <div>예약 내역이 없습니다.</div>;
 
     return (
         <div>
-            <Header prev_path="/MyReserve" prev_title="예약 취소" />
+            <Header prev_path="/mypage" prev_title="예약 취소" />
             <div className="cancel">
                 <p className="cancel-title">예약을 취소하시겠습니까?</p>
                 <div className="cancel-box">
@@ -85,10 +111,10 @@ const CancelGeneral = () => {
                             <div className="cancel-label">예약일시</div>
                             <div className="cancel-input">
                                 <p>
-                                    {bookingData
+                                    {passData
                                         ? `${format(
-                                              bookingData.start_time
-                                          )}~${format(bookingData.end_time)}`
+                                              passData.start_time
+                                          )}~${format(passData.end_time)}`
                                         : ""}
                                 </p>
                             </div>
@@ -97,8 +123,8 @@ const CancelGeneral = () => {
                             <div className="cancel-label">예약위치</div>
                             <div className="cancel-input">
                                 <p>
-                                    {`B${bookingData.spaces?.floor ?? ""}층  ${
-                                        bookingData.spaces?.slot_number ?? ""
+                                    {`B${passData.spaces?.floor ?? ""}층  ${
+                                        passData.spaces?.slot_number ?? ""
                                     }번`}
                                 </p>
                             </div>
@@ -119,63 +145,65 @@ const CancelGeneral = () => {
                 </div>
 
                 <div className="cancel-box">
-                    <div className="reason-form">
-                        <label className="reason-label">취소사유</label>
-                        <select
-                            className="value-box ment"
-                            value={cancelReason}
-                            onChange={(e) => setCancelReason(e.target.value)}
-                        >
-                            <option value="">선택하세요</option>
-                            <option value="일정변경">일정변경</option>
-                            <option value="개인사정">개인사정</option>
-                            <option value="기타">기타</option>
-                        </select>
-                    </div>
-                    <div className="reason-form">
-                        <label className="reason-label">환불수단</label>
-                        <select
-                            className="value-box ment"
-                            value={refundMethod}
-                            onChange={(e) => setRefundMethod(e.target.value)}
-                        >
-                            <option value="">선택하세요</option>
-                            <option value="신용카드">신용카드</option>
-                            <option value="계좌이체">계좌이체</option>
-                        </select>
-                    </div>
-                    <div className="reason-form">
-                        <label className="reason-label">환불예정금액</label>
-                        <input
-                            className="value-box ment1"
-                            type="text"
-                            value={`${
-                                bookingData.price?.toLocaleString() || "0"
-                            }원`}
-                            readOnly
-                        />
-                    </div>
-                    <div className="reason-form">
-                        <label className="reason-label">취소수수료</label>
-                        <input
-                            className="value-box ment1"
-                            type="text"
-                            value={cancelFee}
-                            readOnly
-                        />
-                    </div>
-                    <div className="tower-box">
-                        <div className="icon">🅿️</div>
-                        <div className="text">
-                            <h3>Tower Pick</h3>
-                            <p>수원시 팔달구 매교로 1234</p>
+                    <div className="cancel-form">
+                        <div className="cancel-row">
+                            <div className="cancel-label">취소사유</div>
+                            <select
+                                className="value-box ment cancel-input"
+                                value={cancelReason}
+                                onChange={(e) => setCancelReason(e.target.value)}
+                            >
+                                <option value="">선택하세요</option>
+                                <option value="일정변경">일정변경</option>
+                                <option value="개인사정">개인사정</option>
+                                <option value="기타">기타</option>
+                            </select>
+                        </div>
+                        <div className="cancel-row">
+                            <div className="cancel-label">환불수단</div>
+                            <select
+                                className="value-box ment cancel-input"
+                                value={refundMethod}
+                                onChange={(e) => setRefundMethod(e.target.value)}
+                            >
+                                <option value="">선택하세요</option>
+                                <option value="신용카드">신용카드</option>
+                                <option value="계좌이체">계좌이체</option>
+                            </select>
+                        </div>
+                        <div className="cancel-row">
+                            <div className="cancel-label">환불예정금액</div>
+                            <input
+                                className="value-box ment1 cancel-input"
+                                type="text"
+                                value={`${
+                                    passData.price?.toLocaleString() || "0"
+                                }원`}
+                                readOnly
+                            />
+                        </div>
+                        <div className="cancel-row">
+                            <label className="cancel-label">취소수수료</label>
+                            <input
+                                className="value-box ment1 cancel-input"
+                                type="text"
+                                value={cancelFee}
+                                readOnly
+                            />
+                        </div>
+                        <div className="tower-box">
+                            <div className="icon">P</div>
+                            <div className="text">
+                                <h3>Tower Pick</h3>
+                                <p>수원시 팔달구 매교로 1234</p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div className="button-group">
                     <button onClick={handleCancel}>예</button>
-                    <button onClick={() => navigate(-1)}>아니요</button>
+                    <button onClick={() => navigate("/mypage")}>아니요</button>
                 </div>
 
                 <div className="guide">
