@@ -127,7 +127,7 @@ const CancelPass = () => {
                 <div className="cancel-box">
                     <div className="cancel-form">
                         <div className="cancel-row">
-                            <div className="cancel-label">취소사유</div>
+                            <div className="cancel-row">취소사유</div>
                             <select
                                 className="value-box ment cancel-input"
                                 value={cancelReason}
