@@ -19,51 +19,61 @@ const CancelPass = () => {
   const [cancelReason, setCancelReason] = useState("");
   const [refundMethod, setRefundMethod] = useState("");
   const [cancelFee, setCancelFee] = useState("무료");
+  const [cancelRate, setCancelRate] = useState("");
 
   const handleCancelFee = (data) => {
-    if (!data) {
-      return;
-    }
+    if (!data) return;
+
     const typeToDays = {
       "1m": 30,
       "3m": 90,
       "6m": 180,
       "12m": 365,
     };
-    const now = new Date(); //오늘날짜
-    const start = new Date(data.start_date);
-    const end = new Date(data.end_date);
-    const oneDay = 1000 * 60 * 60 * 24;
-    const toDays = typeToDays[data.duration_type];
-    //시작전여부 확인
-    const isBeforeStart = now < start;
-    //종료일까지 하루 이상 남아 있는지 확인
-    const isOneDay = Math.floor((end - now) / oneDay) >= 1;
 
-    //이용 시작 전이고 , 종료일까지 하루 이상 남으면 무료 환불
-    if (isBeforeStart && isOneDay) {
-      setCancelFee("무료");
+    const now = new Date();
+    const start = new Date(data.start_date);
+    // const end = new Date(data.end_date);
+    const totalDays = typeToDays[data.duration_type];
+    const price = data.price;
+    const oneDay = 1000 * 60 * 60 * 24;
+
+    if (!totalDays || !price) return;
+
+    // 오늘 날짜와 시작일을 '날짜(년월일)'만 비교 (시간 제외)
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const startDate = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+
+    const dayDiff = Math.floor((startDate - today) / oneDay); // 시작일까지 남은 일수
+
+    // 시작일 기준 1일 전까지: 전액 환불
+    if (dayDiff >= 1) {
+      setCancelFee(`${price.toLocaleString()}원`);   // 환불 예정 금액
+      setCancelRate(`0원`);                          // 수수료
       return;
     }
-    //이용중인 경우 사용일/잔여일 계산 후 수수료 산정
-    if (now >= start && now < end) {
-      const useDays = Math.floor((now - start) / oneDay);
-      //남은 이용기간 = 전체기간 - 사용기간
-      const remainDays = toDays - useDays;
-      if (remainDays <= 0) {
-        setCancelFee("환불불가");
-        return;
-      }
-      //환불금액 = (남은일수 / 전체일수)*가격
-      const reAmount = Math.floor((remainDays / toDays) * data.price * 0.8);
-      const feeAmount = (toDays - reAmount) * -1;
-      setCancelFee(`${feeAmount.toLocaleString()}원`);
+
+    // 시작일 당일 ~ 사용 중
+    const usedDays = Math.floor((today - startDate) / oneDay); // 실제 사용일수
+    const remainDays = totalDays - usedDays;
+
+    if (remainDays <= 0) {
+      // 사용 다 한 경우
+      setCancelFee(`0원`);
+      setCancelRate(`0원`);
+      return;
     }
+
+    const refundAmount = Math.floor(price * (remainDays / totalDays) * 0.8);
+    const feeAmount = price - refundAmount;
+
+    setCancelFee(`${refundAmount.toLocaleString()}원`); // 환불 예정 금액
+    setCancelRate(`${feeAmount.toLocaleString()}원`);   // 수수료
   };
 
   // 1. 유저 정보 로딩
   useEffect(() => {
-    try {
+    try { 
       const raw = localStorage.getItem("towerpick");
       if (raw) {
         const user = JSON.parse(raw);
@@ -197,7 +207,7 @@ const CancelPass = () => {
             <input
               className="value-box ment1 cancel-input"
               type="text"
-              value={`${passData.price?.toLocaleString() || "0"}원`}
+              value={`${cancelFee}`}
               readOnly
             />
           </div>
@@ -206,7 +216,7 @@ const CancelPass = () => {
             <input
               className="value-box ment1"
               type="text"
-              value={cancelFee}
+              value={cancelRate}
               readOnly
             />
           </div>
