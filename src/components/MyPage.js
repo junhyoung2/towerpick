@@ -37,7 +37,7 @@ const MyPage = () => {
     if (item === "active") {
       value = "사용중";
     } else if (item === "canceled") {
-      value = "사용취소";
+      value = "취소완료";
     } else if (item === "expired") {
       value = "기간만료";
     }

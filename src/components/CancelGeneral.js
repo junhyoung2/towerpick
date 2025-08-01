@@ -75,127 +75,100 @@ const CancelGeneral = () => {
 
     return (
         <div>
-            <Header
-                prev_path="/MyReserve"
-                prev_title={
-                    <div style={{ width: "100%", textAlign: "center" }}>
-                        예약 취소
-                    </div>
-                }
-            />
+            <Header prev_path="/MyReserve" prev_title="예약 취소" />
             <div className="cancel">
-                <p className="booking-title">예약을 취소하시겠습니까?</p>
-                <div className="info-section">
-                    <div className="booking-box">
-                        <h2 className="booking-title">예약 정보</h2>
-                        <div className="booking-form">
-                            <div className="form-row">
-                                <label className="form-label">예약일시</label>
-                                <input
-                                    className="value-box"
-                                    type="text"
-                                    value={
-                                        bookingData
-                                            ? `${format(
-                                                  bookingData.start_time
-                                              )}~${format(
-                                                  bookingData.end_time
-                                              )}`
-                                            : ""
-                                    }
-                                    readOnly
-                                />
+                <p className="cancel-title">예약을 취소하시겠습니까?</p>
+                <div className="cancel-box">
+                    <div className="cancel-info">예약 정보</div>
+                    <div className="cancel-form">
+                        <div className="cancel-row">
+                            <div className="cancel-label">예약일시</div>
+                            <div className="cancel-input">
+                                <p>
+                                    {bookingData
+                                        ? `${format(
+                                              bookingData.start_time
+                                          )}~${format(bookingData.end_time)}`
+                                        : ""}
+                                </p>
                             </div>
-                            <div className="form-row">
-                                <label className="form-label">예약위치</label>
-                                <input
-                                    className="value-box"
-                                    type="text"
-                                    value={`B${
-                                        bookingData.spaces?.floor ?? ""
-                                    }층  ${
+                        </div>
+                        <div className="cancel-row">
+                            <div className="cancel-label">예약위치</div>
+                            <div className="cancel-input">
+                                <p>
+                                    {`B${bookingData.spaces?.floor ?? ""}층  ${
                                         bookingData.spaces?.slot_number ?? ""
                                     }번`}
-                                    readOnly
-                                />
+                                </p>
                             </div>
-                            <div className="form-row">
-                                <label className="form-label">휴대폰번호</label>
-                                <input
-                                    className="value-box"
-                                    type="text"
-                                    value={userInfo.phone}
-                                    readOnly
-                                />
+                        </div>
+                        <div className="cancel-row">
+                            <div className="cancel-label">휴대폰번호</div>
+                            <div className="cancel-input">
+                                <p>{userInfo.phone}</p>
                             </div>
-                            <div className="form-row">
-                                <label className="form-label">차량번호</label>
-                                <input
-                                    className="value-box"
-                                    type="text"
-                                    value={userInfo.car_number}
-                                    readOnly
-                                />
+                        </div>
+                        <div className="cancel-row">
+                            <div className="cancel-label">차량번호</div>
+                            <div className="cancel-input">
+                                <p>{userInfo.car_number}</p>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div className="info-box">
-                        <div className="status">
-                            <label className="label">취소사유</label>
-                            <select
-                                className="value-box ment"
-                                value={cancelReason}
-                                onChange={(e) =>
-                                    setCancelReason(e.target.value)
-                                }
-                            >
-                                <option value="">선택하세요</option>
-                                <option value="일정변경">일정변경</option>
-                                <option value="개인사정">개인사정</option>
-                                <option value="기타">기타</option>
-                            </select>
-                        </div>
-                        <div className="status">
-                            <label className="label">환불수단</label>
-                            <select
-                                className="value-box ment"
-                                value={refundMethod}
-                                onChange={(e) =>
-                                    setRefundMethod(e.target.value)
-                                }
-                            >
-                                <option value="">선택하세요</option>
-                                <option value="신용카드">신용카드</option>
-                                <option value="계좌이체">계좌이체</option>
-                            </select>
-                        </div>
-                        <div className="status">
-                            <label className="label">환불예정금액</label>
-                            <input
-                                className="value-box ment1"
-                                type="text"
-                                value={`${
-                                    bookingData.price?.toLocaleString() || "0"
-                                }원`}
-                                readOnly
-                            />
-                        </div>
-                        <div className="status">
-                            <label className="label">취소수수료</label>
-                            <input
-                                className="value-box ment1"
-                                type="text"
-                                value={cancelFee}
-                                readOnly
-                            />
-                        </div>
-                        <div className="tower-box">
-                            <div className="icon">🅿️</div>
-                            <div className="text">
-                                <h3>Tower Pick</h3>
-                                <p>수원시 팔달구 매교로 1234</p>
-                            </div>
+                <div className="cancel-box">
+                    <div className="reason-form">
+                        <label className="reason-label">취소사유</label>
+                        <select
+                            className="value-box ment"
+                            value={cancelReason}
+                            onChange={(e) => setCancelReason(e.target.value)}
+                        >
+                            <option value="">선택하세요</option>
+                            <option value="일정변경">일정변경</option>
+                            <option value="개인사정">개인사정</option>
+                            <option value="기타">기타</option>
+                        </select>
+                    </div>
+                    <div className="reason-form">
+                        <label className="reason-label">환불수단</label>
+                        <select
+                            className="value-box ment"
+                            value={refundMethod}
+                            onChange={(e) => setRefundMethod(e.target.value)}
+                        >
+                            <option value="">선택하세요</option>
+                            <option value="신용카드">신용카드</option>
+                            <option value="계좌이체">계좌이체</option>
+                        </select>
+                    </div>
+                    <div className="reason-form">
+                        <label className="reason-label">환불예정금액</label>
+                        <input
+                            className="value-box ment1"
+                            type="text"
+                            value={`${
+                                bookingData.price?.toLocaleString() || "0"
+                            }원`}
+                            readOnly
+                        />
+                    </div>
+                    <div className="reason-form">
+                        <label className="reason-label">취소수수료</label>
+                        <input
+                            className="value-box ment1"
+                            type="text"
+                            value={cancelFee}
+                            readOnly
+                        />
+                    </div>
+                    <div className="tower-box">
+                        <div className="icon">🅿️</div>
+                        <div className="text">
+                            <h3>Tower Pick</h3>
+                            <p>수원시 팔달구 매교로 1234</p>
                         </div>
                     </div>
                 </div>

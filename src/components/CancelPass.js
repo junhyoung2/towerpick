@@ -86,7 +86,7 @@ const CancelPass = () => {
 
   return (
     <div>
-      <Header prev_path="/MyReserve" prev_title={<div style={{ width: "100%", textAlign: "center" }}>정기권 예약 취소</div>} />
+      <Header prev_path="/MyReserve" prev_title="정기권 취소" />
       <div className="cancel-general">
         <p className="question">정기권을 취소하시겠습니까?</p>
         <div className="info-section">
