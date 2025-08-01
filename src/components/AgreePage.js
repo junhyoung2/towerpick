@@ -4,11 +4,13 @@ import { FaChevronDown } from "react-icons/fa";
 
 const AgreePage = () => {
   const [agreeAll, setAgreeAll] = useState(false);
-    const [age, setAge] = useState(false);
+  const [age, setAge] = useState(false);
   const [terms, setTerms] = useState(false);
   const [privacy, setPrivacy] = useState(false);
   const [event, setEvent] = useState(false);
   const [errorMsn, setErrorMsn] = useState('');
+  const [showTermsDetail, setShowTermsDetail] = useState(false);
+  const [showPrivacyDetail, setShowPrivacyDetail] = useState(false);
   const navigate = useNavigate('');
 
   useEffect(() => {
@@ -37,13 +39,23 @@ const AgreePage = () => {
     setter(e.target.checked); 
   };
 
+  // 약관 상세 내용 토글 핸들러
+  const toggleTermsDetail = () => {
+    setShowTermsDetail(prev => !prev);
+  };
+
+  // 개인정보 상세 내용 토글 핸들러
+  const togglePrivacyDetail = () => {
+    setShowPrivacyDetail(prev => !prev);
+  };
+
   // 모든 필수 약관 동의 검사 (가입 버튼 활성화 등)
   const isFormValid = terms && age && privacy;
 
   const handleNextStep = () => {
   if (isFormValid) {
     // 모든 필수 항목이 체크되었다면 다음 단계로 이동
-    navigate("/joinpage"); // 경로에 맞게 수정
+    navigate("/joinpage");
   } else {
     // 필수 항목이 체크되지 않았다면 에러 메시지 설정
     setErrorMsn("*필수 항목을 모두 체크해주세요");
@@ -61,7 +73,7 @@ const AgreePage = () => {
           약관 동의가 필요합니다.
         </h3>
       </div>
-      <div className="terms">
+      <div className="terms-list">
         <div className="agree-all">
           <input
             type="checkbox"
@@ -74,44 +86,70 @@ const AgreePage = () => {
         <hr />
         <ul>
           <li>
-            <input
-              type="checkbox"
-              id="agree1"
-              checked={age}
-              onChange={(e) => handledChange(setAge, e)}
-            />
-            <label htmlFor="agree1">19세 이상입니다(필수)</label>
+            <div className="etc-wrap">
+              <input
+                type="checkbox"
+                id="age"
+                checked={age}
+                onChange={(e) => handledChange(setAge, e)}
+              />
+              <label htmlFor="age">19세 이상입니다(필수)</label>
+            </div>
+          </li>
+          <li className="agree-detail">
+            <div className="agree-main">
+              <input
+                type="checkbox"
+                id="terms"
+                checked={terms}
+                onChange={(e) => handledChange(setTerms, e)}
+              />
+              <label htmlFor="terms">이용 약관 동의(필수)</label>
+              <FaChevronDown
+                className={showTermsDetail ? 'rotated-icon' : 'chevron-icon'}
+                onClick={toggleTermsDetail}
+              />
+            </div>
+            {showTermsDetail && (
+              <div className="agree-detail-txt">
+                <p>⑴ 본 약관은 서비스 이용에 필요한 제반 사항을 명확히 합니다.</p>
+                <p>⑵ 서비스를 사용하기 위해서는 약관에 동의하셔야 합니다.</p>
+                <p>⑶ 미동의 시 서비스 이용에 제한이 있을 수 있습니다.</p>
+              </div>
+            )}
+          </li>
+          <li className="agree-detail">
+            <div className="agree-main">
+              <input
+                type="checkbox"
+                id="privacy"
+                checked={privacy}
+                onChange={(e) => handledChange(setPrivacy, e)}
+              />
+              <label htmlFor="privacy">개인정보 수집 및 이용 동의(필수)</label>
+              <FaChevronDown
+                className={showPrivacyDetail ? 'rotated-icon' : 'chevron-icon'}
+                onClick={togglePrivacyDetail}
+              />
+            </div>
+            {showPrivacyDetail && (
+              <div className="agree-detail-txt">
+                <p>⑴ 개인정보는 서비스 제공을 위해서만 수집 및 이용됩니다.</p>
+                <p>⑵ 수집된 정보는 법령에 따라 안전하게 보호됩니다.</p>
+                <p>⑶ 회원 탈퇴 시 즉시 파기됩니다.</p>
+              </div>
+            )}
           </li>
           <li>
-            <input
-              type="checkbox"
-              id="agree2"
-              checked={terms}
-              onChange={(e) => handledChange(setTerms, e)}
-            />
-            <label htmlFor="agree2" className="icon">
-              이용 약관 동의(필수)
-              </label>
-          </li>
-          <li>
-            <input
-              type="checkbox"
-              id="agree3"
-              checked={privacy}
-              onChange={(e) => handledChange(setPrivacy, e)}
-            />
-            <label htmlFor="agree3" className="icon">
-              개인정보 수집 및 이용 동의(필수)
-            </label>
-          </li>
-          <li>
-            <input
-              type="checkbox"
-              id="agree4"
-              checked={event}
-              onChange={(e) => handledChange(setEvent, e)}
-            />
-            <label htmlFor="agree4">할인, 이벤트 정보 수신(선택)</label>
+            <div className="etc-wrap">
+              <input
+                type="checkbox"
+                id="event"
+                checked={event}
+                onChange={(e) => handledChange(setEvent, e)}
+              />
+              <label htmlFor="event">할인, 이벤트 정보 수신(선택)</label>
+            </div>
           </li>
         </ul>
       </div>
@@ -123,7 +161,7 @@ const AgreePage = () => {
         </button>
         {
         errorMsn &&
-        <p className="error-message">{errorMsn}</p>}
+        <p className="error-msn">{errorMsn}</p>}
       </div>
       
     </div>
