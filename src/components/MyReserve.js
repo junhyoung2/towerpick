@@ -35,7 +35,7 @@ const MyReserve = () => {
     if( item === "active"){
       value = "예약중";
     } else if( item === "canceled") {
-      value = "예약취소";
+      value = "사용취소";
     } else if( item === "expired") {
       value = "사용종료";
     }
@@ -112,7 +112,7 @@ const MyReserve = () => {
   };
 
 
-  // 🍺 주차 이력 (종료된 예약)
+  // 🍺 과거 이력 (종료된 예약)
   const endBooking = (myReserve) => {
     if (myReserve.length === 0) {
       return (
@@ -127,6 +127,7 @@ const MyReserve = () => {
               myReserve.map((item) => {
                 return (
                   <li key={item.id} className="end-listWrap">
+                    <p className="end-workend">처리완료</p>
                     <p className="end-date">
                       {formatDateTime(item.start_time)}<br /> ~ 
                       {formatDateTime(item.end_time)} </p>
@@ -156,7 +157,7 @@ const MyReserve = () => {
         </div>
         <div className="end-list">
           <div className="end-txt">
-            <h3>주차 이력</h3>
+            <h3>과거 이력</h3>
           </div>
           <div className="end-reserve">
             {endBooking(notactivebooking)}
