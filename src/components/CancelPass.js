@@ -19,6 +19,45 @@ const CancelPass = () => {
     const [refundMethod, setRefundMethod] = useState("");
     const [cancelFee, setCancelFee] = useState("무료");
 
+    const handleCancelFee = (data)=>{        
+        if( !data ){ return; }        
+        const typeToDays = {
+            '1m':30,
+            '3m':90,
+            '6m':180,
+            '12m':365
+        }
+        const now = new Date(); //오늘날짜
+        const start = new Date(data.start_date);
+        const end = new Date(data.end_date);
+        const oneDay = 1000 * 60 * 60 * 24;
+        const toDays = typeToDays[data.duration_type];
+        //시작전여부 확인
+        const isBeforeStart = now < start;
+        //종료일까지 하루 이상 남아 있는지 확인
+        const isOneDay = Math.floor((end-now)/oneDay) >= 1;        
+        
+        //이용 시작 전이고 , 종료일까지 하루 이상 남으면 무료 환불
+        if( isBeforeStart && isOneDay ){
+            setCancelFee("무료");
+            return;
+        }
+        //이용중인 경우 사용일/잔여일 계산 후 수수료 산정
+        if( now >=start && now < end ){
+            const useDays = Math.floor((now-start)/oneDay);
+            //남은 이용기간 = 전체기간 - 사용기간
+            const remainDays = toDays - useDays;
+            if( remainDays <= 0 ){
+                setCancelFee("환불불가");
+                return;
+            }
+            //환불금액 = (남은일수 / 전체일수)*가격
+            const reAmount = Math.floor((remainDays/toDays)*data.price*0.8);
+            const feeAmount = (toDays - reAmount)*(-1);
+            setCancelFee(`${feeAmount.toLocaleString()}원`);
+        }
+    }
+
     // 1. 유저 정보 로딩
     useEffect(() => {
         try {
@@ -29,8 +68,7 @@ const CancelPass = () => {
                     userID: user.userID || user.id || user.member_id || "",
                     phone: user.phone || "",
                     car_number: user.car_number || "",
-                });
-            }
+                });            }
         } catch {
             setUserInfo({ userID: "", phone: "", car_number: "" });
         }
@@ -47,8 +85,9 @@ const CancelPass = () => {
                 return;
             }
             const recentBooking = data.find((b) => b.status === "active"); // 가장 최근 active 예약
-            setPassData(recentBooking);
-            setLoading(false);
+            setPassData(recentBooking);            
+            handleCancelFee(recentBooking);
+            setLoading(false);            
         };
         fetchPass();
     }, [userInfo.userID]);
@@ -127,7 +166,7 @@ const CancelPass = () => {
                 <div className="cancel-box">
                     <div className="cancel-form">
                         <div className="cancel-row">
-                            <div className="cancel-row">취소사유</div>
+                            <div className="cancel-label">취소사유</div>
                             <select
                                 className="value-box ment cancel-input"
                                 value={cancelReason}

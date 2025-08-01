@@ -18,6 +18,20 @@ const CancelGeneral = ({cancelInfo}) => {
     const [cancelReason, setCancelReason] = useState("");
     const [refundMethod, setRefundMethod] = useState("");
     const [cancelFee, setCancelFee] = useState("무료");
+    const [isCancel, setIsCancel] = useState(true);
+
+    const handleCancelFee = (startTime)=>{
+        const now = new Date();
+        const start = new Date(startTime);
+        const diff = (start-now)/(1000*60);  //남은 분
+        if( diff >= 60 ){
+            setCancelFee("무료");
+            setIsCancel(true);  //취소가능
+        } else {
+            setCancelFee("환불불가");
+            setIsCancel(false); //취소불가
+        }
+    }
 
     // 1. 유저 정보 로딩
     useEffect(() => {
@@ -36,7 +50,8 @@ const CancelGeneral = ({cancelInfo}) => {
         }
         setLoading(false);
         if( !cancelInfo ) return;
-        setMyCancel(cancelInfo);        
+        setMyCancel(cancelInfo);   
+        handleCancelFee(cancelInfo.start_time);
     }, []);   
 
     // yy.mm.dd.hh.mm 포맷 (일반권은 시/분 필요)
@@ -166,7 +181,11 @@ const CancelGeneral = ({cancelInfo}) => {
                 </div>
 
                 <div className="button-group">
-                    <button onClick={handleCancel}>예</button>
+                    <button 
+                        onClick={handleCancel}
+                        disabled={!isCancel}
+                        style={{opacity: isCancel?1:0.5, cursor:isCancel ? "pointer":"not-allowed"}}
+                    >예</button>
                     <button onClick={() => navigate("/myReserve")}>아니요</button>
                 </div>
 
