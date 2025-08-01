@@ -1,7 +1,7 @@
 import Step from "./Step";
 import BookingBox3 from "./BookingBox3";
 import Price2 from "./Price2";
-import Guide3 from "./Guide3";
+import Booking3Guide from "./Booking3Guide";
 import Header from "./Header";
 import Navigate from "./Navigate";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -30,7 +30,7 @@ const Booking3 = () => {
                 />
                 <Price2 price={price} />
                 <button onClick={() => navigate("/mainpage")}>메인화면</button>
-                <Guide3 />
+                <Booking3Guide />
             </div>
             <Navigate />
         </div>

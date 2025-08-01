@@ -8,12 +8,19 @@ const AgreePage = () => {
   const [terms, setTerms] = useState(false);
   const [privacy, setPrivacy] = useState(false);
   const [event, setEvent] = useState(false);
+  const [errorMsn, setErrorMsn] = useState('');
   const navigate = useNavigate('');
 
   useEffect(() => {
     const allAgreed = terms && age && privacy && event;
     setAgreeAll(allAgreed);
   }, [terms, age, privacy, event]); 
+
+  useEffect(() => {
+    if (age && terms && privacy) {
+      setErrorMsn('');
+    }
+  }, [age, terms, privacy]);
 
   // 약관 전체 동의 체크박스 변경 핸들러
   const handleAllChange = (e) => {
@@ -32,6 +39,17 @@ const AgreePage = () => {
 
   // 모든 필수 약관 동의 검사 (가입 버튼 활성화 등)
   const isFormValid = terms && age && privacy;
+
+  const handleNextStep = () => {
+  if (isFormValid) {
+    // 모든 필수 항목이 체크되었다면 다음 단계로 이동
+    navigate("/joinpage"); // 경로에 맞게 수정
+  } else {
+    // 필수 항목이 체크되지 않았다면 에러 메시지 설정
+    setErrorMsn("*필수 항목을 모두 체크해주세요");
+  }
+};
+
 
   return (
     <div className="agree-page">
@@ -72,7 +90,7 @@ const AgreePage = () => {
               onChange={(e) => handledChange(setTerms, e)}
             />
             <label htmlFor="agree2" className="icon">
-              이용 약관 동의(필수) <FaChevronDown />
+              이용 약관 동의(필수)
               </label>
           </li>
           <li>
@@ -83,7 +101,7 @@ const AgreePage = () => {
               onChange={(e) => handledChange(setPrivacy, e)}
             />
             <label htmlFor="agree3" className="icon">
-              개인정보 수집 및 이용 동의(필수) <FaChevronDown />
+              개인정보 수집 및 이용 동의(필수)
             </label>
           </li>
           <li>
@@ -99,13 +117,15 @@ const AgreePage = () => {
       </div>
       <div className="next-btn">
         <button
-            onClick={() => {
-                navigate("/joinpage");
-            }}
-            disabled={!(age && terms && privacy)}
-        >다음단계
+          onClick={handleNextStep}
+          className={isFormValid ? "" : "next-step-btn"}
+          >다음단계
         </button>
+        {
+        errorMsn &&
+        <p className="error-message">{errorMsn}</p>}
       </div>
+      
     </div>
   );
 };

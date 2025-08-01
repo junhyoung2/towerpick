@@ -8,26 +8,47 @@ import { MdOutlinePregnantWoman } from "react-icons/md";
 import { TbDisabled } from "react-icons/tb";
 import { MdElectricCar } from "react-icons/md";
 import { useEffect, useState } from "react";
-import { getAvailableSpacesByFloor } from "../utils/towerpickapi";
+import { getAvailableSpacesByFloor, getMyPasses } from "../utils/towerpickapi";
 
 const MainPage = () => {
     const navigate = useNavigate();
 
+    //로그인 상태 확인
+    const [loading, setLoading] = useState(true);
+
     //층별 잔여석 선언 함수
     const [floorData, setFloorData] = useState([]);
-    const [loading, setLoading] = useState(true);
+
+    //정기권 보유시 구매 창으로 넘어가기 x
+    const [seasonTicket,setSeasonTicket] = useState(false);
+
+    //현재 로그인 한 사용자 ID
+    const towerpickData = localStorage.getItem("towerpick");
+    const userID = towerpickData ? JSON.parse(towerpickData).member_id : null;
+    
+
     useEffect(() => {
-        const fetchDate = async () => {
-            const { data, error } = await getAvailableSpacesByFloor();
-            if (error) {
+        //잔여석 불러오기
+        const fetchData = async () => {
+            const { data:spaceData, error:spaceError } = await getAvailableSpacesByFloor();
+            if (spaceError) {
                 alert("잔여석 확인이 불가능합니다");
             }
-            if (data) {
-                setFloorData(data);
+            if (spaceData) {
+                setFloorData(spaceData);
             }
+
+        //정기권 보유 여부 확인
+        const { data:passData, error:passError } = await getMyPasses(userID);
+        if (passError){
+            console.error ("정기권 정보를 불러오지 못 했습니다")
+        } else {
+            const activePass = passData?.find(pass => pass.status === "active" && pass.is_paid);
+            setSeasonTicket(!!activePass);
+        }
             setLoading(false);
         };
-        fetchDate();
+        fetchData();
     }, []);
 
     //층별 데이터 불러오기 함수
@@ -100,7 +121,18 @@ const MainPage = () => {
                         </p>
                         <button
                             onClick={() => {
-                                navigate("/season1");
+                                if (loading){
+                                    alert ("정보를 불러오는 중입니다")
+                                    return;
+                                }
+
+                                console.log("seasonTicket at click", seasonTicket);
+
+                                if (seasonTicket) {
+                                    alert("사용중인 정기권이 존재합니다");
+                                } else {
+                                    navigate("/season1");
+                                }
                             }}
                         >
                             바로가기

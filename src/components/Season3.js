@@ -1,7 +1,7 @@
 import Step from "./Step";
 import BookingBox3 from "./BookingBox3";
 import Price2 from "./Price2";
-import Guide4 from "./Guide4";
+import Season3Guide from "./Season3Guide";
 import Header from "./Header";
 import Navigate from "./Navigate";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -30,7 +30,7 @@ const Season3 = () => {
                 />
                 <Price2 price={price} />
                 <button onClick={() => navigate("/mainpage")}>메인화면</button>
-                <Guide4 />
+                <Season3Guide />
             </div>
             <Navigate />
         </div>

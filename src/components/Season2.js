@@ -4,7 +4,7 @@ import Step from "./Step";
 import BookingBox2 from "./BookingBox2";
 import Price2 from "./Price2";
 import BookingPlace from "./BookingPlace";
-import Guide2 from "./Guide2";
+import Booking2Guide from "./Booking2Guide";
 import Navigate from "./Navigate";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getSpacesByFloor, insertPass } from "../utils/towerpickapi";
@@ -99,7 +99,7 @@ const Season2 = () => {
                 >
                     예약하기
                 </button>
-                <Guide2 />
+                <Booking2Guide />
             </div>
             <Navigate />
         </div>
