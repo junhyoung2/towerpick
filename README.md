@@ -81,7 +81,7 @@ Slack을 통한 실시간 소통과 GitHub를 이용한 분산 버전 관리로 
 
 ## 연락처
 프로젝트에 관한 문의사항이 있으시면 아래로 연락주세요:
-  [https://github.com/your-team/towerpick-parking]  
-- **이메일**: towerpick.team@example.com
+https://junhyoung2.github.io/towerpick/
+
 
 
