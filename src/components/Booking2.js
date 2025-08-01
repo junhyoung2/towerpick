@@ -9,6 +9,7 @@ import Navigate from "./Navigate";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getSpacesByFloor, insertBooking } from "../utils/towerpickapi";
 
+
 const Booking2 = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -32,6 +33,10 @@ const Booking2 = () => {
         // 층 바뀌면 선택도 리셋
         setSelectedSlot(null);
     }, [floor]);
+    //  
+
+    
+
     // start, end도 꼭 전달
     const { start, end } = location.state || {};
     //얼랏 표기
@@ -40,7 +45,7 @@ const Booking2 = () => {
         const d = new Date(str);
         const yyyy = d.getFullYear();
         const mm = String(d.getMonth() + 1).padStart(2, "0");
-        const dd = String(d.getDate()).padStart(2, "0");
+        const dd = String(d.getDate()).padStart(2, "0");    
         const hh = String(d.getHours()).padStart(2, "0");
         const min = String(d.getMinutes()).padStart(2, "0");
         return `${yyyy}-${mm}-${dd} ${hh}:${min}`;
@@ -67,6 +72,11 @@ const Booking2 = () => {
                 <Price2 price={price} />
                 <button
                     onClick={async () => {
+                        // 자리 미선택 체크
+                        if (!selectedSlot) {
+                            alert("자리를 선택해주세요.");
+                            return;
+                        }
                         const raw = localStorage.getItem("towerpick");
                         const user = raw ? JSON.parse(raw) : null;
                         const userID = user?.member_id;
@@ -103,6 +113,7 @@ const Booking2 = () => {
                 >
                     예약하기
                 </button>
+
                 <Booking2Guide />
             </div>
             <Navigate />

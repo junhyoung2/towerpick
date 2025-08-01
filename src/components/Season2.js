@@ -65,10 +65,19 @@ const Season2 = () => {
                 <Price2 price={price} />
                 <button
                     onClick={async () => {
+                        // 자리 미선택 체크
+                        if (!selectedSlot) {
+                            alert("자리를 선택해주세요.");
+                            return;
+                        }
                         const raw = localStorage.getItem("towerpick");
                         const user = raw ? JSON.parse(raw) : null;
                         const userID = user?.member_id;
-                        const message = `예약 정보를 확인해주세요.\n\n입차일시 : ${formatDate(start)}\n출차일시 : ${formatDate(end)}\n선택자리 : B${floor}층 ${selectedSlot}번\n결제금액 : ${price?.toLocaleString()}원\n\n예약을 진행할까요?`;
+                        const message = `예약 정보를 확인해주세요.\n\n입차일시 : ${formatDate(
+                            start
+                        )}\n출차일시 : ${formatDate(
+                            end
+                        )}\n선택자리 : B${floor}층 ${selectedSlot}번\n결제금액 : ${price?.toLocaleString()}원\n\n예약을 진행할까요?`;
                         const confirmed = window.confirm(message);
                         if (!confirmed) return;
                         const { data: spaceList } = await getSpacesByFloor(
@@ -84,7 +93,7 @@ const Season2 = () => {
                             start,
                             end
                         );
-                        navigate("/booking3", {
+                        navigate("/season3", {
                             state: {
                                 start,
                                 end,
@@ -92,7 +101,6 @@ const Season2 = () => {
                                 price,
                                 floor,
                                 slot: selectedSlot,
-                                
                             },
                         });
                     }}
