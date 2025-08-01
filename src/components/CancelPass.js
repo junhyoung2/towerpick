@@ -4,81 +4,74 @@ import Header from "./Header";
 import Navigate from "./Navigate";
 import { getMyPasses, cancelBooking, cancelPass } from "../utils/towerpickapi";
 const CancelPass = () => {
-    const navigate = useNavigate();
-
-    // 유저 정보
-    const [userInfo, setUserInfo] = useState({
-        userID: "",
-        phone: "",
-        car_number: "",
-    });
-    const [passData, setPassData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [cancelReason, setCancelReason] = useState("");
-    const [refundMethod, setRefundMethod] = useState("");
-    const [cancelFee, setCancelFee] = useState("무료");
-
-    // 1. 유저 정보 로딩
-    useEffect(() => {
-        try {
-            const raw = localStorage.getItem("towerpick");
-            if (raw) {
-                const user = JSON.parse(raw);
-                setUserInfo({
-                    userID: user.userID || user.id || user.member_id || "",
-                    phone: user.phone || "",
-                    car_number: user.car_number || "",
-                });
-            }
-        } catch {
-            setUserInfo({ userID: "", phone: "", car_number: "" });
-        }
-    }, []);
-
-    // 2. 예약 정보 로딩
-    useEffect(() => {
-        if (!userInfo.userID) return;
-        const fetchPass = async () => {
-            const { data, error } = await getMyPasses(userInfo.userID);            
-            if (error || !data || data.length === 0) {
-                setPassData(null);
-                setLoading(false);
-                return;
-            }
-            const recentBooking = data.find((b) => b.status === "active"); // 가장 최근 active 예약
-            setPassData(recentBooking);
-            setLoading(false);
-        };
-        fetchPass();
-    }, [userInfo.userID]);
-
-    // yy.mm.dd.hh.mm 포맷 (일반권은 시/분 필요)
-    function format(dt) {
-        if (!dt) return "";
-        const d = new Date(dt);
-        const pad = (n) => n.toString().padStart(2, "0");
-        return `${d.getFullYear().toString().slice(2)}.${pad(
-            d.getMonth() + 1
-        )}.${pad(d.getDate())}.${pad(d.getHours())}.${pad(d.getMinutes())}`;
+  const navigate = useNavigate();
+  // 유저 정보
+  const [userInfo, setUserInfo] = useState({
+    userID: "",
+    phone: "",
+    car_number: "",
+  });
+  const [passData, setPassData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [cancelReason, setCancelReason] = useState("");
+  const [refundMethod, setRefundMethod] = useState("");
+  const [cancelFee, setCancelFee] = useState("무료");
+  // 1. 유저 정보 로딩
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("towerpick");
+      if (raw) {
+        const user = JSON.parse(raw);
+        setUserInfo({
+          userID: user.userID || user.id || user.member_id || "",
+          phone: user.phone || "",
+          car_number: user.car_number || "",
+        });
+      }
+    } catch {
+      setUserInfo({ userID: "", phone: "", car_number: "" });
     }
-
-    // 정기권처럼 실제로 예약 취소
-    const handleCancel = async () => {
-        if (!passData) return;    
-        const {data,error} = await cancelPass(passData.id, passData.space_id);
-        if( error ) { 
-            alert("정기권 예약 취소 시 오류가 발생했습니다.");
-            return;
-        }
-        if( data ){
-            navigate("/cancelcomplete");
-        }        
+  }, []);
+  // 2. 예약 정보 로딩
+  useEffect(() => {
+    if (!userInfo.userID) return;
+    const fetchPass = async () => {
+      const { data, error } = await getMyPasses(userInfo.userID);
+      if (error || !data || data.length === 0) {
+        setPassData(null);
+        setLoading(false);
+        return;
+      }
+      const recentBooking = data.find((b) => b.status === "active"); // 가장 최근 active 예약
+      setPassData(recentBooking);
+      setLoading(false);
     };
-
-    if (loading) return <div>로딩 중...</div>;
-    if (!passData) return <div>예약 내역이 없습니다.</div>;
-
-   return (
+    fetchPass();
+  }, [userInfo.userID]);
+  // yy.mm.dd.hh.mm 포맷 (일반권은 시/분 필요)
+  function format(dt) {
+    if (!dt) return "";
+    const d = new Date(dt);
+    const pad = (n) => n.toString().padStart(2, "0");
+    return `${d.getFullYear().toString().slice(2)}.${pad(
+      d.getMonth() + 1
+    )}.${pad(d.getDate())}.${pad(d.getHours())}.${pad(d.getMinutes())}`;
+  }
+  // 정기권처럼 실제로 예약 취소
+  const handleCancel = async () => {
+    if (!passData) return;
+    const { data, error } = await cancelPass(passData.id, passData.space_id);
+    if (error) {
+      alert("정기권 예약 취소 시 오류가 발생했습니다.");
+      return;
+    }
+    if (data) {
+      navigate("/cancelcomplete");
+    }
+  };
+  if (loading) return <div>로딩 중...</div>;
+  if (!passData) return <div>예약 내역이 없습니다.</div>;
+  return (
     <div>
       <Header prev_path="/Mypage" prev_title="정기권 취소" />
       <div className="cancel">
@@ -205,6 +198,6 @@ const CancelPass = () => {
       </div>
       <Navigate />
     </div>
-    );
+  );
 };
 export default CancelPass;
