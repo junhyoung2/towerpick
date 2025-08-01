@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 
-const BookingBox3 = ({ start, end, floor, slot }) => {
+const BookingBox3 = ({ start, end, floor, slot,isInfo }) => {
     // 날짜 포맷 함수
     function format(dt) {
         if (!dt) return "";
         const d = new Date(dt);
         const pad = (n) => n.toString().padStart(2, "0");
-        return `${d.getFullYear().toString().slice(2)}.${pad(
+        let strTemp = `${d.getFullYear().toString().slice(2)}-${pad(
             d.getMonth() + 1
-        )}.${pad(d.getDate())}.${pad(d.getHours())}.${pad(d.getMinutes())}`;
+        )}-${pad(d.getDate())}`;
+        if (isInfo) {
+            strTemp += ` ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+        }
+        return strTemp;
     }
 
     // BookingBox2와 동일하게 localStorage에서 유저 정보 가져오기
@@ -37,7 +41,7 @@ const BookingBox3 = ({ start, end, floor, slot }) => {
                     <div className="form-label">예약일시</div>
                     <div className="form-input">
                         <p>
-                            {format(start)}~{format(end)}
+                            {format(start)} ~ {format(end)}
                         </p>
                     </div>
                 </div>

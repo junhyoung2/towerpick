@@ -27,6 +27,7 @@ const Booking3 = () => {
                     slot={slot}
                     phone="010-1234-5678"
                     carNumber="NNN라 NNNN"
+                    isInfo={true}
                 />
                 <Price2 price={price} />
                 <button onClick={() => navigate("/mainpage")}>메인화면</button>

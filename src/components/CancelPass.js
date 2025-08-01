@@ -3,19 +3,64 @@ import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Navigate from "./Navigate";
 import { getMyPasses, cancelBooking, cancelPass } from "../utils/towerpickapi";
+
 const CancelPass = () => {
   const navigate = useNavigate();
+
   // 유저 정보
   const [userInfo, setUserInfo] = useState({
     userID: "",
     phone: "",
     car_number: "",
   });
+
   const [passData, setPassData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [cancelReason, setCancelReason] = useState("");
   const [refundMethod, setRefundMethod] = useState("");
   const [cancelFee, setCancelFee] = useState("무료");
+
+  const handleCancelFee = (data) => {
+    if (!data) {
+      return;
+    }
+    const typeToDays = {
+      "1m": 30,
+      "3m": 90,
+      "6m": 180,
+      "12m": 365,
+    };
+    const now = new Date(); //오늘날짜
+    const start = new Date(data.start_date);
+    const end = new Date(data.end_date);
+    const oneDay = 1000 * 60 * 60 * 24;
+    const toDays = typeToDays[data.duration_type];
+    //시작전여부 확인
+    const isBeforeStart = now < start;
+    //종료일까지 하루 이상 남아 있는지 확인
+    const isOneDay = Math.floor((end - now) / oneDay) >= 1;
+
+    //이용 시작 전이고 , 종료일까지 하루 이상 남으면 무료 환불
+    if (isBeforeStart && isOneDay) {
+      setCancelFee("무료");
+      return;
+    }
+    //이용중인 경우 사용일/잔여일 계산 후 수수료 산정
+    if (now >= start && now < end) {
+      const useDays = Math.floor((now - start) / oneDay);
+      //남은 이용기간 = 전체기간 - 사용기간
+      const remainDays = toDays - useDays;
+      if (remainDays <= 0) {
+        setCancelFee("환불불가");
+        return;
+      }
+      //환불금액 = (남은일수 / 전체일수)*가격
+      const reAmount = Math.floor((remainDays / toDays) * data.price * 0.8);
+      const feeAmount = (toDays - reAmount) * -1;
+      setCancelFee(`${feeAmount.toLocaleString()}원`);
+    }
+  };
+
   // 1. 유저 정보 로딩
   useEffect(() => {
     try {
@@ -32,6 +77,7 @@ const CancelPass = () => {
       setUserInfo({ userID: "", phone: "", car_number: "" });
     }
   }, []);
+
   // 2. 예약 정보 로딩
   useEffect(() => {
     if (!userInfo.userID) return;
@@ -44,19 +90,22 @@ const CancelPass = () => {
       }
       const recentBooking = data.find((b) => b.status === "active"); // 가장 최근 active 예약
       setPassData(recentBooking);
+      handleCancelFee(recentBooking);
       setLoading(false);
     };
     fetchPass();
   }, [userInfo.userID]);
+
   // yy.mm.dd.hh.mm 포맷 (일반권은 시/분 필요)
   function format(dt) {
     if (!dt) return "";
     const d = new Date(dt);
     const pad = (n) => n.toString().padStart(2, "0");
-    return `${d.getFullYear().toString().slice(2)}.${pad(
+    return `${d.getFullYear().toString().slice(2)}-${pad(
       d.getMonth() + 1
-    )}.${pad(d.getDate())}.${pad(d.getHours())}.${pad(d.getMinutes())}`;
+    )}-${pad(d.getDate())}`;
   }
+
   // 정기권처럼 실제로 예약 취소
   const handleCancel = async () => {
     if (!passData) return;
@@ -69,8 +118,10 @@ const CancelPass = () => {
       navigate("/cancelcomplete");
     }
   };
+
   if (loading) return <div>로딩 중...</div>;
   if (!passData) return <div>예약 내역이 없습니다.</div>;
+
   return (
     <div>
       <Header prev_path="/mypage" prev_title="정기권 취소" />
@@ -84,7 +135,7 @@ const CancelPass = () => {
               <div className="cancel-input">
                 <p>
                   {passData
-                    ? `${format(passData.start_date)}~${format(
+                    ? `${format(passData.start_date)} ~ ${format(
                         passData.end_date
                       )}`
                     : ""}
@@ -170,8 +221,8 @@ const CancelPass = () => {
           <button onClick={() => navigate("/mypage")}>아니요</button>
         </div>
         <div className="cancel-guide">
+          <p>정기권 취소 전 반드시 확인해 주세요</p>
           <ul>
-            <li>정기권 취소 전 반드시 확인해 주세요</li>
             <li>
               - 정기권 취소는 이용 시작 1시간 전까지 무료로 가능하며, 이후에는
               남은 이용 기간을 기준으로 환불 금액이 산정됩니다.

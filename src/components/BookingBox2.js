@@ -48,16 +48,17 @@ const BookingBox2 = ({
 
     // 날짜 포맷 함수 (일반예약: yy.mm.dd.hh.mm / 정기권: yy.mm.dd)
     const format = (dt) => {
-    if (!dt) return "";
-    const d = new Date(dt);
-    const pad = (n) => n.toString().padStart(2, "0");
-    let strTemp = `${d.getFullYear().toString().slice(2)}.${pad(d.getMonth() + 1)}.${pad(d.getDate())}`;
-    if (isInfo) {
-        strTemp += `.${pad(d.getHours())}.${pad(d.getMinutes())}`;
-    }
-    return strTemp;
-};
-
+        if (!dt) return "";
+        const d = new Date(dt);
+        const pad = (n) => n.toString().padStart(2, "0");
+        let strTemp = `${d.getFullYear().toString().slice(2)}-${pad(
+            d.getMonth() + 1
+        )}-${pad(d.getDate())}`;
+        if (isInfo) {
+            strTemp += ` ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+        }
+        return strTemp;
+    };
 
     const handleFloorChange = (e) => {
         setFloor(Number(e.target.value));
@@ -79,7 +80,7 @@ const BookingBox2 = ({
                         <div className="form-label">예약일시</div>
                         <div className="form-input">
                             <p>
-                                {format(start)}~{format(end)}
+                                {format(start)} ~ {format(end)}
                             </p>
                         </div>
                     </div>
@@ -101,7 +102,7 @@ const BookingBox2 = ({
                             <select value={floor} onChange={handleFloorChange}>
                                 {FLOOR_LIST.map((f) => (
                                     <option key={f} value={f}>
-                                        B{f}
+                                        B{f}층
                                     </option>
                                 ))}
                             </select>

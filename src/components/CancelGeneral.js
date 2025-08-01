@@ -2,21 +2,38 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Navigate from "./Navigate";
-import { getMyPasses, cancelBooking, cancelPass } from "../utils/towerpickapi";
+import { cancelBooking } from "../utils/towerpickapi";
 
-const CancelGeneral = () => {
+const CancelGeneral = ({ cancelInfo }) => {
   const navigate = useNavigate();
+
   // 유저 정보
   const [userInfo, setUserInfo] = useState({
     userID: "",
     phone: "",
     car_number: "",
   });
-  const [passData, setPassData] = useState(null);
+
+  const [myCancel, setMyCancel] = useState(cancelInfo);
   const [loading, setLoading] = useState(true);
   const [cancelReason, setCancelReason] = useState("");
   const [refundMethod, setRefundMethod] = useState("");
   const [cancelFee, setCancelFee] = useState("무료");
+  const [isCancel, setIsCancel] = useState(true);
+
+  const handleCancelFee = (startTime) => {
+    const now = new Date();
+    const start = new Date(startTime);
+    const diff = (start - now) / (1000 * 60); //남은 분
+    if (diff >= 60) {
+      setCancelFee("무료");
+      setIsCancel(true); //취소가능
+    } else {
+      setCancelFee("환불불가");
+      setIsCancel(false); //취소불가
+    }
+  };
+
   // 1. 유저 정보 로딩
   useEffect(() => {
     try {
@@ -32,46 +49,37 @@ const CancelGeneral = () => {
     } catch {
       setUserInfo({ userID: "", phone: "", car_number: "" });
     }
+    setLoading(false);
+    if (!cancelInfo) return;
+    setMyCancel(cancelInfo);
+    handleCancelFee(cancelInfo.start_time);
   }, []);
-  // 2. 예약 정보 로딩
-  useEffect(() => {
-    if (!userInfo.userID) return;
-    const fetchPass = async () => {
-      const { data, error } = await getMyPasses(userInfo.userID);
-      if (error || !data || data.length === 0) {
-        setPassData(null);
-        setLoading(false);
-        return;
-      }
-      const recentBooking = data.find((b) => b.status === "active"); // 가장 최근 active 예약
-      setPassData(recentBooking);
-      setLoading(false);
-    };
-    fetchPass();
-  }, [userInfo.userID]);
+
   // yy.mm.dd.hh.mm 포맷 (일반권은 시/분 필요)
   function format(dt) {
     if (!dt) return "";
     const d = new Date(dt);
     const pad = (n) => n.toString().padStart(2, "0");
-    return `${d.getFullYear().toString().slice(2)}.${pad(
+    return `${d.getFullYear().toString().slice(2)}-${pad(
       d.getMonth() + 1
-    )}.${pad(d.getDate())}.${pad(d.getHours())}.${pad(d.getMinutes())}`;
+    )}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
   }
+
   // 정기권처럼 실제로 예약 취소
   const handleCancel = async () => {
-    if (!passData) return;
-    const { data, error } = await cancelPass(passData.id, passData.space_id);
+    if (!myCancel) return;
+    const { data, error } = await cancelBooking(myCancel.id, myCancel.space_id);
     if (error) {
-      alert("정기권 예약 취소 시 오류가 발생했습니다.");
+      alert("사전 예약 취소 시 오류가 발생했습니다.");
       return;
     }
     if (data) {
       navigate("/cancelcomplete");
     }
   };
+
   if (loading) return <div>로딩 중...</div>;
-  if (!passData) return <div>예약 내역이 없습니다.</div>;
+
   return (
     <div>
       <Header prev_path="/myReserve" prev_title="예약 취소" />
@@ -84,9 +92,9 @@ const CancelGeneral = () => {
               <div className="cancel-label">예약일시</div>
               <div className="cancel-input">
                 <p>
-                  {passData
-                    ? `${format(passData.start_date)}~${format(
-                        passData.end_date
+                  {myCancel
+                    ? `${format(myCancel.start_time)} ~ ${format(
+                        myCancel.end_time
                       )}`
                     : ""}
                 </p>
@@ -96,8 +104,8 @@ const CancelGeneral = () => {
               <div className="cancel-label">예약위치</div>
               <div className="cancel-input">
                 <p>
-                  {`B${passData.spaces?.floor ?? ""}층  ${
-                    passData.spaces?.slot_number ?? ""
+                  {`B${myCancel.spaces?.floor ?? ""}층  ${
+                    myCancel.spaces?.slot_number ?? ""
                   }번`}
                 </p>
               </div>
@@ -145,9 +153,9 @@ const CancelGeneral = () => {
           <div className="reason-form">
             <label className="reason-label">환불예정금액</label>
             <input
-              className="value-box ment1 cancel-input"
+              className="value-box ment1"
               type="text"
-              value={`${passData.price?.toLocaleString() || "0"}원`}
+              value={`${myCancel.price?.toLocaleString() || "0"}원`}
               readOnly
             />
           </div>
@@ -171,15 +179,11 @@ const CancelGeneral = () => {
           <button onClick={() => navigate("/myReserve")}>아니요</button>
         </div>
         <div className="cancel-guide">
+          <p>예약 취소 전 반드시 확인해 주세요</p>
           <ul>
-            <li>정기권 취소 전 반드시 확인해 주세요</li>
             <li>
-              - 정기권 취소는 이용 시작 1시간 전까지 무료로 가능하며, 이후에는
-              남은 이용 기간을 기준으로 환불 금액이 산정됩니다.
-            </li>
-            <li>
-              - 사용 개시 후 환불 요청 시, 정기권 정가 기준으로 실제 이용 일수를
-              제외한 금액의 80%만 환불되며, 나머지 20%는 수수료로 공제됩니다.
+              - 예약 취소는 이용 1시간 전까지 무료로 가능하며, 이후에는 취소 및
+              환불이 불가능합니다.
             </li>
             <li>
               - 결제 수단 및 정기권 조건에 따라 환불 처리 기간은 최대 7~14일
