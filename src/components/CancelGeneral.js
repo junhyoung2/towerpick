@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Navigate from "./Navigate";
 import { getMyPasses, cancelBooking, cancelPass } from "../utils/towerpickapi";
+import { cancelBooking } from "../utils/towerpickapi";
 
-const CancelGeneral = () => {
+const CancelGeneral = ({cancelInfo}) => {    
     const navigate = useNavigate();
 
     // 유저 정보

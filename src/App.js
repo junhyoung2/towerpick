@@ -17,7 +17,7 @@ import CancelGeneral from "./components/CancelGeneral";
 import CancelPass from "./components/CancelPass";
 import CancelComplete from "./components/CancelComplete";
 import "./app.scss";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const App = () => {
     const ScrollToTop = () => {
@@ -29,6 +29,10 @@ const App = () => {
             }
         },[location.pathname]);
     };
+    const [cancelInfo, setCancelInfo] = useState(null);
+    const handleCancelInfo = (info)=>{
+        setCancelInfo(info);
+    }
     return (
         <HashRouter>
             <ScrollToTop />
@@ -55,12 +59,12 @@ const App = () => {
                         <Route path="/season3" element={<Season3 />}></Route>
                         <Route
                             path="/myReserve"
-                            element={<MyReserve />}
+                            element={<MyReserve onCancel={handleCancelInfo} />}
                         ></Route>
                         <Route path="/mypage" element={<MyPage />}></Route>
                         <Route
                             path="/cancelgeneral"
-                            element={<CancelGeneral />}
+                            element={<CancelGeneral cancelInfo={cancelInfo}/>}
                         ></Route>
                         <Route
                             path="/cancelpass"
