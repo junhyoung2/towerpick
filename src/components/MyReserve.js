@@ -4,7 +4,7 @@ import { getMyBookings } from "../utils/towerpickapi";
 import Navigate from "./Navigate";
 import { useNavigate } from "react-router-dom";
 
-const MyReserve = () => {
+const MyReserve = ({onCancel}) => {
   const [myReserve,setMyReserve] = useState([]);
   const [user,setUser] = useState([]);
   const navigate = useNavigate('');
@@ -101,6 +101,7 @@ const formatDateTime = (fullDateTimeString) => {
                   <button
                     className="bookingCancle-btn"
                     onClick={()=>{
+                      onCancel(item);
                       navigate("/cancelgeneral")
                   }}
                   >예약취소</button>) : ""
