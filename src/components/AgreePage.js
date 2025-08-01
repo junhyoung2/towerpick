@@ -32,11 +32,18 @@ const AgreePage = () => {
     setAge(isChecked);
     setPrivacy(isChecked);
     setEvent(isChecked);
+    setShowTermsDetail(false);
+    setShowPrivacyDetail(false);
   };
 
-  // 개별 약관 체크박스 변경 핸들러
+  // 개별 약관 체크박스 변경 핸들러, 체크박스 클릭시 토글이 펼쳐져 있다면 접힘
   const handledChange = (setter, e) => {
     setter(e.target.checked); 
+    if (setter === setTerms) {
+      setShowTermsDetail(false);
+    } else if (setter === setPrivacy) {
+      setShowPrivacyDetail(false);
+    }
   };
 
   // 약관 상세 내용 토글 핸들러
@@ -163,7 +170,6 @@ const AgreePage = () => {
         errorMsn &&
         <p className="error-msn">{errorMsn}</p>}
       </div>
-      
     </div>
   );
 };
