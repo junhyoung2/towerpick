@@ -24,7 +24,8 @@
   margin-bottom: 20px;
 }
 
-.now-listWrap{
+.now-listWrap,
+.end-listWrap{
   width: 352px;
   height: 100px;
   margin-top: 20px;
@@ -43,19 +44,6 @@
   .now-space{
     @include font-basic;
   }
-}
-
-.end-listWrap{
-  width: 352px;
-  height: 100px;
-  margin-top: 20px;
-  background-color: $font-color;
-  color: $color-darkgray;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
 }
 
 .now-txt,
@@ -79,12 +67,12 @@
   .now-date{
     position: absolute;
     top: 18px;
-    left: 80px;
+    left: 85px;
   }
   .now-space{
     position: absolute;
     top: 65px;
-    left: 80px;
+    left: 85px;
   }
   .now-status-r{
     position: absolute;
@@ -99,7 +87,7 @@
     color: $font-color;
     border-radius: 10px;
     position: absolute;
-    right: 20px;
+    right: 15px;
     @include font-basic;
     transition: background-color 0.25s;
     &:hover{
@@ -112,15 +100,19 @@
 // 종료된 예약
 .end-reserve{
   position: relative;
+  .end-workend{
+    position: absolute;
+    left: 15px;
+  }
   .end-date{
     position: absolute;
     top: 18px;
-    left: 50px;
+    left: 85px;
   }
   .end-space{
     position: absolute;
     top: 65px;
-    left: 50px;
+    left: 85px;
   }
   .end-status{
     width: 80px;
@@ -132,7 +124,7 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    right: 20px;
+    right: 15px;
   }
 }
 
