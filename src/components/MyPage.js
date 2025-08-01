@@ -7,10 +7,10 @@ import Navigate from "./Navigate";
 import Popup from "./Popup";
 
 const MyPage = () => {
-  const [myPass, setMyPass] = useState([]);
-  const [user, setUser] = useState([]);
-  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
-  const [showWithdrawConfirm, setShowWithdrawConfirm] = useState(false);
+  const [myPass,setMyPass] = useState([]);
+  const [user,setUser] = useState([]);
+  const [showLogoutConfirm,setShowLogoutConfirm] = useState(false);
+  const [showWithdrawConfirm,setShowWithdrawConfirm] = useState(false);
   const navigate = useNavigate('');
 
   // 정기권 예약 정보 가져오기
@@ -129,7 +129,7 @@ const MyPage = () => {
   return (
     <div className="page-wrap">
       <Header prev_path="/mainpage" prev_title="내정보" />
-      <div className="my-page" style={{height:myPass.length>=0 ? "auto":"100%"}}>
+      <div className="my-page" style={{height:myPass.length>1 ? "auto":"100%"}}>
         <div className="my-modify">
           <div className="my-txt">
             <h3>회원정보</h3>
@@ -138,7 +138,6 @@ const MyPage = () => {
             <li>
               <p>회원정보 변경</p>
               <p className="modi-icon">
-                {/* <GrFormNext /> */}
               </p>
             </li>
             <li>
