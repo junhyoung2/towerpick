@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/towerpick/static/css/main.f8a28d97.css",
+    "main.css": "/towerpick/static/css/main.1a51e885.css",
     "main.js": "/towerpick/static/js/main.31d825a9.js",
     "index.html": "/towerpick/index.html",
-    "main.f8a28d97.css.map": "/towerpick/static/css/main.f8a28d97.css.map",
+    "main.1a51e885.css.map": "/towerpick/static/css/main.1a51e885.css.map",
     "main.31d825a9.js.map": "/towerpick/static/js/main.31d825a9.js.map"
   },
   "entrypoints": [
-    "static/css/main.f8a28d97.css",
+    "static/css/main.1a51e885.css",
     "static/js/main.31d825a9.js"
   ]
 }
