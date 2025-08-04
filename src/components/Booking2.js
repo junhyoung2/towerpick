@@ -80,11 +80,8 @@ const Booking2 = () => {
                         const raw = localStorage.getItem("towerpick");
                         const user = raw ? JSON.parse(raw) : null;
                         const userID = user?.member_id;
-                        const message = `예약 정보를 확인해주세요.\n\n입차일시 : ${formatDateTime(
-                            start
-                        )}\n출차일시 : ${formatDateTime(
-                            end
-                        )}\n선택자리 : B${floor}층 ${selectedSlot}번\n결제금액 : ${price?.toLocaleString()}원\n\n예약을 진행할까요?`;
+                        const message = `예약 정보를 확인해주세요.\n\n입차일시 : ${formatDateTime(start)}\n출차일시 : ${formatDateTime(
+                            end)}\n선택자리 : B${floor}층 ${selectedSlot}번\n결제금액 : ${price?.toLocaleString()}원\n\n예약을 진행할까요?`;
                         const confirmed = window.confirm(message);
                         if (!confirmed) return;
                         const { data: spaceList } = await getSpacesByFloor(
@@ -113,7 +110,6 @@ const Booking2 = () => {
                 >
                     예약하기
                 </button>
-
                 <Booking2Guide />
             </div>
             <Navigate />
